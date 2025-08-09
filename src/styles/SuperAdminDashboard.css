@@ -1,0 +1,699 @@
+/* ========================================
+   SUPER ADMIN DASHBOARD STYLES
+   ======================================== */
+
+/* ========================================
+   OPTION 1: MODERN CLEAN (DEFAULT)
+   ======================================== */
+
+.super-admin-dashboard {
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  position: relative;
+}
+
+/* Top Bar */
+.super-admin-dashboard-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #15803d, #16a34a, #22c55e);
+  z-index: 10000;
+}
+
+/* Header Section */
+.super-admin-dashboard-header {
+  position: fixed;
+  top: 4px;
+  left: 280px;
+  right: 0;
+  height: 80px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 9999;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.super-admin-dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.super-admin-dashboard-logo-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.super-admin-dashboard-logo-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #15803d;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.super-admin-dashboard-logo-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.super-admin-dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.super-admin-dashboard-filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.super-admin-dashboard-filter-btn {
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.super-admin-dashboard-filter-btn:hover {
+  border-color: #15803d;
+  color: #15803d;
+  background: #f0fdf4;
+}
+
+.super-admin-dashboard-filter-btn.active {
+  background: #15803d;
+  color: white;
+  border-color: #15803d;
+}
+
+.super-admin-dashboard-user-profile-dropdown {
+  position: relative;
+}
+
+.super-admin-dashboard-user-profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.super-admin-dashboard-user-profile-trigger:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.super-admin-dashboard-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #15803d, #16a34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.super-admin-dashboard-user-email {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.super-admin-dashboard-dropdown-arrow {
+  font-size: 12px;
+  color: #64748b;
+  transition: transform 0.2s ease;
+}
+
+.super-admin-dashboard-dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.super-admin-dashboard-user-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 280px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.super-admin-dashboard-dropdown-header {
+  padding: 20px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.super-admin-dashboard-user-avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #15803d, #16a34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.super-admin-dashboard-user-details {
+  flex: 1;
+}
+
+.super-admin-dashboard-user-name-large {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.super-admin-dashboard-user-email {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.super-admin-dashboard-dropdown-actions {
+  padding: 12px;
+}
+
+.super-admin-dashboard-dropdown-action-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: #374151;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.super-admin-dashboard-dropdown-action-btn:hover {
+  background: #f8fafc;
+  color: #15803d;
+}
+
+.super-admin-dashboard-dropdown-action-btn.logout {
+  color: #dc2626;
+}
+
+.super-admin-dashboard-dropdown-action-btn.logout:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.super-admin-dashboard-dropdown-action-btn i {
+  font-size: 16px;
+  width: 16px;
+}
+
+/* Sidebar */
+.super-admin-dashboard-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, #15803d 0%, #16a34a 100%);
+  color: white;
+  overflow-y: auto;
+  z-index: 9998;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.super-admin-dashboard-sidebar-header {
+  padding: 30px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.super-admin-dashboard-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.super-admin-dashboard-logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.super-admin-dashboard-logo-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.super-admin-dashboard-sidebar-header p {
+  margin: 15px 0 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.super-admin-dashboard-sidebar-nav {
+  padding: 20px 0;
+}
+
+.super-admin-dashboard-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+}
+
+.super-admin-dashboard-nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+.super-admin-dashboard-nav-item.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-left-color: white;
+  font-weight: 600;
+}
+
+.super-admin-dashboard-nav-item i {
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Main Content */
+.super-admin-dashboard-main {
+  margin-left: 280px;
+  margin-top: 84px;
+  flex: 1;
+  padding: 30px;
+  background: #f8fafc;
+}
+
+/* Welcome Section */
+.super-admin-dashboard-welcome-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+  border: 1px solid #e2e8f0;
+}
+
+.super-admin-dashboard-welcome-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.super-admin-dashboard-welcome-subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Stats Grid */
+.super-admin-dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.super-admin-dashboard-stats-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.super-admin-dashboard-stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.super-admin-dashboard-stats-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.super-admin-dashboard-stats-icon.farmers {
+  background: linear-gradient(135deg, #15803d, #16a34a);
+  color: white;
+}
+
+.super-admin-dashboard-stats-icon.employees {
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
+}
+
+.super-admin-dashboard-stats-icon.registrations {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+}
+
+.super-admin-dashboard-stats-icon.kyc {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: white;
+}
+
+.super-admin-dashboard-stats-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.super-admin-dashboard-stats-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.super-admin-dashboard-stats-change {
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.super-admin-dashboard-stats-change.positive {
+  color: #059669;
+}
+
+.super-admin-dashboard-stats-change.negative {
+  color: #dc2626;
+}
+
+.super-admin-dashboard-stats-change.neutral {
+  color: #6b7280;
+}
+
+/* Bottom Sections */
+.super-admin-dashboard-bottom-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.super-admin-dashboard-section-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.super-admin-dashboard-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.super-admin-dashboard-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.super-admin-dashboard-section-link {
+  font-size: 14px;
+  color: #15803d;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.super-admin-dashboard-section-link:hover {
+  color: #16a34a;
+}
+
+/* Activities List */
+.super-admin-dashboard-activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.super-admin-dashboard-activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  transition: background 0.2s ease;
+}
+
+.super-admin-dashboard-activity-item:hover {
+  background: #f1f5f9;
+}
+
+.super-admin-dashboard-activity-content {
+  flex: 1;
+}
+
+.super-admin-dashboard-activity-text {
+  font-size: 14px;
+  color: #374151;
+  margin: 0 0 4px 0;
+  font-weight: 500;
+}
+
+.super-admin-dashboard-activity-time {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.super-admin-dashboard-activity-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.super-admin-dashboard-activity-badge.success {
+  background: #dcfce7;
+  color: #059669;
+}
+
+.super-admin-dashboard-activity-badge.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+/* Quick Actions Grid */
+.super-admin-dashboard-quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.super-admin-dashboard-quick-action-btn {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.super-admin-dashboard-quick-action-btn:hover {
+  background: #f8fafc;
+  border-color: #15803d;
+  color: #15803d;
+  transform: translateY(-1px);
+}
+
+.super-admin-dashboard-quick-action-btn i {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .super-admin-dashboard-sidebar {
+    width: 240px;
+  }
+  
+  .super-admin-dashboard-main {
+    margin-left: 240px;
+  }
+  
+  .super-admin-dashboard-header {
+    left: 240px;
+  }
+  
+  .super-admin-dashboard-stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .super-admin-dashboard-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .super-admin-dashboard-sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .super-admin-dashboard-main {
+    margin-left: 0;
+  }
+  
+  .super-admin-dashboard-header {
+    left: 0;
+  }
+  
+  .super-admin-dashboard-bottom-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .super-admin-dashboard-quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   OPTION 2: CORPORATE PROFESSIONAL
+   ======================================== */
+
+.super-admin-dashboard.corporate {
+  background: #f5f7fa;
+}
+
+.super-admin-dashboard.corporate .super-admin-dashboard-sidebar {
+  background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+}
+
+.super-admin-dashboard.corporate .super-admin-dashboard-header {
+  background: #ffffff;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.super-admin-dashboard.corporate .super-admin-dashboard-stats-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+}
+
+.super-admin-dashboard.corporate .super-admin-dashboard-section-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+}
+
+/* ========================================
+   OPTION 3: TECH-SAVVY
+   ======================================== */
+
+.super-admin-dashboard.tech-savvy {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-sidebar {
+  background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+  border-right: 1px solid #475569;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-header {
+  background: #1e293b;
+  border-bottom: 1px solid #475569;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-main {
+  background: #0f172a;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-stats-card {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-section-card {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #e2e8f0;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-stats-value {
+  color: #f1f5f9;
+}
+
+.super-admin-dashboard.tech-savvy .super-admin-dashboard-section-title {
+  color: #f1f5f9;
+} 

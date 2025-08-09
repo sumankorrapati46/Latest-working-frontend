@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkagristack_farmer_management=self.webpackChunkagristack_farmer_management||[]).push([[429],{1338:(e,r,t)=>{t.r(r),t.d(r,{default:()=>o});t(5043);var a=t(2383),s=t(579);const o=()=>(0,s.jsx)(a.A,{isInDashboard:!1,onSubmit:async e=>{try{console.log("Employee registration submitted:",e),alert("Employee registration completed successfully!")}catch(r){console.error("Error submitting employee registration:",r),alert("Error submitting form. Please try again.")}}})}}]);
+//# sourceMappingURL=429.369373b9.chunk.js.map

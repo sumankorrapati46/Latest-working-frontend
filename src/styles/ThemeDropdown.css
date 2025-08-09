@@ -1,0 +1,205 @@
+/* Theme Dropdown Styles */
+.theme-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(171, 229, 207, 0.15);
+  border: 1px solid rgba(171, 229, 207, 0.45);
+  border-radius: 25px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  min-width: 160px;
+  justify-content: space-between;
+}
+
+.theme-selector-btn:hover {
+  background: rgba(171, 229, 207, 0.25);
+  border-color: rgba(171, 229, 207, 0.6);
+}
+
+.theme-label {
+  white-space: nowrap;
+}
+
+.dropdown-arrow {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.theme-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  min-width: 320px;
+  z-index: 1000;
+  animation: dropdownSlideIn 0.2s ease-out;
+  backdrop-filter: blur(20px);
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dropdown-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.theme-option:hover {
+  background: #f8fafc;
+}
+
+.theme-option.selected {
+  background: #f0fdf4;
+  border-left: 4px solid #16a34a;
+}
+
+.theme-option:last-child {
+  border-radius: 0 0 16px 16px;
+}
+
+.theme-preview {
+  flex-shrink: 0;
+}
+
+.theme-preview-colors {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Modern Clean Theme Colors */
+.theme-preview-colors.modern-clean .color-dot.primary {
+  background: #16a34a;
+}
+
+.theme-preview-colors.modern-clean .color-dot.secondary {
+  background: #15803d;
+}
+
+.theme-preview-colors.modern-clean .color-dot.accent {
+  background: #22c55e;
+}
+
+/* Traditional Corporate Theme Colors */
+.theme-preview-colors.traditional-corporate .color-dot.primary {
+  background: #1e40af;
+}
+
+.theme-preview-colors.traditional-corporate .color-dot.secondary {
+  background: #1d4ed8;
+}
+
+.theme-preview-colors.traditional-corporate .color-dot.accent {
+  background: #3b82f6;
+}
+
+/* Modern Minimalist Theme Colors */
+.theme-preview-colors.modern-minimalist .color-dot.primary {
+  background: #6b7280;
+}
+
+.theme-preview-colors.modern-minimalist .color-dot.secondary {
+  background: #4b5563;
+}
+
+.theme-preview-colors.modern-minimalist .color-dot.accent {
+  background: #9ca3af;
+}
+
+.theme-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.theme-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.theme-description {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.selected-indicator {
+  flex-shrink: 0;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .theme-dropdown-menu {
+    min-width: 280px;
+    right: -20px;
+  }
+  
+  .theme-selector-btn {
+    min-width: 140px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}

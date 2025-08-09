@@ -1,0 +1,240 @@
+/* ============================================
+   THEME SYSTEM - Complete Theme Styles
+   ============================================ */
+
+/* ============================================
+   MODERN CLEAN THEME (Default)
+   ============================================ */
+[data-theme="modern-clean"] {
+  --primary-color: #2E7D32; /* Emerald */
+  --primary-dark: #1B5E20;  /* Deep Forest */
+  --primary-light: #ABE5CF; /* Light Mint accents */
+  --secondary-color: #059669;
+  --background-color: #faf8f3;
+  --surface-color: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow-light: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 8px 32px rgba(22, 163, 74, 0.3);
+  --gradient-primary: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  --gradient-background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+}
+
+.theme-modern-clean .top-bar {
+  background: var(--primary-dark);
+}
+
+.theme-modern-clean .dashboard-header {
+  background: #22c55e;
+}
+
+.theme-modern-clean .stats-card {
+  background: var(--gradient-primary);
+}
+
+.theme-modern-clean .dashboard-sidebar {
+  background: var(--primary-dark);
+}
+
+.theme-modern-clean .nav-item.active {
+  background: #43aa62;
+}
+
+/* ============================================
+   TRADITIONAL CORPORATE THEME
+   ============================================ */
+[data-theme="traditional-corporate"] {
+  --primary-color: #1e40af;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  --secondary-color: #2563eb;
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-light: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 8px 32px rgba(30, 64, 175, 0.3);
+  --gradient-primary: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+  --gradient-background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+.theme-traditional-corporate .top-bar {
+  background: var(--primary-color);
+}
+
+.theme-traditional-corporate .dashboard-header {
+  background: var(--gradient-background);
+}
+
+.theme-traditional-corporate .logo-title,
+.theme-traditional-corporate .logo-subtitle,
+.theme-traditional-corporate .greeting {
+  color: var(--primary-dark) !important;
+}
+
+.theme-traditional-corporate .welcome-text {
+  color: var(--secondary-color) !important;
+}
+
+.theme-traditional-corporate .stats-card {
+  background: var(--gradient-primary);
+}
+
+.theme-traditional-corporate .dashboard-sidebar {
+  background: var(--primary-color);
+}
+
+.theme-traditional-corporate .nav-item.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.theme-traditional-corporate .quick-action-btn {
+  background: var(--gradient-primary);
+}
+
+.theme-traditional-corporate .overview-actions .action-btn.refresh {
+  background: var(--primary-color);
+}
+
+.theme-traditional-corporate .overview-actions .action-btn.refresh:hover {
+  background: var(--primary-dark);
+}
+
+.theme-traditional-corporate .activity-item {
+  border-left-color: var(--primary-color);
+}
+
+/* ============================================
+   MODERN MINIMALIST THEME
+   ============================================ */
+[data-theme="modern-minimalist"] {
+  --primary-color: #6b7280;
+  --primary-dark: #4b5563;
+  --primary-light: #9ca3af;
+  --secondary-color: #374151;
+  --background-color: #f9fafb;
+  --surface-color: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 8px 24px rgba(107, 114, 128, 0.15);
+  --gradient-primary: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  --gradient-background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+}
+
+.theme-modern-minimalist .top-bar {
+  background: var(--primary-color);
+}
+
+.theme-modern-minimalist .dashboard-header {
+  background: var(--gradient-background);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.theme-modern-minimalist .logo-title,
+.theme-modern-minimalist .logo-subtitle,
+.theme-modern-minimalist .greeting {
+  color: var(--primary-dark) !important;
+}
+
+.theme-modern-minimalist .welcome-text {
+  color: var(--text-secondary) !important;
+}
+
+.theme-modern-minimalist .stats-card {
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-light);
+}
+
+.theme-modern-minimalist .stats-card:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+.theme-modern-minimalist .dashboard-sidebar {
+  background: var(--primary-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.theme-modern-minimalist .nav-item {
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.theme-modern-minimalist .nav-item.active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.theme-modern-minimalist .quick-action-btn {
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-light);
+}
+
+.theme-modern-minimalist .quick-action-btn:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+.theme-modern-minimalist .overview-actions .action-btn.refresh {
+  background: var(--primary-color);
+}
+
+.theme-modern-minimalist .overview-actions .action-btn.refresh:hover {
+  background: var(--primary-dark);
+}
+
+.theme-modern-minimalist .activity-item {
+  border-left-color: var(--primary-color);
+  background: #f8fafc;
+}
+
+.theme-modern-minimalist .section {
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+/* ============================================
+   GLOBAL THEME TRANSITIONS
+   ============================================ */
+* {
+  transition: background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              color 0.3s ease, 
+              box-shadow 0.3s ease;
+}
+
+/* ============================================
+   RESPONSIVE THEME ADJUSTMENTS
+   ============================================ */
+@media (max-width: 768px) {
+  [data-theme] .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  [data-theme] .dashboard-sections {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  [data-theme] .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  [data-theme] .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  [data-theme] .overview-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  [data-theme] .overview-actions .action-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
