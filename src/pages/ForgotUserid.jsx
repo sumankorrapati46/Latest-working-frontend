@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import "../styles/Login.css";
-import background from "../assets/green.png";
 import logo from "../assets/rightlogo.png";
  
 // ✅ Validation schema
@@ -61,128 +60,124 @@ const ForgotUserId = () => {
 };
  
   return (
-    <div className="forgot-userid-page-container">
-      {/* Top Navigation Bar */}
-      <nav className="forgot-userid-page-navbar">
-        <div className="forgot-userid-page-logo">
-          <span>DATE</span>
-        </div>
-        <div className="forgot-userid-page-nav-links">
-          <a href="#dashboard">Dashboard</a>
-          <span className="forgot-userid-page-nav-dot">•</span>
-          <a href="#enrollment">Check Enrollment Status</a>
-          <span className="forgot-userid-page-nav-dot">•</span>
-          <a href="#csc">Login with CSC</a>
-        </div>
-      </nav>
-
-      <div className="forgot-userid-page-main-content">
+    <div className="login-page-container">
+      <div className="login-page-main-content">
         {/* Left Section - Information Panel */}
-        <div className="forgot-userid-page-info-panel">
-          <div className="forgot-userid-page-agri-stack-header">
-            <h1 className="forgot-userid-page-agri-stack-title">
-              <span className="forgot-userid-page-agri-text">Date</span>
-              <span className="forgot-userid-page-agri-text">Agri</span>
-              <span className="forgot-userid-page-leaf-icon">🌿</span>
-              <span className="forgot-userid-page-stack-text">Stack</span>
-            </h1>
-            <h2 className="forgot-userid-page-registry-title">India Farmer Registry</h2>
+        <div className="login-page-info-panel">
+          <div className="login-page-brand-header">
+            <div className="login-page-brand-logo">
+              <span className="login-page-brand-text">Date</span>
+              <span className="login-page-brand-accent">Agri</span>
+              <span className="login-page-brand-icon">🌿</span>
+              <span className="login-page-brand-text">Stack</span>
+            </div>
+            <h1 className="login-page-main-title">India Farmer Registry</h1>
           </div>
-          <div className="forgot-userid-page-registry-info">
-            <h3>Digital Agristack Transaction Enterprises</h3>
-            <p className="forgot-userid-page-help-desk">
-              Empowering Agricultural Excellence
-            </p>
+
+          <div className="login-page-platform-info">
+            <h2>User ID Recovery</h2>
+            <p className="login-page-tagline">Get back your account access quickly and securely</p>
           </div>
-          
-          {/* Enhanced Agricultural Content */}
-          <div className="forgot-userid-page-agricultural-highlights">
-            <div className="forgot-userid-page-highlight-item">
-              <span className="forgot-userid-page-highlight-icon">🌾</span>
-              <div className="forgot-userid-page-highlight-content">
-                <h4>Revolutionizing Indian Agriculture</h4>
-                <p>Connecting 140+ million farmers with cutting-edge digital solutions</p>
+
+          {/* Feature Highlights */}
+          <div className="login-page-features-grid">
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🔍</div>
+              <div className="login-page-feature-content">
+                <h3>Quick Recovery</h3>
+                <p>Find your User ID in just a few steps</p>
               </div>
             </div>
-            
-            <div className="forgot-userid-page-highlight-item">
-              <span className="forgot-userid-page-highlight-icon">📱</span>
-              <div className="forgot-userid-page-highlight-content">
-                <h4>Smart Farming Technology</h4>
-                <p>AI-powered crop monitoring and precision agriculture tools</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">📧</div>
+              <div className="login-page-feature-content">
+                <h3>Email Delivery</h3>
+                <p>User ID sent directly to your email</p>
               </div>
             </div>
-            
-            <div className="forgot-userid-page-highlight-item">
-              <span className="forgot-userid-page-highlight-icon">💰</span>
-              <div className="forgot-userid-page-highlight-content">
-                <h4>Financial Inclusion</h4>
-                <p>Direct benefit transfers and digital payment solutions</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🛡️</div>
+              <div className="login-page-feature-content">
+                <h3>Secure Process</h3>
+                <p>Your account information is protected</p>
               </div>
             </div>
-            
-            <div className="forgot-userid-page-highlight-item">
-              <span className="forgot-userid-page-highlight-icon">🌱</span>
-              <div className="forgot-userid-page-highlight-content">
-                <h4>Sustainable Practices</h4>
-                <p>Promoting eco-friendly farming and climate-smart agriculture</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">⚡</div>
+              <div className="login-page-feature-content">
+                <h3>Instant Access</h3>
+                <p>Get your User ID immediately</p>
               </div>
             </div>
-            
-            <div className="forgot-userid-page-highlight-item">
-              <span className="forgot-userid-page-highlight-icon">🏆</span>
-              <div className="forgot-userid-page-highlight-content">
-                <h4>National Recognition</h4>
-                <p>Government of India's flagship agricultural digitization initiative</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">✅</div>
+              <div className="login-page-feature-content">
+                <h3>Easy Login</h3>
+                <p>Use your recovered User ID to log in</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Section - Forgot User ID Form */}
-        <div className="forgot-userid-page-form-section">
-          <div className="forgot-userid-page-card">
+        <div className="login-page-form-section">
+          <div className="login-page-card">
             {/* DATE Logo at Top */}
-            <div className="forgot-userid-page-date-logo-section">
-              <img src={logo} alt="DATE Logo" className="forgot-userid-page-date-logo" />
-              <div className="forgot-userid-page-date-text">
+            <div className="login-page-date-logo-section">
+              <img src={logo} alt="DATE Logo" className="login-page-date-logo" />
+              <div className="login-page-date-text">
                 <h3>Digital Agristack Transaction Enterprises</h3>
                 <p>Empowering Agricultural Excellence</p>
               </div>
             </div>
 
-            <div className="forgot-userid-page-content">
-              <h2>Forgot User ID</h2>
-              <p>Enter your Email / Phone / ID, click "Reset User ID", and we'll send your User ID if it exists.</p>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="forgot-userid-page-form-field">
-                  <label>Email / Phone / ID <span className="forgot-userid-page-required">*</span></label>
-                  <input
-                    {...register("userInput")}
-                    placeholder="Enter your Email or Phone or ID"
-                    className={errors.userInput ? 'forgot-userid-page-error' : ''}
-                  />
-                  {errors.userInput && <div className="forgot-userid-page-error">{errors.userInput.message}</div>}
-                </div>
-                <button type="submit" className="forgot-userid-page-login-btn">Reset User ID</button>
-              </form>
+            {/* Form Title Section */}
+            <div className="login-page-login-type-section">
+              <h3>Forgot User ID</h3>
+              <p>Enter your email address or phone number to recover your User ID</p>
             </div>
 
-            {/* Success Popup */}
-            {showPopup && (
-              <div className="forgot-userid-page-popup">
-                <div className="forgot-userid-page-popup-content">
-                  <h3>Success!</h3>
-                  <h4>
-                    Your User ID has been sent to <strong>{target}</strong>
-                  </h4>
-                  <button onClick={handlePopupClose}>OK</button>
-                </div>
+            {/* Forgot User ID Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="login-page-form">
+              <div className="login-page-form-field">
+                <label>Email / Phone / ID <span className="required">*</span></label>
+                <input
+                  {...register("userInput")}
+                  placeholder="Enter your Email, Phone, or ID"
+                  className={`login-page-form-input ${errors.userInput ? 'error' : ''}`}
+                />
+                {errors.userInput && <span className="error-message">{errors.userInput.message}</span>}
               </div>
-            )}
+              
+              <div className="login-page-actions-row">
+                <button type="submit" className="login-page-login-btn">
+                  Recover User ID
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+
+      {/* Success Popup */}
+      {showPopup && (
+        <div className="success-popup-overlay">
+          <div className="success-popup">
+            <div className="success-popup-content">
+              <h3>User ID Sent Successfully!</h3>
+              <p>We've sent your User ID to: <strong>{target}</strong></p>
+              <p>Please check your email or phone for the User ID.</p>
+              <button onClick={handlePopupClose} className="login-page-login-btn">
+                Continue to OTP Verification
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

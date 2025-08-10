@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { authAPI } from '../api/apiService';
 import { Link, useLocation } from 'react-router-dom';
-import '../styles/RegistrationForm.css';
+import logo from '../assets/rightlogo.png';
+import '../styles/Login.css';
 
 // Update Yup schema for password validation
 const schema = yup.object().shape({
@@ -127,261 +128,254 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="registration-container">
-      {/* Left Info Panel */}
-      <div className="info-panel">
-        <div className="brand-header">
-          <div className="brand-logo">
-            <span className="brand-text">Date</span>
-            <span className="brand-accent">Agri</span>
-            <span className="brand-icon">🌿</span>
-            <span className="brand-text">Stack</span>
-          </div>
-          <h1 className="main-title">India Farmer Registry</h1>
-        </div>
-
-        <div className="platform-info">
-          <h2>Digital Agristack Transaction Enterprises</h2>
-          <p className="tagline">Empowering Agricultural Excellence</p>
-        </div>
-
-        {/* Feature Highlights */}
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">🌾</div>
-            <div className="feature-content">
-              <h3>Revolutionizing Indian Agriculture</h3>
-              <p>Connecting 140+ million farmers with cutting-edge digital solutions</p>
+    <div className="login-page-container">
+      <div className="login-page-main-content">
+        {/* Left Section - Information Panel */}
+        <div className="login-page-info-panel">
+          <div className="login-page-brand-header">
+            <div className="login-page-brand-logo">
+              <span className="login-page-brand-text">Date</span>
+              <span className="login-page-brand-accent">Agri</span>
+              <span className="login-page-brand-icon">🌿</span>
+              <span className="login-page-brand-text">Stack</span>
             </div>
+            <h1 className="login-page-main-title">India Farmer Registry</h1>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">📱</div>
-            <div className="feature-content">
-              <h3>Smart Farming Technology</h3>
-              <p>AI-powered crop monitoring and precision agriculture tools</p>
-            </div>
+          <div className="login-page-platform-info">
+            <h2>Join Our Platform</h2>
+            <p className="login-page-tagline">Become part of India's agricultural revolution</p>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">💰</div>
-            <div className="feature-content">
-              <h3>Financial Inclusion</h3>
-              <p>Direct benefit transfers and digital payment solutions</p>
-            </div>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">🌱</div>
-            <div className="feature-content">
-              <h3>Sustainable Practices</h3>
-              <p>Promoting eco-friendly farming and climate-smart agriculture</p>
-            </div>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">🏆</div>
-            <div className="feature-content">
-              <h3>National Recognition</h3>
-              <p>Government of India's flagship agricultural digitization initiative</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Registration Form */}
-      <div className="form-panel">
-        <div className="form-card">
-          {/* Form Header */}
-          <div className="form-header">
-            <div className="date-logo-section">
-              <div className="date-logo">
-                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                  <g stroke="#15803d" strokeWidth="2" fill="none" strokeLinecap="round">
-                    <path d="M12 24 C12 32 12 40 12 48"/>
-                    <path d="M32 24 C32 32 32 40 32 48"/>
-                    <path d="M52 24 C52 32 52 40 52 48"/>
-                  </g>
-                  <g>
-                    <g transform="translate(12 16)"><ellipse cx="0" cy="0" rx="4" ry="8" fill="#FACC15" stroke="#D97706" strokeWidth="2"/><circle cx="0" cy="0" r="6" fill="#8B5E3C" stroke="#A16207" strokeWidth="2"/></g>
-                    <g transform="translate(32 14)"><ellipse cx="0" cy="0" rx="4" ry="8" fill="#FACC15" stroke="#D97706" strokeWidth="2"/><circle cx="0" cy="0" r="6" fill="#8B5E3C" stroke="#A16207" strokeWidth="2"/></g>
-                    <g transform="translate(52 16)"><ellipse cx="0" cy="0" rx="4" ry="8" fill="#FACC15" stroke="#D97706" strokeWidth="2"/><circle cx="0" cy="0" r="6" fill="#8B5E3C" stroke="#A16207" strokeWidth="2"/></g>
-                  </g>
-                </svg>
+          {/* Feature Highlights */}
+          <div className="login-page-features-grid">
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🚀</div>
+              <div className="login-page-feature-content">
+                <h3>Quick Registration</h3>
+                <p>Get started in minutes with our streamlined signup process</p>
               </div>
-              <div className="date-text">
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🔒</div>
+              <div className="login-page-feature-content">
+                <h3>Secure Verification</h3>
+                <p>Email verification ensures your account security</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">📋</div>
+              <div className="login-page-feature-content">
+                <h3>Easy Profile Setup</h3>
+                <p>Simple form to create your personalized account</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">⚡</div>
+              <div className="login-page-feature-content">
+                <h3>Instant Access</h3>
+                <p>Start using platform features immediately after approval</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🎯</div>
+              <div className="login-page-feature-content">
+                <h3>Tailored Experience</h3>
+                <p>Customized dashboard based on your role and needs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section - Registration Form */}
+        <div className="login-page-form-section">
+          <div className="login-page-card">
+            {/* DATE Logo at Top */}
+            <div className="login-page-date-logo-section">
+              <img src={logo} alt="DATE Logo" className="login-page-date-logo" />
+              <div className="login-page-date-text">
                 <h3>Digital Agristack Transaction Enterprises</h3>
                 <p>Empowering Agricultural Excellence</p>
               </div>
             </div>
 
-            <div className="form-title-section">
-              <h2 className="form-title">Registration Form</h2>
-              <p className="form-subtitle">Enter your details to get started</p>
-            </div>
-          </div>
-
-          {/* Registration Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="registration-form">
-            {/* Role Field (Hidden) */}
-            <input type="hidden" {...register('role')} value={initialRole} />
-            
-            {/* Role Display (if provided) */}
-            {initialRole && (
-              <div className="form-group">
-                <label className="form-label">Role</label>
-                <input 
-                  type="text" 
-                  value={initialRole} 
-                  readOnly 
-                  className="form-input role-field" 
-                />
-              </div>
-            )}
-
-            {/* Form Fields */}
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Name <span className="required">*</span></label>
-                <input 
-                  type="text" 
-                  {...register('name')} 
-                  className={`form-input ${errors.name ? 'error' : ''}`}
-                  placeholder="Enter your first name"
-                />
-                {errors.name && <span className="error-message">{errors.name.message}</span>}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Gender <span className="required">*</span></label>
-                <select 
-                  {...register('gender')} 
-                  className={`form-input ${errors.gender ? 'error' : ''}`}
-                >
-                  <option value="">Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-                {errors.gender && <span className="error-message">{errors.gender.message}</span>}
-              </div>
+            {/* Form Title Section */}
+            <div className="login-page-login-type-section">
+              <h3>Registration Form</h3>
+              <p>Enter your details to get started</p>
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Date of Birth <span className="required">*</span></label>
-                <input
-                  type="date"
-                  {...register('dateOfBirth')}
-                  className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
-                />
-                {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth.message}</span>}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Phone Number <span className="required">*</span></label>
-                <input 
-                  type="text" 
-                  {...register('phoneNumber')} 
-                  className={`form-input ${errors.phoneNumber ? 'error' : ''}`}
-                  placeholder="Enter 10-digit number"
-                />
-                {errors.phoneNumber && <span className="error-message">{errors.phoneNumber.message}</span>}
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Email Address <span className="required">*</span></label>
-                <input
-                  type="email"
-                  {...register('email')}
-                  value={emailValue}
-                  onChange={(e) => {
-                    setEmailValue(e.target.value);
-                    setOtpSent(false);
-                    setEmailVerified(false);
-                  }}
-                  className={`form-input ${errors.email ? 'error' : ''}`}
-                  placeholder="Enter your email"
-                />
-                {errors.email && <span className="error-message">{errors.email.message}</span>}
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Password <span className="required">*</span></label>
-                <input
-                  type="password"
-                  {...register('password')}
-                  className={`form-input ${errors.password ? 'error' : ''}`}
-                  placeholder="Enter a strong password"
-                  autoComplete="new-password"
-                />
-                {errors.password && <span className="error-message">{errors.password.message}</span>}
-              </div>
-            </div>
-
-            {/* Email Verification Section */}
-            <div className="email-verification">
-              {(!otpSent && !emailVerified) && (
-                <button
-                  type="button"
-                  onClick={handleSendOTP}
-                  className="btn btn-primary"
-                >
-                  Send OTP
-                </button>
-              )}
+            {/* Registration Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="login-page-form">
+              {/* Role Field (Hidden) */}
+              <input type="hidden" {...register('role')} value={initialRole} />
               
-              {(otpSent && !emailVerified) && (
-                <div className="otp-section">
-                  <input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="otp-input"
+              {/* Role Display (if provided) */}
+              {initialRole && (
+                <div className="login-page-form-field">
+                  <label>Role</label>
+                  <input 
+                    type="text" 
+                    value={initialRole} 
+                    readOnly 
+                    className="login-page-form-input role-field" 
                   />
-                  <div className="otp-buttons">
-                    <button
-                      type="button"
-                      onClick={handleSendOTP}
-                      className="btn btn-secondary"
-                      disabled={resendTimer > 0}
+                </div>
+              )}
+
+              {/* Form Fields Grid Layout */}
+              <div className="form-fields-grid">
+                {/* Row 1: Name and Gender */}
+                <div className="form-row">
+                  <div className="login-page-form-field">
+                    <label>Name <span className="required">*</span></label>
+                    <input 
+                      type="text" 
+                      {...register('name')} 
+                      className={`login-page-form-input ${errors.name ? 'error' : ''}`}
+                      placeholder="Enter your first name"
+                    />
+                    {errors.name && <span className="error-message">{errors.name.message}</span>}
+                  </div>
+
+                  <div className="login-page-form-field">
+                    <label>Gender <span className="required">*</span></label>
+                    <select 
+                      {...register('gender')} 
+                      className={`login-page-form-input ${errors.gender ? 'error' : ''}`}
                     >
-                      {resendTimer > 0 ? `Resend (${resendTimer}s)` : 'Resend'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleVerifyOTP}
-                      className="btn btn-primary"
-                    >
-                      Verify
-                    </button>
+                      <option value="">Select gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    {errors.gender && <span className="error-message">{errors.gender.message}</span>}
                   </div>
                 </div>
-              )}
-              
-              {emailVerified && (
-                <div className="verification-success">
-                  <span className="success-icon">✓</span>
-                  Email Verified
+
+                {/* Row 2: Date of Birth and Phone Number */}
+                <div className="form-row">
+                  <div className="login-page-form-field">
+                    <label>Date of Birth <span className="required">*</span></label>
+                    <input
+                      type="date"
+                      {...register('dateOfBirth')}
+                      className={`login-page-form-input ${errors.dateOfBirth ? 'error' : ''}`}
+                    />
+                    {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth.message}</span>}
+                  </div>
+
+                  <div className="login-page-form-field">
+                    <label>Phone Number <span className="required">*</span></label>
+                    <input 
+                      type="text" 
+                      {...register('phoneNumber')} 
+                      className={`login-page-form-input ${errors.phoneNumber ? 'error' : ''}`}
+                      placeholder="Enter 10-digit number"
+                    />
+                    {errors.phoneNumber && <span className="error-message">{errors.phoneNumber.message}</span>}
+                  </div>
                 </div>
-              )}
-            </div>
 
-            {/* Submit Button */}
-            <div className="form-actions">
-              <button type="submit" className="btn btn-submit">
-                Register Now ...
-              </button>
-            </div>
+                {/* Row 3: Email and Password */}
+                <div className="form-row">
+                  <div className="login-page-form-field">
+                    <label>Email Address <span className="required">*</span></label>
+                    <input
+                      type="email"
+                      {...register('email')}
+                      value={emailValue}
+                      onChange={(e) => {
+                        setEmailValue(e.target.value);
+                        setOtpSent(false);
+                        setEmailVerified(false);
+                      }}
+                      className={`login-page-form-input ${errors.email ? 'error' : ''}`}
+                      placeholder="Enter your email"
+                    />
+                    {errors.email && <span className="error-message">{errors.email.message}</span>}
+                  </div>
 
-            {/* Login Link */}
-            <div className="login-link">
-              <p>Already have an account? <Link to="/login">Sign In</Link></p>
-            </div>
-          </form>
+                  <div className="login-page-form-field">
+                    <label>Password <span className="required">*</span></label>
+                    <input
+                      type="password"
+                      {...register('password')}
+                      className={`login-page-form-input ${errors.password ? 'error' : ''}`}
+                      placeholder="Enter a strong password"
+                      autoComplete="new-password"
+                    />
+                    {errors.password && <span className="error-message">{errors.password.message}</span>}
+                  </div>
+                </div>
+              </div>
+
+              {/* Email Verification Section */}
+              <div className="email-verification">
+                {(!otpSent && !emailVerified) && (
+                  <button
+                    type="button"
+                    onClick={handleSendOTP}
+                    className="login-page-login-btn"
+                  >
+                    Send OTP
+                  </button>
+                )}
+                
+                {(otpSent && !emailVerified) && (
+                  <div className="otp-section">
+                    <input
+                      type="text"
+                      placeholder="Enter OTP"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      className="login-page-form-input"
+                    />
+                    <div className="otp-buttons">
+                      <button
+                        type="button"
+                        onClick={handleSendOTP}
+                        className="login-page-create-account-btn"
+                        disabled={resendTimer > 0}
+                      >
+                        {resendTimer > 0 ? `Resend (${resendTimer}s)` : 'Resend'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleVerifyOTP}
+                        className="login-page-login-btn"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                  </div>
+                )}
+                
+                {emailVerified && (
+                  <div className="verification-success">
+                    <span className="success-icon">✓</span>
+                    Email Verified
+                  </div>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <div className="login-page-actions-row">
+                <button type="submit" className="login-page-login-btn">
+                  Register Now
+                </button>
+              </div>
+
+              {/* Login Link */}
+              <div className="login-link">
+                <p>Already have an account? <Link to="/login">Sign In</Link></p>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import ChangePasswordModal from './ChangePasswordModal';
 import '../styles/Dashboard.css';
  
 const UserProfileDropdown = ({ variant = 'default' }) => {
@@ -12,12 +13,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
   const [showHelp, setShowHelp] = useState(false);
   const dropdownRef = useRef(null);
  
-  // Password change form state
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
+
  
   // User ID change form state
   const [userIdData, setUserIdData] = useState({
@@ -32,6 +28,9 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
     { id: 2, type: 'warning', message: 'KYC verification overdue for 3 farmers', time: '1 hour ago' },
     { id: 3, type: 'success', message: 'Employee assignment completed successfully', time: '3 hours ago' }
   ]);
+  
+  // Notification state for change password
+  const [notification, setNotification] = useState(null);
  
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -53,33 +52,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
     window.location.href = '/login';
   };
  
-  // Handle password change
-  const handleChangePassword = async (e) => {
-    e.preventDefault();
-   
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      alert('New passwords do not match!');
-      return;
-    }
- 
-    if (passwordData.newPassword.length < 6) {
-      alert('New password must be at least 6 characters long!');
-      return;
-    }
- 
-    try {
-      // Here you would typically make an API call to change password
-      alert('Password changed successfully!');
-      setShowChangePassword(false);
-      setPasswordData({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-      });
-    } catch (error) {
-      alert('Failed to change password. Please try again.');
-    }
-  };
+  
  
   // Handle user ID change
   const handleChangeUserId = async (e) => {
@@ -397,78 +370,16 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
       )}
  
       {/* Change Password Modal */}
-      {showChangePassword && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>Change Password</h3>
-              <button
-                className="modal-close"
-                onClick={() => setShowChangePassword(false)}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-           
-            <form onSubmit={handleChangePassword}>
-              <div className="form-group">
-                <label htmlFor="currentPassword">Current Password</label>
-                <input
-                  type="password"
-                  id="currentPassword"
-                  value={passwordData.currentPassword}
-                  onChange={(e) => setPasswordData(prev => ({
-                    ...prev,
-                    currentPassword: e.target.value
-                  }))}
-                  required
-                />
-              </div>
-             
-              <div className="form-group">
-                <label htmlFor="newPassword">New Password</label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  value={passwordData.newPassword}
-                  onChange={(e) => setPasswordData(prev => ({
-                    ...prev,
-                    newPassword: e.target.value
-                  }))}
-                  required
-                />
-              </div>
-             
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Confirm New Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={passwordData.confirmPassword}
-                  onChange={(e) => setPasswordData(prev => ({
-                    ...prev,
-                    confirmPassword: e.target.value
-                  }))}
-                  required
-                />
-              </div>
-             
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => setShowChangePassword(false)}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn-primary">
-                  Change Password
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ChangePasswordModal
+        isOpen={showChangePassword}
+        onClose={() => setShowChangePassword(false)}
+        onSuccess={() => {
+          setNotification({
+            type: 'success',
+            message: 'Password changed successfully!'
+          });
+        }}
+      />
  
       {/* Change User ID Modal */}
       {showChangeUserId && (
@@ -641,6 +552,22 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Success Notification Toast */}
+      {notification && (
+        <div className={`notification-toast ${notification.type}`}>
+          <div className="notification-toast-content">
+            <i className={`fas fa-${notification.type === 'success' ? 'check-circle' : 'info-circle'}`}></i>
+            <span>{notification.message}</span>
+          </div>
+          <button
+            className="notification-toast-close"
+            onClick={() => setNotification(null)}
+          >
+            <i className="fas fa-times"></i>
+          </button>
         </div>
       )}
     </div>

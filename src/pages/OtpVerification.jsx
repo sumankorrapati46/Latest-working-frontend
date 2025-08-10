@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authAPI } from '../api/apiService';
 import '../styles/Login.css';
+import logo from '../assets/rightlogo.png';
  
 const OtpVerification = () => {
   /* ───────── STATE ───────── */
@@ -63,122 +64,121 @@ const OtpVerification = () => {
  
   /* ───────── UI ───────── */
   return (
-    <div className="otp-verification-page-container">
-      {/* Top Navigation Bar */}
-      <nav className="otp-verification-page-navbar">
-        <div className="otp-verification-page-logo">
-          <span>DATE</span>
-        </div>
-        <div className="otp-verification-page-nav-links">
-          <a href="#dashboard">Dashboard</a>
-          <span className="otp-verification-page-nav-dot">•</span>
-          <a href="#enrollment">Check Enrollment Status</a>
-          <span className="otp-verification-page-nav-dot">•</span>
-          <a href="#csc">Login with CSC</a>
-        </div>
-      </nav>
-
-      <div className="otp-verification-page-main-content">
+    <div className="login-page-container">
+      <div className="login-page-main-content">
         {/* Left Section - Information Panel */}
-        <div className="otp-verification-page-info-panel">
-          <div className="otp-verification-page-agri-stack-header">
-            <h1 className="otp-verification-page-agri-stack-title">
-              <span className="otp-verification-page-agri-text">Date</span>
-              <span className="otp-verification-page-agri-text">Agri</span>
-              <span className="otp-verification-page-leaf-icon">🌿</span>
-              <span className="otp-verification-page-stack-text">Stack</span>
-            </h1>
-            <h2 className="otp-verification-page-registry-title">India Farmer Registry</h2>
+        <div className="login-page-info-panel">
+          <div className="login-page-brand-header">
+            <div className="login-page-brand-logo">
+              <span className="login-page-brand-text">Date</span>
+              <span className="login-page-brand-accent">Agri</span>
+              <span className="login-page-brand-icon">🌿</span>
+              <span className="login-page-brand-text">Stack</span>
+            </div>
+            <h1 className="login-page-main-title">India Farmer Registry</h1>
           </div>
-          <div className="otp-verification-page-registry-info">
-            <h3>Digital Agristack Transaction Enterprises</h3>
-            <p className="otp-verification-page-help-desk">
-              Empowering Agricultural Excellence
-            </p>
+
+          <div className="login-page-platform-info">
+            <h2>Email Verification</h2>
+            <p className="login-page-tagline">Secure your account with one-time verification</p>
           </div>
-          
-          {/* Enhanced Agricultural Content */}
-          <div className="otp-verification-page-agricultural-highlights">
-            <div className="otp-verification-page-highlight-item">
-              <span className="otp-verification-page-highlight-icon">🌾</span>
-              <div className="otp-verification-page-highlight-content">
-                <h4>Revolutionizing Indian Agriculture</h4>
-                <p>Connecting 140+ million farmers with cutting-edge digital solutions</p>
+
+          {/* Feature Highlights */}
+          <div className="login-page-features-grid">
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🔐</div>
+              <div className="login-page-feature-content">
+                <h3>Secure Verification</h3>
+                <p>One-time password ensures your account security</p>
               </div>
             </div>
-            
-            <div className="otp-verification-page-highlight-item">
-              <span className="otp-verification-page-highlight-icon">📱</span>
-              <div className="otp-verification-page-highlight-content">
-                <h4>Smart Farming Technology</h4>
-                <p>AI-powered crop monitoring and precision agriculture tools</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">⚡</div>
+              <div className="login-page-feature-content">
+                <h3>Instant Delivery</h3>
+                <p>OTP sent to your email within seconds</p>
               </div>
             </div>
-            
-            <div className="otp-verification-page-highlight-item">
-              <span className="otp-verification-page-highlight-icon">💰</span>
-              <div className="otp-verification-page-highlight-content">
-                <h4>Financial Inclusion</h4>
-                <p>Direct benefit transfers and digital payment solutions</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🛡️</div>
+              <div className="login-page-feature-content">
+                <h3>Account Protection</h3>
+                <p>Prevents unauthorized access to your account</p>
               </div>
             </div>
-            
-            <div className="otp-verification-page-highlight-item">
-              <span className="otp-verification-page-highlight-icon">🌱</span>
-              <div className="otp-verification-page-highlight-content">
-                <h4>Sustainable Practices</h4>
-                <p>Promoting eco-friendly farming and climate-smart agriculture</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🔄</div>
+              <div className="login-page-feature-content">
+                <h3>Easy Resend</h3>
+                <p>Request new OTP if you don't receive it</p>
               </div>
             </div>
-            
-            <div className="otp-verification-page-highlight-item">
-              <span className="otp-verification-page-highlight-icon">🏆</span>
-              <div className="otp-verification-page-highlight-content">
-                <h4>National Recognition</h4>
-                <p>Government of India's flagship agricultural digitization initiative</p>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">✅</div>
+              <div className="login-page-feature-content">
+                <h3>Quick Process</h3>
+                <p>Complete verification in under 2 minutes</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Section - OTP Verification Form */}
-        <div className="otp-verification-page-form-section">
-          <div className="otp-verification-page-card">
+        <div className="login-page-form-section">
+          <div className="login-page-card">
             {/* DATE Logo at Top */}
-            <div className="otp-verification-page-date-logo-section">
-              <div className="otp-verification-page-date-logo">DATE</div>
-              <div className="otp-verification-page-date-text">
+            <div className="login-page-date-logo-section">
+              <img src={logo} alt="DATE Logo" className="login-page-date-logo" />
+              <div className="login-page-date-text">
                 <h3>Digital Agristack Transaction Enterprises</h3>
                 <p>Empowering Agricultural Excellence</p>
               </div>
             </div>
 
-            <div className="otp-verification-page-content">
-              <h2>Email Verification</h2>
-              <p>We sent a 6-digit code to <strong>{target}</strong></p>
-              <form>
-                <div className="otp-verification-page-form-field">
-                  <label htmlFor="otpInput">Enter OTP</label>
-                  <input
-                    id="otpInput"
-                    className="otp-verification-page-otp-input"
-                    maxLength={6}
-                    value={otp}
-                    onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
-                  />
-                </div>
-                <div className="otp-verification-page-resend-otp">
-                  {canResend ? (
-                    <button onClick={handleResend} className="otp-verification-page-resend-btn">Resend OTP</button>
-                  ) : (
-                    <span className="otp-verification-page-resend-timer">Resend in {timer}s</span>
-                  )}
-                </div>
-                <div className="otp-verification-page-buttons">
-                  <button className="otp-verification-page-login-btn" onClick={handleVerify}>Verify</button>
-                  <button className="otp-verification-page-create-account-btn" onClick={() => navigate(-1)}>Back</button>
-                </div>
-              </form>
+            {/* Form Title Section */}
+            <div className="login-page-login-type-section">
+              <h3>OTP Verification</h3>
+              <p>Enter the 6-digit OTP sent to: <strong>{target}</strong></p>
+            </div>
+
+            {/* OTP Verification Form */}
+            <div className="login-page-form">
+              <div className="login-page-form-field">
+                <label>Enter OTP <span className="required">*</span></label>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter 6-digit OTP"
+                  className="login-page-form-input"
+                  maxLength={6}
+                />
+              </div>
+
+              <div className="login-page-actions-row">
+                <button 
+                  onClick={handleVerify} 
+                  className="login-page-login-btn"
+                  disabled={otp.length !== 6}
+                >
+                  Verify OTP
+                </button>
+              </div>
+
+              <div className="login-page-forgot-password">
+                <p>Didn't receive the OTP?</p>
+                <button 
+                  onClick={handleResend} 
+                  className="login-page-create-account-btn"
+                  disabled={!canResend}
+                >
+                  {canResend ? 'Resend OTP' : `Resend in ${timer}s`}
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -5,7 +5,8 @@ import * as Yup from "yup";
 import { authAPI } from "../api/apiService";
 import { useNavigate } from 'react-router-dom';
 import "../styles/Login.css";
- 
+import logo from "../assets/rightlogo.png";
+
 // ✅ Schema validation
 const schema = Yup.object().shape({
   userInput: Yup.string()
@@ -57,128 +58,139 @@ const ForgotPassword = () => {
 };
  
   return (
-    <div className="forgot-password-page-container">
-      {/* Top Navigation Bar */}
-      <nav className="forgot-password-page-navbar">
-        <div className="forgot-password-page-logo">
-          <span>DATE</span>
-        </div>
-        <div className="forgot-password-page-nav-links">
-          <a href="#dashboard">Dashboard</a>
-          <span className="forgot-password-page-nav-dot">•</span>
-          <a href="#enrollment">Check Enrollment Status</a>
-          <span className="forgot-password-page-nav-dot">•</span>
-          <a href="#csc">Login with CSC</a>
-        </div>
-      </nav>
-
-      <div className="forgot-password-page-main-content">
-        {/* Left Section - Information Panel */}
-        <div className="forgot-password-page-info-panel">
-          <div className="forgot-password-page-agri-stack-header">
-            <h1 className="forgot-password-page-agri-stack-title">
-              <span className="forgot-password-page-agri-text">Date</span>
-              <span className="forgot-password-page-agri-text">Agri</span>
-              <span className="forgot-password-page-leaf-icon">🌿</span>
-              <span className="forgot-password-page-stack-text">Stack</span>
-            </h1>
-            <h2 className="forgot-password-page-registry-title">India Farmer Registry</h2>
-          </div>
-          <div className="forgot-password-page-registry-info">
-            <h3>Digital Agristack Transaction Enterprises</h3>
-            <p className="forgot-password-page-help-desk">
-              Empowering Agricultural Excellence
-            </p>
+    <div className="login-page-container forgot-password-page">
+      <div className="login-page-main-content">
+        {/* Left Information Panel */}
+        <div className="login-page-info-panel">
+          <div className="login-page-brand-header">
+            <div className="login-page-brand-logo">
+              <span className="login-page-brand-icon">🌱</span>
+            </div>
+            <div className="login-page-brand-text">
+              <h1>Date <span className="login-page-brand-accent">Agri</span> Stack</h1>
+              <h2>India Farmer Registry</h2>
+            </div>
           </div>
           
-          {/* Enhanced Agricultural Content */}
-          <div className="forgot-password-page-agricultural-highlights">
-            <div className="forgot-password-page-highlight-item">
-              <span className="forgot-password-page-highlight-icon">🌾</span>
-              <div className="forgot-password-page-highlight-content">
-                <h4>Revolutionizing Indian Agriculture</h4>
-                <p>Connecting 140+ million farmers with cutting-edge digital solutions</p>
+          <div className="login-page-main-title">
+            <h1>Digital Agristack Transaction Enterprises</h1>
+            <p>Empowering Agricultural Excellence</p>
+          </div>
+          
+          <div className="login-page-platform-info">
+            <h2>Password Recovery</h2>
+            <p>Don't worry! We'll help you get back to your account safely.</p>
+          </div>
+          
+          <div className="login-page-tagline">
+            <p>Secure • Fast • Reliable Recovery</p>
+          </div>
+          
+          <div className="login-page-features-grid">
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🔐</div>
+              <div className="login-page-feature-content">
+                <h3>Secure Reset</h3>
+                <p>Military-grade encryption protects your data</p>
               </div>
             </div>
             
-            <div className="forgot-password-page-highlight-item">
-              <span className="forgot-password-page-highlight-icon">📱</span>
-              <div className="forgot-password-page-highlight-content">
-                <h4>Smart Farming Technology</h4>
-                <p>AI-powered crop monitoring and precision agriculture tools</p>
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">⚡</div>
+              <div className="login-page-feature-content">
+                <h3>Instant Link</h3>
+                <p>Reset link delivered to your email instantly</p>
               </div>
             </div>
             
-            <div className="forgot-password-page-highlight-item">
-              <span className="forgot-password-page-highlight-icon">💰</span>
-              <div className="forgot-password-page-highlight-content">
-                <h4>Financial Inclusion</h4>
-                <p>Direct benefit transfers and digital payment solutions</p>
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🛡️</div>
+              <div className="login-page-feature-content">
+                <h3>Account Protection</h3>
+                <p>Your account remains secure during recovery</p>
               </div>
             </div>
             
-            <div className="forgot-password-page-highlight-item">
-              <span className="forgot-password-page-highlight-icon">🌱</span>
-              <div className="forgot-password-page-highlight-content">
-                <h4>Sustainable Practices</h4>
-                <p>Promoting eco-friendly farming and climate-smart agriculture</p>
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">📱</div>
+              <div className="login-page-feature-content">
+                <h3>Multi-Device Access</h3>
+                <p>Reset from any device, anywhere</p>
               </div>
             </div>
             
-            <div className="forgot-password-page-highlight-item">
-              <span className="forgot-password-page-highlight-icon">🏆</span>
-              <div className="forgot-password-page-highlight-content">
-                <h4>National Recognition</h4>
-                <p>Government of India's flagship agricultural digitization initiative</p>
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🎯</div>
+              <div className="login-page-feature-content">
+                <h3>One-Click Recovery</h3>
+                <p>Simple process to regain account access</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Section - Forgot Password Form */}
-        <div className="forgot-password-page-form-section">
-          <div className="forgot-password-page-card">
-            {/* DATE Logo at Top */}
-            <div className="forgot-password-page-date-logo-section">
-              <div className="forgot-password-page-date-logo">DATE</div>
-              <div className="forgot-password-page-date-text">
+        {/* Right Form Section */}
+        <div className="login-page-form-section">
+          <div className="login-page-card">
+            <div className="login-page-date-logo-section">
+              <div className="login-page-date-logo">
+                <img src={logo} alt="DATE Logo" />
+              </div>
+              <div className="login-page-date-text">
                 <h3>Digital Agristack Transaction Enterprises</h3>
                 <p>Empowering Agricultural Excellence</p>
               </div>
             </div>
 
-            <div className="forgot-password-page-content">
-              <h2>Forgot Password</h2>
+            <div className="login-page-login-type-section">
+              <h3>Forgot Password</h3>
               <p>Enter your email address, click "Reset password", and we'll send you a link to reset your password.</p>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="forgot-password-page-form-field">
-                  <label>Email<span className="forgot-password-page-required">*</span></label>
-                  <input
-                    {...register("userInput")}
-                    placeholder="Enter your Email"
-                    className={errors.userInput ? 'forgot-password-page-error' : ''}
-                  />
-                  {errors.userInput && <div className="forgot-password-page-error">{errors.userInput.message}</div>}
-                </div>
-                <button type="submit" className="forgot-password-page-login-btn">Reset password</button>
-              </form>
             </div>
 
-            {/* Success Popup */}
-            {showPopup && (
-              <div className="forgot-password-page-popup">
-                <div className="forgot-password-page-popup-content">
-                  <h3>Success!</h3>
-                  <h4>
-                    A reset link has been sent to <strong>{target}</strong>
-                  </h4>
-                  <button onClick={handlePopupClose}>OK</button>
-                </div>
+            {/* Forgot Password Form */}
+            <form onSubmit={handleSubmit(onSubmit)} className="login-page-form">
+              <div className="login-page-form-field">
+                <label>
+                  Email <span className="required">*</span>
+                </label>
+                <input
+                  {...register("userInput")}
+                  placeholder="Enter your Email"
+                  className={`login-page-form-input ${errors.userInput ? 'error' : ''}`}
+                />
+                {errors.userInput && <div className="error-message">{errors.userInput.message}</div>}
               </div>
-            )}
+              
+              <div className="login-page-actions-row">
+                <button type="submit" className="login-page-login-btn">
+                  Reset Password
+                </button>
+              </div>
+            </form>
+
+            {/* Login Link */}
+            <div className="login-link">
+              <p>Remember your password? <a href="/login">Sign In</a></p>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Success Popup */}
+      {showPopup && (
+        <div className="success-popup-overlay">
+          <div className="success-popup">
+            <div className="success-popup-content">
+              <div className="success-icon">✅</div>
+              <h3>Success!</h3>
+              <p>A reset link has been sent to <strong>{target}</strong></p>
+              <button onClick={handlePopupClose} className="login-page-login-btn">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

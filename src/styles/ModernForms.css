@@ -1,0 +1,332 @@
+/* Modern Forms Styling - Applied to all forms */
+.modern-form-container {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('../assets/leaves.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+}
+
+.modern-form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(21, 128, 61, 0.85) 0%, rgba(22, 163, 74, 0.85) 100%);
+  pointer-events: none;
+}
+
+.modern-form-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+.modern-form-card {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 25px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  padding: 50px;
+  animation: modernFormSlideInUp 0.6s ease-out;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes modernFormSlideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Header */
+.modern-form-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.modern-form-date-logo-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.modern-form-date-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.modern-form-date-logo img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.modern-form-date-text h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.modern-form-date-text p {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.modern-form-title-section {
+  margin-bottom: 30px;
+}
+
+.modern-form-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #15803d;
+  margin-bottom: 10px;
+}
+
+.modern-form-subtitle {
+  font-size: 1rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Form Fields */
+.modern-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.modern-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .modern-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modern-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modern-form-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modern-form-required {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.modern-form-input {
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #333;
+}
+
+.modern-form-input:focus {
+  outline: none;
+  border-color: #15803d;
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1);
+  transform: translateY(-2px);
+}
+
+.modern-form-input::placeholder {
+  color: #9ca3af;
+}
+
+.modern-form-input.error {
+  border-color: #e74c3c;
+  background: #fdf2f2;
+}
+
+/* Error Messages */
+.modern-form-error-message {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Buttons */
+.modern-form-btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modern-form-btn-primary {
+  background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(21, 128, 61, 0.3);
+}
+
+.modern-form-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(21, 128, 61, 0.4);
+}
+
+.modern-form-btn-secondary {
+  background: rgba(21, 128, 61, 0.1);
+  color: #15803d;
+  border: 2px solid #15803d;
+}
+
+.modern-form-btn-secondary:hover {
+  background: #15803d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.modern-form-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Form Actions */
+.modern-form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+@media (max-width: 480px) {
+  .modern-form-actions {
+    flex-direction: column;
+  }
+}
+
+/* Links */
+.modern-form-link {
+  color: #15803d;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.modern-form-link:hover {
+  color: #16a34a;
+  text-decoration: underline;
+}
+
+/* Popup */
+.modern-form-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: modernFormFadeIn 0.3s ease-out;
+}
+
+.modern-form-popup-content {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  animation: modernFormSlideInUp 0.3s ease-out;
+}
+
+.modern-form-popup-content h3 {
+  color: #15803d;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.modern-form-popup-content h4 {
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+@keyframes modernFormFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modern-form-card {
+    padding: 40px 30px;
+    max-width: 500px;
+  }
+  
+  .modern-form-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modern-form-card {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+  
+  .modern-form-title {
+    font-size: 1.6rem;
+  }
+  
+  .modern-form-date-text h3 {
+    font-size: 1.1rem;
+  }
+}

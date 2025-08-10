@@ -1,3 +1,11 @@
+/* 
+ * IMPORTANT: TOP BAR COLOR IS PERMANENT - NEVER CHANGE
+ * The top bar background color (#1B5E20) is set to !important and should remain
+ * as the dark green color for all admin dashboards. This matches the sidebar color.
+ * 
+ * DO NOT MODIFY THE TOP BAR BACKGROUND COLOR UNDER ANY CIRCUMSTANCES.
+ */
+
 /* Task Summary Styles */
 .task-summary {
   margin-top: 25px;
@@ -49,14 +57,14 @@
   flex-direction: column;
 }
 
-/* Enhanced Top Bar with Date and Theme */
+/* Enhanced Top Bar with Date and Theme - PERMANENT DARK GREEN */
 .top-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 170px;
-  background: linear-gradient(180deg, rgba(13, 53, 32, 0.80) 0%, rgba(14, 55, 33, 0.78) 60%, rgba(12, 48, 29, 0.82) 100%);
+  background: #1B5E20 !important; /* PERMANENT DARK GREEN - NEVER CHANGE - MATCHES SIDEBAR */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -3256,6 +3264,90 @@
   
   .header-subtitle {
     font-size: 0.8rem;
+  }
+}
+
+/* Notification Toast Styles */
+.notification-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10001;
+  animation: slideInRight 0.3s ease-out;
+  border: 1px solid #e5e7eb;
+  min-width: 300px;
+}
+
+.notification-toast.success {
+  border-left: 4px solid #16a34a;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.notification-toast.info {
+  border-left: 4px solid #0ea5e9;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+
+.notification-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.notification-toast-content i {
+  font-size: 18px;
+}
+
+.notification-toast.success .notification-toast-content i {
+  color: #16a34a;
+}
+
+.notification-toast.info .notification-toast-content i {
+  color: #0ea5e9;
+}
+
+.notification-toast-content span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.notification-toast-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-toast-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #374151;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 

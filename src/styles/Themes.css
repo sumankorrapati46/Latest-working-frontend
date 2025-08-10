@@ -1,5 +1,12 @@
 /* ============================================
    THEME SYSTEM - Complete Theme Styles
+   
+   IMPORTANT: TOP BAR COLOR IS PERMANENT - NEVER CHANGE
+   The top bar background color (#1B5E20) is set to !important for all themes
+   and should remain as the dark green color for all admin dashboards.
+   This matches the sidebar color for consistency.
+   
+   DO NOT MODIFY THE TOP BAR BACKGROUND COLOR UNDER ANY CIRCUMSTANCES.
    ============================================ */
 
 /* ============================================
@@ -22,7 +29,7 @@
 }
 
 .theme-modern-clean .top-bar {
-  background: var(--primary-dark);
+  background: #1B5E20 !important; /* PERMANENT DARK GREEN - NEVER CHANGE - MATCHES SIDEBAR */
 }
 
 .theme-modern-clean .dashboard-header {
@@ -61,7 +68,7 @@
 }
 
 .theme-traditional-corporate .top-bar {
-  background: var(--primary-color);
+  background: #1B5E20 !important; /* PERMANENT DARK GREEN - NEVER CHANGE - MATCHES SIDEBAR */
 }
 
 .theme-traditional-corporate .dashboard-header {
@@ -126,7 +133,7 @@
 }
 
 .theme-modern-minimalist .top-bar {
-  background: var(--primary-color);
+  background: #1B5E20 !important; /* PERMANENT DARK GREEN - NEVER CHANGE - MATCHES SIDEBAR */
 }
 
 .theme-modern-minimalist .dashboard-header {

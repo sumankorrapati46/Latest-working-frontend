@@ -288,39 +288,65 @@ const Login = () => {
 
   return (
     <div className="login-page-container">
-      {/* Top Navigation Bar */}
-      <nav className="login-page-navbar">
-        <div className="login-page-logo">
-          <span>एनआईसी</span>
-          <div className="login-page-logo-text">National Informatics Centre</div>
-        </div>
-        <div className="login-page-nav-links">
-          <a href="#dashboard">Dashboard</a>
-          <span className="login-page-nav-dot">•</span>
-          <a href="#enrollment">Check Enrollment Status</a>
-        </div>
-      </nav>
-
       <div className="login-page-main-content">
         {/* Left Section - Information Panel */}
         <div className="login-page-info-panel">
-          <div className="login-page-agri-stack-header">
-            <h1 className="login-page-agri-stack-title">
-              <span className="login-page-agri-text">Digital</span>
-              <span className="login-page-stack-text">Agristack</span>
-              <span className="login-page-leaf-icon">🌿</span>
-            </h1>
-            <h2 className="login-page-registry-title">India Farmer Registry</h2>
+          <div className="login-page-brand-header">
+            <div className="login-page-brand-logo">
+              <span className="login-page-brand-text">Date</span>
+              <span className="login-page-brand-accent">Agri</span>
+              <span className="login-page-brand-icon">🌿</span>
+              <span className="login-page-brand-text">Stack</span>
+            </div>
+            <h1 className="login-page-main-title">India Farmer Registry</h1>
           </div>
-          <div className="login-page-registry-info">
-            <p className="login-page-registry-description">
-              Farmer Registry in India enables farmers to receive a unique Farmer ID to access government benefits. 
-              Register now to ensure seamless access to agricultural schemes and services!
-            </p>
+
+          <div className="login-page-platform-info">
+            <h2>Digital Agristack Transaction Enterprises</h2>
+            <p className="login-page-tagline">Empowering Agricultural Excellence</p>
           </div>
-          
-          <div className="login-page-help-desk">
-            <p>Help Desk : 1800-425-1661</p>
+
+          {/* Feature Highlights */}
+          <div className="login-page-features-grid">
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🌾</div>
+              <div className="login-page-feature-content">
+                <h3>Revolutionizing Indian Agriculture</h3>
+                <p>Connecting 140+ million farmers with cutting-edge digital solutions</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">📱</div>
+              <div className="login-page-feature-content">
+                <h3>Smart Farming Technology</h3>
+                <p>AI-powered crop monitoring and precision agriculture tools</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">💰</div>
+              <div className="login-page-feature-content">
+                <h3>Financial Inclusion</h3>
+                <p>Direct benefit transfers and digital payment solutions</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🌱</div>
+              <div className="login-page-feature-content">
+                <h3>Sustainable Practices</h3>
+                <p>Promoting eco-friendly farming and climate-smart agriculture</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">🏆</div>
+              <div className="login-page-feature-content">
+                <h3>National Recognition</h3>
+                <p>Government of India's flagship agricultural digitization initiative</p>
+              </div>
+            </div>
           </div>
         </div>
 
