@@ -1,27 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import ChangePasswordModal from './ChangePasswordModal';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
  
-const UserProfileDropdown = ({ variant = 'default' }) => {
+const UserProfileDropdown = ({ variant = 'default', onShowChangePassword, onShowChangeUserId }) => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);
-  const [showChangeUserId, setShowChangeUserId] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const dropdownRef = useRef(null);
  
+  // Handle change password navigation
+  const handleChangePassword = () => {
+    setIsOpen(false);
+    navigate('/change-password-dashboard');
+  };
 
- 
-  // User ID change form state
-  const [userIdData, setUserIdData] = useState({
-    currentUserId: '',
-    newUserId: '',
-    confirmUserId: ''
-  });
- 
+  // Handle change user ID navigation
+  const handleChangeUserId = () => {
+    setIsOpen(false);
+    navigate('/change-userid-dashboard');
+  };
+
   // Notifications state
   const [notifications] = useState([
     { id: 1, type: 'info', message: 'New farmer registration pending approval', time: '2 minutes ago' },
@@ -53,34 +55,6 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
   };
  
   
- 
-  // Handle user ID change
-  const handleChangeUserId = async (e) => {
-    e.preventDefault();
-   
-    if (userIdData.newUserId !== userIdData.confirmUserId) {
-      alert('New User IDs do not match!');
-      return;
-    }
- 
-    if (userIdData.newUserId.length < 3) {
-      alert('New User ID must be at least 3 characters long!');
-      return;
-    }
- 
-    try {
-      // Here you would typically make an API call to change user ID
-      alert('User ID changed successfully!');
-      setShowChangeUserId(false);
-      setUserIdData({
-        currentUserId: '',
-        newUserId: '',
-        confirmUserId: ''
-      });
-    } catch (error) {
-      alert('Failed to change User ID. Please try again.');
-    }
-  };
  
   // Get user initials for avatar
   const getInitials = (name) => {
@@ -168,7 +142,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
             <div className="user-profile-dropdown-actions">
               <button
                 className="user-profile-dropdown-action-btn"
-                onClick={() => setShowChangePassword(true)}
+                onClick={handleChangePassword}
               >
                 <i className="fas fa-key"></i>
                 Change Password
@@ -176,7 +150,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
              
               <button
                 className="user-profile-dropdown-action-btn"
-                onClick={() => setShowChangeUserId(true)}
+                onClick={handleChangeUserId}
               >
                 <i className="fas fa-user-edit"></i>
                 Change User ID
@@ -266,7 +240,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
             <div className="dropdown-actions">
               <button
                 className="dropdown-action-btn"
-                onClick={() => setShowChangePassword(true)}
+                onClick={handleChangePassword}
               >
                 <i className="fas fa-key"></i>
                 Change Password
@@ -274,7 +248,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
              
               <button
                 className="dropdown-action-btn"
-                onClick={() => setShowChangeUserId(true)}
+                onClick={handleChangeUserId}
               >
                 <i className="fas fa-user-edit"></i>
                 Change User ID
@@ -344,7 +318,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
           <div className="dropdown-actions">
             <button
               className="dropdown-action-btn"
-              onClick={() => setShowChangePassword(true)}
+              onClick={handleChangePassword}
             >
               <i className="fas fa-key"></i>
               Change Password
@@ -352,7 +326,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
            
             <button
               className="dropdown-action-btn"
-              onClick={() => setShowChangeUserId(true)}
+              onClick={handleChangeUserId}
             >
               <i className="fas fa-user-edit"></i>
               Change User ID
@@ -365,92 +339,6 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
               <i className="fas fa-sign-out-alt"></i>
               Logout
             </button>
-          </div>
-        </div>
-      )}
- 
-      {/* Change Password Modal */}
-      <ChangePasswordModal
-        isOpen={showChangePassword}
-        onClose={() => setShowChangePassword(false)}
-        onSuccess={() => {
-          setNotification({
-            type: 'success',
-            message: 'Password changed successfully!'
-          });
-        }}
-      />
- 
-      {/* Change User ID Modal */}
-      {showChangeUserId && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>Change User ID</h3>
-              <button
-                className="modal-close"
-                onClick={() => setShowChangeUserId(false)}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-           
-            <form onSubmit={handleChangeUserId}>
-              <div className="form-group">
-                <label htmlFor="currentUserId">Current User ID</label>
-                <input
-                  type="text"
-                  id="currentUserId"
-                  value={userIdData.currentUserId}
-                  onChange={(e) => setUserIdData(prev => ({
-                    ...prev,
-                    currentUserId: e.target.value
-                  }))}
-                  required
-                />
-              </div>
-             
-              <div className="form-group">
-                <label htmlFor="newUserId">New User ID</label>
-                <input
-                  type="text"
-                  id="newUserId"
-                  value={userIdData.newUserId}
-                  onChange={(e) => setUserIdData(prev => ({
-                    ...prev,
-                    newUserId: e.target.value
-                  }))}
-                  required
-                />
-              </div>
-             
-              <div className="form-group">
-                <label htmlFor="confirmUserId">Confirm New User ID</label>
-                <input
-                  type="text"
-                  id="confirmUserId"
-                  value={userIdData.confirmUserId}
-                  onChange={(e) => setUserIdData(prev => ({
-                    ...prev,
-                    confirmUserId: e.target.value
-                  }))}
-                  required
-                />
-              </div>
-             
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => setShowChangeUserId(false)}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn-primary">
-                  Change User ID
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
@@ -554,7 +442,7 @@ const UserProfileDropdown = ({ variant = 'default' }) => {
           </div>
         </div>
       )}
-
+ 
       {/* Success Notification Toast */}
       {notification && (
         <div className={`notification-toast ${notification.type}`}>

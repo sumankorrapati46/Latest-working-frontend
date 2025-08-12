@@ -28,7 +28,135 @@
   z-index: 1;
 }
 
+/* Fixed Top Header Styles */
+.login-page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: rgb(147 245 157 / 30%);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page-header-content {
+  width: 100%;
+  max-width: 1700px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Left Side - Logo and Calendar */
+.login-page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 220px;
+}
+
+.login-page-header-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #15803d, #22c55e);
+  padding: 8px 16px;
+  border-radius: 25px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.date-icon {
+  font-size: 1.2rem;
+}
+
+.date-text {
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+
+.login-page-header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, #e7f3eb8a, #22c55e82);
+  border-radius: 20px;
+  
+}
+
+.header-logo {
+  width: 120px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.header-logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #15803d;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Right Side - Navigation Menu */
+.login-page-header-nav {
+  display: flex;
+  align-items: center;
+}
+
+.login-page-header-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+}
+
+.header-menu-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  background: #03923994;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.header-menu-link:hover {
+  color: #ff9102;
+  background: rgba(34, 197, 94, 0);
+  transform: translateY(-2px);
+}
+
+.header-menu-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #15803d, #22c55e);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.header-menu-link:hover::before {
+  width: 80%;
+}
+
+/* Adjust main content to account for fixed header */
 .login-page-main-content {
+  margin-top: 100px;
   display: flex;
   max-width: 1400px;
   height: 900px;
@@ -742,6 +870,18 @@
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {
+  .login-page-header-content {
+    padding: 0 20px;
+  }
+  
+  .login-page-header-left {
+    gap: 20px;
+  }
+  
+  .login-page-header-menu {
+    gap: 20px;
+  }
+  
   .login-page-main-content {
     max-width: 1200px;
     height: 850px;
@@ -761,7 +901,50 @@
 }
 
 @media (max-width: 768px) {
+  .login-page-header {
+    height: 70px;
+  }
+  
+  .login-page-header-content {
+    padding: 0 15px;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    justify-content: center;
+  }
+  
+  .login-page-header-left {
+    gap: 15px;
+  }
+  
+  .login-page-header-date {
+    padding: 6px 12px;
+  }
+  
+  .date-text {
+    font-size: 0.8rem;
+  }
+  
+  .header-logo {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .header-logo-text {
+    font-size: 1.3rem;
+  }
+  
+  .login-page-header-menu {
+    gap: 15px;
+  }
+  
+  .header-menu-link {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  
   .login-page-main-content {
+    margin-top: 90px;
     flex-direction: column;
     max-width: 100%;
     height: auto;
@@ -792,8 +975,51 @@
 }
 
 @media (max-width: 480px) {
+  .login-page-header {
+    height: 60px;
+  }
+  
+  .login-page-header-content {
+    padding: 0 10px;
+    gap: 8px;
+  }
+  
+  .login-page-header-left {
+    gap: 10px;
+  }
+  
+  .login-page-header-date {
+    padding: 5px 10px;
+  }
+  
+  .date-text {
+    font-size: 0.75rem;
+  }
+  
+  .header-logo {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .header-logo-text {
+    font-size: 1.1rem;
+  }
+  
+  .login-page-header-menu {
+    gap: 10px;
+  }
+  
+  .header-menu-link {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  
   .login-page-container {
     padding: 10px;
+  }
+  
+  .login-page-main-content {
+    margin-top: 80px;
   }
   
   .login-page-info-panel,

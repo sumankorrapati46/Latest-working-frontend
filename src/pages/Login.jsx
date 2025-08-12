@@ -27,6 +27,18 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Get current date
+  const getCurrentDate = () => {
+    const now = new Date();
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    return now.toLocaleDateString('en-US', options);
+  };
+
   const handleLoginType = (type) => {
     setLoginType(type);
     setError('');
@@ -198,51 +210,44 @@ const Login = () => {
           
           const adminUsernames = [
             'karthik.m@hinfinity.in',
-            'admin@hinfinity.in'
+            'admin@hinfinity.in',
+            'admin@date.in',
+            'official@date.in'
           ];
           
-          const employeeUsernames = [
-            'employee@hinfinity.in',
-            'emp@hinfinity.in',
-            'testemployee@hinfinity.in',
-            'hari2912@gmail.com',
-            'harish134@gmail.com',
-            'employee2@hinfinity.in',
-            'test@employee.com'
-          ];
-          
-          console.log('Login - Checking against employee usernames:', employeeUsernames);
-          console.log('Login - Username in employee list?', employeeUsernames.includes(userName));
-          
-          if (superAdminUsernames.includes(userName)) {
+          if (superAdminUsernames.includes(lowerUserName)) {
             role = 'SUPER_ADMIN';
-            console.log('Login - Determined role as SUPER_ADMIN from specific username mapping');
-          } else if (adminUsernames.includes(userName)) {
+            console.log('Login - Username matched super admin list');
+          } else if (adminUsernames.includes(lowerUserName)) {
             role = 'ADMIN';
-            console.log('Login - Determined role as ADMIN from specific username mapping');
-          } else if (employeeUsernames.includes(userName)) {
+            console.log('Login - Username matched admin list');
+          } else if (lowerUserName.includes('employee') || lowerUserName.includes('staff')) {
             role = 'EMPLOYEE';
-            console.log('Login - Determined role as EMPLOYEE from specific username mapping');
-            console.log('Login - Employee username detected:', userName);
+            console.log('Login - Username contains employee/staff indicators');
+          } else if (lowerUserName.includes('farmer') || lowerUserName.includes('kisan')) {
+            role = 'FARMER';
+            console.log('Login - Username contains farmer/kisan indicators');
           } else {
-            // Fall back to chosen login type mapping
-            role = roleFromLoginType() || 'FARMER';
-            console.log('Login - Falling back to loginType role:', role);
+            // Default role based on login type
+            role = roleFromLoginType();
+            console.log('Login - Using default role from login type:', role);
           }
         }
         
         const user = {
           userName: userName,
           name: response.data?.name || userName,
-          email: response.data?.email || userName,
-          role: role,
+          email: response.data?.email || '',
+          role: role || 'FARMER',
           forcePasswordChange: forcePasswordChange,
           status: response.data?.status || 'ACTIVE'
         };
         
-        console.log('Login - Fallback user data:', user);
+        console.log('Login - Fallback: User data from login response:', user);
+        console.log('Login - Fallback: User role from login response:', user.role);
         login(user, token);
         
+        // Check if user needs to change password (first time login with temp password)
         if (user.forcePasswordChange) {
           console.log('Login - Fallback: Redirecting to change password page');
           navigate('/change-password');
@@ -288,6 +293,31 @@ const Login = () => {
 
   return (
     <div className="login-page-container">
+      {/* Fixed Top Header */}
+      <header className="login-page-header">
+        <div className="login-page-header-content">
+          {/* Left Side - Logo and Calendar */}
+          <div className="login-page-header-left">
+            <div className="login-page-header-logo">
+              <img src={logo} alt="DATE Logo" className="header-logo" />
+            </div>
+            <div className="login-page-header-date">
+              <span className="date-icon"></span>
+              <span className="date-text">{getCurrentDate()}</span>
+            </div>
+          </div>
+          
+          {/* Right Side - Menu Items */}
+          <nav className="login-page-header-nav">
+            <ul className="login-page-header-menu">
+              <li><button onClick={() => navigate('/menu')} className="header-menu-link">Menu</button></li>
+              <li><button onClick={() => navigate('/analytical-dashboard')} className="header-menu-link">Dashboard</button></li>
+              <li><button onClick={() => navigate('/about')} className="header-menu-link">About</button></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
       <div className="login-page-main-content">
         {/* Left Section - Information Panel */}
         <div className="login-page-info-panel">
@@ -418,9 +448,9 @@ const Login = () => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                    placeholder="Enter password"
                     required
                     disabled={loading}
-                    placeholder="Enter password"
                   />
                   <button
                     type="button"

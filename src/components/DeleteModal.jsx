@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/Forms.css';
+import '../styles/DeleteModal.css';
 
 const DeleteModal = ({ item, type, onClose, onConfirm }) => {
   const [reason, setReason] = useState('');

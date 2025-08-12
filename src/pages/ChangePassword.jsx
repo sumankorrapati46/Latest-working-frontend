@@ -102,11 +102,6 @@ const ChangePassword = () => {
     }
   };
 
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
-
   return (
     <div className="login-page-container">
       <div className="login-page-main-content">
@@ -123,8 +118,8 @@ const ChangePassword = () => {
           </div>
 
           <div className="login-page-platform-info">
-            <h2>Password Security</h2>
-            <p className="login-page-tagline">Keep your account safe with a strong password</p>
+            <h2>Password Management</h2>
+            <p className="login-page-tagline">Update your password to keep your account secure and protected</p>
           </div>
 
           {/* Feature Highlights */}
@@ -132,8 +127,16 @@ const ChangePassword = () => {
             <div className="login-page-feature-card">
               <div className="login-page-feature-icon">🔐</div>
               <div className="login-page-feature-content">
-                <h3>Strong Password</h3>
-                <p>Create a secure password with our guidelines</p>
+                <h3>Secure Update</h3>
+                <p>Change your password with enhanced security measures</p>
+              </div>
+            </div>
+
+            <div className="login-page-feature-card">
+              <div className="login-page-feature-icon">⚡</div>
+              <div className="login-page-feature-content">
+                <h3>Quick Process</h3>
+                <p>Update your password in just a few simple steps</p>
               </div>
             </div>
 
@@ -141,23 +144,15 @@ const ChangePassword = () => {
               <div className="login-page-feature-icon">🛡️</div>
               <div className="login-page-feature-content">
                 <h3>Account Protection</h3>
-                <p>Enhanced security for your personal data</p>
+                <p>Your account remains secure during the update process</p>
               </div>
             </div>
 
             <div className="login-page-feature-card">
-              <div className="login-page-feature-icon">⚡</div>
+              <div className="login-page-feature-icon">📱</div>
               <div className="login-page-feature-content">
-                <h3>Quick Update</h3>
-                <p>Change your password in just a few steps</p>
-              </div>
-            </div>
-
-            <div className="login-page-feature-card">
-              <div className="login-page-feature-icon">🔒</div>
-              <div className="login-page-feature-content">
-                <h3>Secure Process</h3>
-                <p>Your password is encrypted and protected</p>
+                <h3>Multi-Device Access</h3>
+                <p>Use your new password from any device</p>
               </div>
             </div>
 
@@ -231,6 +226,11 @@ const ChangePassword = () => {
                 </button>
               </div>
             </form>
+
+            {/* Navigation Link */}
+            <div className="login-link">
+              <p>Want to go back? <a href="/dashboard">Back to Dashboard</a></p>
+            </div>
           </div>
         </div>
       </div>

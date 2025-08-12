@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApi } from '../hooks/useApi';
@@ -19,10 +20,13 @@ import EmployeeRegistrationForm from '../components/EmployeeRegistrationForm';
 import KYCDocumentUpload from '../components/KYCDocumentUpload';
 import DeleteModal from '../components/DeleteModal';
 import UserProfileDropdown from '../components/UserProfileDropdown';
+import ChangePasswordModal from '../components/ChangePasswordModal';
+import ChangeUserIdModal from '../components/ChangeUserIdModal';
 import '../styles/SuperAdminDashboard.css';
 import '../styles/Themes.css';
 
 const SuperAdminDashboard = () => {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { currentTheme, getThemeLabel } = useTheme();
   const { loading, error, executeApiCall } = useApi();
@@ -58,6 +62,10 @@ const SuperAdminDashboard = () => {
   const [showViewEmployee, setShowViewEmployee] = useState(false);
   const [selectedFarmerForView, setSelectedFarmerForView] = useState(null);
   const [selectedEmployeeForView, setSelectedEmployeeForView] = useState(null);
+
+  // Change Password state
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangeUserId, setShowChangeUserId] = useState(false);
 
   // Notification state
   const [notification, setNotification] = useState(null);
@@ -305,7 +313,10 @@ const SuperAdminDashboard = () => {
         </div>
         <div className="top-bar-right">
           <ThemeDropdown />
-          <UserProfileDropdown />
+          <UserProfileDropdown 
+            onShowChangePassword={() => setShowChangePassword(true)}
+            onShowChangeUserId={() => setShowChangeUserId(true)}
+          />
         </div>
       </div>
       
@@ -344,6 +355,12 @@ const SuperAdminDashboard = () => {
             onClick={() => setActiveTab('registrations')}
           >
             📝 Registrations
+          </button>
+          <button 
+            className="nav-item"
+            onClick={() => navigate('/analytical-dashboard')}
+          >
+            📈 Dashboard
           </button>
         </nav>
       </aside>
@@ -441,6 +458,36 @@ const SuperAdminDashboard = () => {
                 }}
                 isInDashboard={true}
                 onEmployeeSelect={(employee) => setSelectedEmployeeForView(employee)}
+              />
+            </div>
+          ) : showChangePassword ? (
+            <div className="dashboard-form-container">
+              <ChangePasswordModal
+                isOpen={true}
+                onClose={() => setShowChangePassword(false)}
+                onSuccess={() => {
+                  setNotification({
+                    type: 'success',
+                    message: 'Password changed successfully!'
+                  });
+                  setShowChangePassword(false);
+                }}
+                isInDashboard={true}
+              />
+            </div>
+          ) : showChangeUserId ? (
+            <div className="dashboard-form-container">
+              <ChangeUserIdModal
+                isOpen={true}
+                onClose={() => setShowChangeUserId(false)}
+                onSuccess={() => {
+                  setNotification({
+                    type: 'success',
+                    message: 'User ID changed successfully!'
+                  });
+                  setShowChangeUserId(false);
+                }}
+                isInDashboard={true}
               />
             </div>
           ) : (

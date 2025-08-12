@@ -1,0 +1,331 @@
+/* AssignmentModal.css - Dedicated styles for AssignmentModal component */
+
+.assignment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.assignment-modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.assignment-modal-content.large {
+  width: 800px;
+  max-width: 90vw;
+}
+
+.assignment-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.assignment-modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.assignment-modal-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assignment-modal-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.assignment-modal-form {
+  padding: 32px;
+}
+
+.assignment-modal-section {
+  margin-bottom: 32px;
+}
+
+.assignment-modal-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.assignment-modal-section-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.assignment-modal-btn-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0;
+}
+
+.assignment-modal-btn-link:hover {
+  color: #5a67d8;
+}
+
+.assignment-modal-form-group {
+  margin-bottom: 20px;
+}
+
+.assignment-modal-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.assignment-modal-form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  background-color: white;
+}
+
+.assignment-modal-form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.assignment-modal-farmers-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9fafb;
+}
+
+.assignment-modal-no-data {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  margin: 20px 0;
+}
+
+.assignment-modal-farmer-item {
+  margin-bottom: 12px;
+}
+
+.assignment-modal-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.assignment-modal-checkbox-label:hover {
+  background-color: #f3f4f6;
+}
+
+.assignment-modal-checkbox-label input[type="checkbox"] {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+  accent-color: #667eea;
+}
+
+.assignment-modal-checkmark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  margin-right: 12px;
+  transition: all 0.2s;
+}
+
+.assignment-modal-checkbox-label input[type="checkbox"]:checked + .assignment-modal-checkmark {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.assignment-modal-checkbox-label input[type="checkbox"]:checked + .assignment-modal-checkmark::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.assignment-modal-farmer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.assignment-modal-farmer-info strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.assignment-modal-farmer-info span {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.assignment-modal-summary {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.assignment-modal-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.assignment-modal-summary-item:last-child {
+  margin-bottom: 0;
+}
+
+.assignment-modal-summary-item span {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.assignment-modal-summary-item strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.assignment-modal-form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.assignment-modal-btn-secondary {
+  padding: 12px 24px;
+  border: 2px solid #d1d5db;
+  background-color: white;
+  color: #374151;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.assignment-modal-btn-secondary:hover {
+  border-color: #9ca3af;
+  background-color: #f9fafb;
+}
+
+.assignment-modal-btn-primary {
+  padding: 12px 24px;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.assignment-modal-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.assignment-modal-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .assignment-modal-content.large {
+    width: 95vw;
+    margin: 10px;
+  }
+  
+  .assignment-modal-header {
+    padding: 20px 24px;
+  }
+  
+  .assignment-modal-form {
+    padding: 24px 20px;
+  }
+  
+  .assignment-modal-form-actions {
+    flex-direction: column;
+  }
+  
+  .assignment-modal-btn-secondary,
+  .assignment-modal-btn-primary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .assignment-modal-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .assignment-modal-section-header h3 {
+    font-size: 1.125rem;
+  }
+  
+  .assignment-modal-farmers-list {
+    max-height: 250px;
+  }
+}
+

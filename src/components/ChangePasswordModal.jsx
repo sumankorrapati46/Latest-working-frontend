@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import '../styles/ChangePasswordModal.css';
 
-const ChangePasswordModal = ({ isOpen, onClose, onSuccess }) => {
+const ChangePasswordModal = ({ isOpen, onClose, onSuccess, isInDashboard = false }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     currentPassword: '',
@@ -95,6 +95,131 @@ const ChangePasswordModal = ({ isOpen, onClose, onSuccess }) => {
 
   if (!isOpen) return null;
 
+  // If used in dashboard, render without overlay
+  if (isInDashboard) {
+    return (
+      <div className="change-password-form-container">
+        <div className="form-header">
+          <div className="header-content">
+            <div className="header-icon">
+              <i className="fas fa-key"></i>
+            </div>
+            <div className="header-text">
+              <h2>Change Password</h2>
+              <p>Update your account password securely</p>
+            </div>
+          </div>
+          <button
+            className="form-close-btn"
+            onClick={handleClose}
+            disabled={isLoading}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="change-password-form">
+          <div className="form-group">
+            <label htmlFor="currentPassword">
+              <i className="fas fa-lock"></i>
+              Current Password
+            </label>
+            <input
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              value={formData.currentPassword}
+              onChange={handleInputChange}
+              placeholder="Enter your current password"
+              disabled={isLoading}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="newPassword">
+              <i className="fas fa-key"></i>
+              New Password
+            </label>
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={formData.newPassword}
+              onChange={handleInputChange}
+              placeholder="Enter your new password"
+              disabled={isLoading}
+              required
+            />
+            <div className="password-hint">
+              Password must be at least 6 characters long
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="confirmPassword">
+              <i className="fas fa-check-circle"></i>
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              placeholder="Confirm your new password"
+              disabled={isLoading}
+              required
+            />
+          </div>
+
+          {error && (
+            <div className="error-message">
+              <i className="fas fa-exclamation-circle"></i>
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="success-message">
+              <i className="fas fa-check-circle"></i>
+              {success}
+            </div>
+          )}
+
+          <div className="form-actions">
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={handleClose}
+              disabled={isLoading}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                  Changing Password...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-save"></i>
+                  Change Password
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  // Original modal overlay rendering
   return (
     <div className="change-password-modal-overlay">
       <div className="change-password-modal">

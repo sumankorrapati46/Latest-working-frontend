@@ -58,34 +58,26 @@ const ForgotPassword = () => {
 };
  
   return (
-    <div className="login-page-container forgot-password-page">
+    <div className="login-page-container">
       <div className="login-page-main-content">
-        {/* Left Information Panel */}
+        {/* Left Section - Information Panel */}
         <div className="login-page-info-panel">
           <div className="login-page-brand-header">
             <div className="login-page-brand-logo">
-              <span className="login-page-brand-icon">🌱</span>
+              <span className="login-page-brand-text">Date</span>
+              <span className="login-page-brand-accent">Agri</span>
+              <span className="login-page-brand-icon">🌿</span>
+              <span className="login-page-brand-text">Stack</span>
             </div>
-            <div className="login-page-brand-text">
-              <h1>Date <span className="login-page-brand-accent">Agri</span> Stack</h1>
-              <h2>India Farmer Registry</h2>
-            </div>
+            <h1 className="login-page-main-title">India Farmer Registry</h1>
           </div>
-          
-          <div className="login-page-main-title">
-            <h1>Digital Agristack Transaction Enterprises</h1>
-            <p>Empowering Agricultural Excellence</p>
-          </div>
-          
+
           <div className="login-page-platform-info">
             <h2>Password Recovery</h2>
-            <p>Don't worry! We'll help you get back to your account safely.</p>
+            <p className="login-page-tagline">Don't worry! We'll help you get back to your account safely.</p>
           </div>
-          
-          <div className="login-page-tagline">
-            <p>Secure • Fast • Reliable Recovery</p>
-          </div>
-          
+
+          {/* Feature Highlights */}
           <div className="login-page-features-grid">
             <div className="login-page-feature-card">
               <div className="login-page-feature-icon">🔐</div>
@@ -94,7 +86,7 @@ const ForgotPassword = () => {
                 <p>Military-grade encryption protects your data</p>
               </div>
             </div>
-            
+
             <div className="login-page-feature-card">
               <div className="login-page-feature-icon">⚡</div>
               <div className="login-page-feature-content">
@@ -102,7 +94,7 @@ const ForgotPassword = () => {
                 <p>Reset link delivered to your email instantly</p>
               </div>
             </div>
-            
+
             <div className="login-page-feature-card">
               <div className="login-page-feature-icon">🛡️</div>
               <div className="login-page-feature-content">
@@ -110,7 +102,7 @@ const ForgotPassword = () => {
                 <p>Your account remains secure during recovery</p>
               </div>
             </div>
-            
+
             <div className="login-page-feature-card">
               <div className="login-page-feature-icon">📱</div>
               <div className="login-page-feature-content">
@@ -118,7 +110,7 @@ const ForgotPassword = () => {
                 <p>Reset from any device, anywhere</p>
               </div>
             </div>
-            
+
             <div className="login-page-feature-card">
               <div className="login-page-feature-icon">🎯</div>
               <div className="login-page-feature-content">
@@ -129,19 +121,19 @@ const ForgotPassword = () => {
           </div>
         </div>
 
-        {/* Right Form Section */}
+        {/* Right Section - Forgot Password Form */}
         <div className="login-page-form-section">
           <div className="login-page-card">
+            {/* DATE Logo at Top */}
             <div className="login-page-date-logo-section">
-              <div className="login-page-date-logo">
-                <img src={logo} alt="DATE Logo" />
-              </div>
+              <img src={logo} alt="DATE Logo" className="login-page-date-logo" />
               <div className="login-page-date-text">
                 <h3>Digital Agristack Transaction Enterprises</h3>
                 <p>Empowering Agricultural Excellence</p>
               </div>
             </div>
 
+            {/* Form Title Section */}
             <div className="login-page-login-type-section">
               <h3>Forgot Password</h3>
               <p>Enter your email address, click "Reset password", and we'll send you a link to reset your password.</p>
@@ -150,15 +142,13 @@ const ForgotPassword = () => {
             {/* Forgot Password Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="login-page-form">
               <div className="login-page-form-field">
-                <label>
-                  Email <span className="required">*</span>
-                </label>
+                <label>Email <span className="required">*</span></label>
                 <input
                   {...register("userInput")}
                   placeholder="Enter your Email"
                   className={`login-page-form-input ${errors.userInput ? 'error' : ''}`}
                 />
-                {errors.userInput && <div className="error-message">{errors.userInput.message}</div>}
+                {errors.userInput && <span className="error-message">{errors.userInput.message}</span>}
               </div>
               
               <div className="login-page-actions-row">
@@ -181,7 +171,6 @@ const ForgotPassword = () => {
         <div className="success-popup-overlay">
           <div className="success-popup">
             <div className="success-popup-content">
-              <div className="success-icon">✅</div>
               <h3>Success!</h3>
               <p>A reset link has been sent to <strong>{target}</strong></p>
               <button onClick={handlePopupClose} className="login-page-login-btn">

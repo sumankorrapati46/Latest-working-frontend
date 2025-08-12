@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Forms.css';
+import '../styles/AssignmentModal.css';
 
 const AssignmentModal = ({ farmers, employees, onClose, onAssign }) => {
   const [selectedFarmers, setSelectedFarmers] = useState([]);

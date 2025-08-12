@@ -1,0 +1,216 @@
+/* StatsCard.css - Dedicated styles for StatsCard component */
+
+.stats-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-color: #e2e8f0;
+}
+
+.stats-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 16px 16px 0 0;
+}
+
+.stats-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.stats-card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.stats-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.stats-card-icon.users {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.stats-card-icon.farmers {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.stats-card-icon.employees {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.stats-card-icon.revenue {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.stats-card-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.stats-card-change {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.stats-card-change.positive {
+  color: #059669;
+}
+
+.stats-card-change.negative {
+  color: #dc2626;
+}
+
+.stats-card-change.neutral {
+  color: #64748b;
+}
+
+.stats-card-change-icon {
+  font-size: 0.75rem;
+}
+
+.stats-card-description {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin: 0;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.stats-card-trend {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  opacity: 0.1;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+}
+
+/* Stats Grid Layout */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.stats-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stats-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stats-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .stats-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  .stats-card-value {
+    font-size: 2rem;
+  }
+  
+  .stats-card-header {
+    margin-bottom: 16px;
+  }
+  
+  .stats-grid {
+    gap: 16px;
+    margin: 16px 0;
+  }
+  
+  .stats-grid-2,
+  .stats-grid-3,
+  .stats-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+  
+  .stats-card-value {
+    font-size: 1.75rem;
+  }
+  
+  .stats-card-title {
+    font-size: 0.8rem;
+  }
+  
+  .stats-card-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+  
+  .stats-card-trend {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    top: 15px;
+    right: 15px;
+  }
+}
+

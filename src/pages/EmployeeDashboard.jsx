@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '../styles/Dashboard.css';
 import ThemeDropdown from '../components/ThemeDropdown';
@@ -10,8 +11,11 @@ import StatsCard from '../components/StatsCard';
 import DataTable from '../components/DataTable';
 import UserProfileDropdown from '../components/UserProfileDropdown';
 import { kycAPI, employeeAPI } from '../api/apiService';
+import ChangePasswordModal from '../components/ChangePasswordModal';
+import ChangeUserIdModal from '../components/ChangeUserIdModal';
 
 const EmployeeDashboard = () => {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [assignedFarmers, setAssignedFarmers] = useState([]);
@@ -23,6 +27,9 @@ const EmployeeDashboard = () => {
   const [showEmployeeDetails, setShowEmployeeDetails] = useState(false);
   const [selectedEmployeeData, setSelectedEmployeeData] = useState(null);
   const [editingFarmer, setEditingFarmer] = useState(null);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangeUserId, setShowChangeUserId] = useState(false);
+  const [notification, setNotification] = useState(null);
 
   // Greeting function based on time of day
   const getGreeting = () => {
@@ -740,7 +747,11 @@ const EmployeeDashboard = () => {
         </div>
         <div className="top-bar-right">
           <ThemeDropdown />
-          <UserProfileDropdown />
+          <UserProfileDropdown 
+            onLogout={handleLogout}
+            onShowChangePassword={() => setShowChangePassword(true)}
+            onShowChangeUserId={() => setShowChangeUserId(true)}
+          />
         </div>
       </div>
       {/* Sidebar */}
@@ -757,6 +768,7 @@ const EmployeeDashboard = () => {
           <button className={`nav-item ${activeTab === 'progress' ? 'active' : ''}`} onClick={() => setActiveTab('progress')}>📈 KYC Progress</button>
           <button className={`nav-item ${activeTab === 'todo' ? 'active' : ''}`} onClick={() => setActiveTab('todo')}>📋 To-Do List</button>
           <button className={`nav-item ${activeTab === 'kyc-summary' ? 'active' : ''}`} onClick={() => setActiveTab('kyc-summary')}>📝 KYC Summary</button>
+          <button className="nav-item" onClick={() => navigate('/analytical-dashboard')}>📈 Dashboard</button>
         </nav>
       </aside>
 
@@ -774,6 +786,40 @@ const EmployeeDashboard = () => {
               </div>
             </div>
           </header>
+          )}
+
+          {/* Change Password Form - Priority Display */}
+          {showChangePassword && user && (
+            <div className="dashboard-form-container">
+              <ChangePasswordModal
+                user={user}
+                isOpen={true}
+                isInDashboard={true}
+                onClose={() => setShowChangePassword(false)}
+                onSuccess={() => {
+                  setNotification('Password changed successfully!');
+                  setShowChangePassword(false);
+                  setTimeout(() => setNotification(null), 3000);
+                }}
+              />
+            </div>
+          )}
+
+          {/* Change User ID Form - Priority Display */}
+          {showChangeUserId && user && (
+            <div className="dashboard-form-container">
+              <ChangeUserIdModal
+                user={user}
+                isOpen={true}
+                isInDashboard={true}
+                onClose={() => setShowChangeUserId(false)}
+                onSuccess={() => {
+                  setNotification('User ID changed successfully!');
+                  setShowChangeUserId(false);
+                  setTimeout(() => setNotification(null), 3000);
+                }}
+              />
+            </div>
           )}
 
           {/* Render forms with priority over tab content */}
@@ -809,6 +855,13 @@ const EmployeeDashboard = () => {
               {activeTab === 'kyc-summary' && renderKYCSummary()}
             </>
           )}
+
+          {/* Notification Toast */}
+          {notification && (
+            <div className="notification-toast">
+              {notification}
+            </div>
+          )}
         </div>
       </div>
 
@@ -841,6 +894,8 @@ const EmployeeDashboard = () => {
           onUpdate={handleUpdateEmployee}
         />
       )}
+
+
     </div>
   );
 };

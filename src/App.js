@@ -5,6 +5,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingSpinner from './components/LoadingSpinner';
 import './App.css';
+import './styles/Themes.css';
 
 // Lazy load components for better performance
 const Login = React.lazy(() => import('./pages/Login'));
@@ -19,7 +20,12 @@ const ForgotPassword = React.lazy(() => import('./pages/ForgotPassword'));
 const ForgotUserId = React.lazy(() => import('./pages/ForgotUserid'));
 const ChangePassword = React.lazy(() => import('./pages/ChangePassword'));
 const ChangeUserId = React.lazy(() => import('./pages/ChangeUserId'));
+const ChangePasswordPage = React.lazy(() => import('./pages/ChangePasswordPage'));
+const ChangeUserIdPage = React.lazy(() => import('./pages/ChangeUserIdPage'));
 const OtpVerification = React.lazy(() => import('./pages/OtpVerification'));
+const AnalyticalDashboard = React.lazy(() => import('./pages/AnalyticalDashboard'));
+const MenuScreen = React.lazy(() => import('./pages/MenuScreen'));
+const AboutScreen = React.lazy(() => import('./pages/AboutScreen'));
 const ProtectedRoute = React.lazy(() => import('./components/ProtectedRoute'));
 
 // Loading fallback component
@@ -43,8 +49,14 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/forgot-userid" element={<ForgotUserId />} />
                 <Route path="/otp-verification" element={<OtpVerification />} />
+                
+                {/* Change Password Routes - New Beautiful Forms */}
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/change-userid" element={<ChangeUserId />} />
+                
+                {/* Alternative Routes for Old Forms (keeping for backward compatibility) */}
+                <Route path="/change-password-dashboard" element={<ChangePasswordPage />} />
+                <Route path="/change-userid-dashboard" element={<ChangeUserIdPage />} />
                 
                 {/* Registration Routes */}
                 <Route path="/farmer/registration" element={<FarmerRegistration />} />
@@ -94,6 +106,16 @@ function App() {
                     </ProtectedRoute>
                   } 
                 />
+                
+                {/* Analytical Dashboard Route */}
+                <Route 
+                  path="/analytical-dashboard" 
+                  element={<AnalyticalDashboard />} 
+                />
+                
+                {/* Menu and About Routes */}
+                <Route path="/menu" element={<MenuScreen />} />
+                <Route path="/about" element={<AboutScreen />} />
                 
                 {/* Default Routes */}
                 <Route path="/" element={<Navigate to="/login" replace />} />

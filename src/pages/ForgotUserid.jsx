@@ -159,6 +159,11 @@ const ForgotUserId = () => {
                 </button>
               </div>
             </form>
+
+            {/* Login Link */}
+            <div className="login-link">
+              <p>Remember your password? <a href="/login">Sign In</a></p>
+            </div>
           </div>
         </div>
       </div>

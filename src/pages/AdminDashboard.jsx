@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { farmersAPI, employeesAPI, adminAPI, superAdminAPI } from '../api/apiService';
 import '../styles/Dashboard.css';
@@ -15,8 +16,11 @@ import UserProfileDropdown from '../components/UserProfileDropdown';
 import ThemeDropdown from '../components/ThemeDropdown';
 import RegistrationApprovalModal from '../components/RegistrationApprovalModal';
 import RegistrationDetailModal from '../components/RegistrationDetailModal';
+import ChangePasswordModal from '../components/ChangePasswordModal';
+import ChangeUserIdModal from '../components/ChangeUserIdModal';
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
   const [farmers, setFarmers] = useState([]);
@@ -58,6 +62,9 @@ const AdminDashboard = () => {
   const [selectedFarmerForView, setSelectedFarmerForView] = useState(null);
   const [selectedEmployeeForView, setSelectedEmployeeForView] = useState(null);
   const [showPendingKYC, setShowPendingKYC] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangeUserId, setShowChangeUserId] = useState(false);
+  const [notification, setNotification] = useState(null);
 
   // Greeting function based on time of day
   const getGreeting = () => {
@@ -1446,7 +1453,10 @@ const AdminDashboard = () => {
         </div>
         <div className="top-bar-right">
           <ThemeDropdown />
-          <UserProfileDropdown />
+          <UserProfileDropdown 
+            onShowChangePassword={() => setShowChangePassword(true)}
+            onShowChangeUserId={() => setShowChangeUserId(true)}
+          />
         </div>
       </div>
 
@@ -1464,6 +1474,7 @@ const AdminDashboard = () => {
           <button className={`nav-item ${activeTab === 'farmers' ? 'active' : ''}`} onClick={() => setActiveTab('farmers')}>👨‍🌾 Farmers</button>
           <button className={`nav-item ${activeTab === 'employees' ? 'active' : ''}`} onClick={() => setActiveTab('employees')}>👥 Employees</button>
           <button className={`nav-item ${activeTab === 'registration' ? 'active' : ''}`} onClick={() => setActiveTab('registration')}>📝 Registrations</button>
+          <button className="nav-item" onClick={() => navigate('/analytical-dashboard')}>📈 Dashboard</button>
         </nav>
       </aside>
 
@@ -1560,6 +1571,36 @@ const AdminDashboard = () => {
                 employeeData={selectedEmployeeForView || employees}
                 onClose={handleCloseViewEmployee}
                 onEmployeeSelect={handleEmployeeSelect}
+              />
+            </div>
+          ) : showChangePassword ? (
+            <div className="dashboard-form-container">
+              <ChangePasswordModal
+                isOpen={true}
+                onClose={() => setShowChangePassword(false)}
+                onSuccess={() => {
+                  setNotification({
+                    type: 'success',
+                    message: 'Password changed successfully!'
+                  });
+                  setShowChangePassword(false);
+                }}
+                isInDashboard={true}
+              />
+            </div>
+          ) : showChangeUserId ? (
+            <div className="dashboard-form-container">
+              <ChangeUserIdModal
+                isOpen={true}
+                onClose={() => setShowChangeUserId(false)}
+                onSuccess={() => {
+                  setNotification({
+                    type: 'success',
+                    message: 'User ID changed successfully!'
+                  });
+                  setShowChangeUserId(false);
+                }}
+                isInDashboard={true}
               />
             </div>
           ) : showPendingKYC ? (
@@ -1680,6 +1721,14 @@ const AdminDashboard = () => {
           onReject={handleRejectRegistration}
                    />
                  )}
+
+      {/* Notification Toast */}
+      {notification && (
+        <div className={`notification-toast ${notification.type}`}>
+          <span>{notification.message}</span>
+          <button onClick={() => setNotification(null)}>×</button>
+        </div>
+      )}
                </div>
              );
 };

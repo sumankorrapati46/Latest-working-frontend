@@ -43,26 +43,17 @@ const ChangeUserId = () => {
         <div className="login-page-info-panel">
           <div className="login-page-brand-header">
             <div className="login-page-brand-logo">
-              <span className="login-page-brand-icon">🌱</span>
+              <span className="login-page-brand-text">Date</span>
+              <span className="login-page-brand-accent">Agri</span>
+              <span className="login-page-brand-icon">🌿</span>
+              <span className="login-page-brand-text">Stack</span>
             </div>
-            <div className="login-page-brand-text">
-              <h1>Date <span className="login-page-brand-accent">Agri</span> Stack</h1>
-              <h2>India Farmer Registry</h2>
-            </div>
-          </div>
-
-          <div className="login-page-main-title">
-            <h1>Digital Agristack Transaction Enterprises</h1>
-            <p>Empowering Agricultural Excellence</p>
+            <h1 className="login-page-main-title">India Farmer Registry</h1>
           </div>
 
           <div className="login-page-platform-info">
             <h2>User ID Management</h2>
-            <p>Update your User ID to keep your account secure and personalized</p>
-          </div>
-
-          <div className="login-page-tagline">
-            <p>Secure • Simple • User-Friendly</p>
+            <p className="login-page-tagline">Update your User ID to keep your account secure and personalized</p>
           </div>
 
           {/* Feature Highlights */}
