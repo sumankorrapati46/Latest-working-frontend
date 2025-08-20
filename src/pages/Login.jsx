@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../api/apiService';
 import logo from '../assets/rightlogo.png';
 import '../styles/Login.css';
@@ -16,7 +16,8 @@ const generateCaptcha = () => {
 };
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [loginType, setLoginType] = useState('official'); // 'official', 'fpo', 'employee', 'farmer'
@@ -25,7 +26,46 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+
+  // Generate captcha on component mount
+  useEffect(() => {
+    setCaptchaValue(generateCaptcha());
+    
+    // Clear all tokens on login page load to ensure fresh start
+    clearAllTokens();
+  }, []);
+
+  // Comprehensive token clearing function
+  const clearAllTokens = () => {
+    console.log('🧹 Clearing all authentication data...');
+    
+    // Clear all possible localStorage keys
+    const keysToRemove = [
+      'token', 'user', 'authToken', 'jwtToken', 'accessToken', 
+      'refreshToken', 'auth', 'session', 'login'
+    ];
+    
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    });
+    
+    // Clear all localStorage and sessionStorage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Clear all cookies
+    document.cookie.split(";").forEach(function(c) { 
+      document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+    });
+    
+    // Clear any other possible storage
+    if (window.indexedDB) {
+      indexedDB.deleteDatabase('firebaseLocalStorage');
+    }
+    
+    console.log('✅ All authentication data cleared');
+  };
 
   // Get current date
   const getCurrentDate = () => {
@@ -55,6 +95,8 @@ const Login = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    
+    // Validate captcha
     if (captcha.trim().toLowerCase() !== captchaValue.toLowerCase()) {
       setError('Captcha does not match.');
       setLoading(false);
@@ -62,220 +104,54 @@ const Login = () => {
       setCaptcha('');
       return;
     }
+    
     try {
-      const loginData = { userName, password };
-      const response = await authAPI.login(loginData);
-      console.log('Login - Full login response:', response);
-      console.log('Login - Login response data keys:', Object.keys(response || {}));
-      const { token } = response;
-      // Immediately persist token so profile call includes Authorization header
-      if (token) {
-        localStorage.setItem('token', token);
+      // ALWAYS clear tokens before login
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Use correct field names
+      const credentials = {
+        userName: userName,
+        password: password
+      };
+      
+      console.log('🔍 Attempting login with:', credentials);
+      
+      const response = await authAPI.login(credentials);
+      const { token, user, message } = response;
+      
+      console.log('✅ Login successful:', message);
+      
+      // Store new token
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      // Redirect based on role
+      const role = user.role;
+      switch (role) {
+        case 'SUPER_ADMIN':
+          window.location.href = '/super-admin/dashboard';
+          break;
+        case 'ADMIN':
+          window.location.href = '/admin/dashboard';
+          break;
+        case 'EMPLOYEE':
+          window.location.href = '/employee/dashboard';
+          break;
+        case 'FARMER':
+          window.location.href = '/farmer/dashboard';
+          break;
+        default:
+          window.location.href = '/dashboard';
       }
       
-      // Helpers to sanitize and map roles consistently
-      const normalizeRawRole = (role) => (role || '').toString().toUpperCase().trim();
-      const toKnownRole = (role) => {
-        const r = normalizeRawRole(role)
-          .replace(/^ROLE[ _-]*/, '')
-          .replace(/-/g, '_')
-          .replace(/\s+/g, '_');
-        if (r.includes('SUPER') && r.includes('ADMIN')) return 'SUPER_ADMIN';
-        if (r === 'SUPERADMIN') return 'SUPER_ADMIN';
-        if (r.includes('ADMIN') && !r.includes('SUPER')) return 'ADMIN';
-        if (r.includes('EMPLOYEE') || r.includes('STAFF')) return 'EMPLOYEE';
-        if (r.includes('FARMER')) return 'FARMER';
-        return '';
-      };
-      const roleFromLoginType = () => {
-        switch (loginType) {
-          case 'official':
-            return 'ADMIN';
-          case 'employee':
-            return 'EMPLOYEE';
-          case 'farmer':
-            return 'FARMER';
-          case 'fpo':
-            return 'ADMIN';
-          default:
-            return '';
-        }
-      };
-      try {
-        // Get user profile with token
-        const userData = await authAPI.getProfile();
-        console.log('Login - Profile response data:', userData);
-        console.log('Login - Profile response data keys:', Object.keys(userData || {}));
-        const user = {
-          userName: userData.userName || userName,
-          name: userData.name,
-          email: userData.email,
-          role: toKnownRole(userData.role) || roleFromLoginType() || 'FARMER',
-          forcePasswordChange: userData.forcePasswordChange || false,
-          status: userData.status
-        };
-        
-        // For users with temporary passwords, force password change
-        if (password.includes('Temp@')) {
-          user.forcePasswordChange = true;
-          console.log('Login - Detected temporary password, forcing password change');
-        }
-        
-        console.log('Login - User data from profile:', user);
-        console.log('Login - User role from profile:', userData.role);
-        login(user, token);
-        
-        // Check if user needs to change password (first time login with temp password)
-        console.log('Login - Checking forcePasswordChange:', user.forcePasswordChange);
-        console.log('Login - Password contains Temp@:', password.includes('Temp@'));
-        
-        if (user.forcePasswordChange) {
-          console.log('Login - Redirecting to change password page');
-          navigate('/change-password');
-          return;
-        }
-        
-        // Role-based navigation after password change or normal login
-        console.log('Login - User role for navigation (known):', user.role);
-        console.log('Login - User role type:', typeof user.role);
-        console.log('Login - User role length:', user.role?.length);
-        console.log('Login - User role includes spaces:', user.role?.includes(' '));
-        
-        const normalizedRole = toKnownRole(user.role) || roleFromLoginType() || '';
-        console.log('Login - Known role:', normalizedRole);
-        
-        if (normalizedRole === 'SUPER_ADMIN') {
-          console.log('Login - Redirecting SUPER_ADMIN to /super-admin/dashboard');
-          navigate('/super-admin/dashboard');
-        } else if (normalizedRole === 'ADMIN') {
-          console.log('Login - Redirecting ADMIN to /admin/dashboard');
-          navigate('/admin/dashboard');
-        } else if (normalizedRole === 'EMPLOYEE') {
-          console.log('Login - Redirecting EMPLOYEE to /employee/dashboard');
-          navigate('/employee/dashboard');
-        } else {
-          console.log('Login - Redirecting FARMER to /dashboard');
-          navigate('/dashboard');
-        }
-      } catch (profileErr) {
-        console.log('Profile fetch failed, trying alternative methods');
-        console.log('Profile error:', profileErr);
-        
-        // Try to get role from login response first
-        let role = toKnownRole(response.data?.role);
-        let forcePasswordChange = response.data?.forcePasswordChange || false;
-        
-        // For users with temporary passwords, force password change
-        if (password.includes('Temp@')) {
-          forcePasswordChange = true;
-          console.log('Login - Detected temporary password, forcing password change');
-        }
-        
-        // If role is not in login response, try to get it from the backend
-        if (!role) {
-          try {
-            console.log('Login - Trying to get role from /auth/me endpoint');
-            const meResponse = await authAPI.getProfile();
-            console.log('Login - /auth/me response:', meResponse);
-            role = toKnownRole(meResponse?.role);
-            console.log('Login - Role from /auth/me:', role);
-          } catch (meErr) {
-            console.log('Login - /auth/me failed:', meErr);
-            
-            // Try another common endpoint
-            try {
-              console.log('Login - Trying to get role from /api/auth/users/profile endpoint');
-              const altProfileResponse = await authAPI.getProfile();
-              console.log('Login - /api/auth/users/profile response:', altProfileResponse);
-              role = toKnownRole(altProfileResponse?.role);
-              console.log('Login - Role from /api/auth/users/profile:', role);
-            } catch (altErr) {
-              console.log('Login - /api/auth/users/profile failed:', altErr);
-            }
-          }
-        }
-        
-        // If still no role, try to determine from username or use a default
-        if (!role) {
-          console.log('Login - No role found, trying to determine from username');
-          console.log('Login - Username being checked:', userName);
-          // Check if username contains admin indicators
-          const lowerUserName = userName.toLowerCase();
-          
-          // Specific username mapping for known accounts
-          const superAdminUsernames = [
-            'projecthinfintiy@12.in',
-            'superadmin@hinfinity.in'
-          ];
-          
-          const adminUsernames = [
-            'karthik.m@hinfinity.in',
-            'admin@hinfinity.in',
-            'admin@date.in',
-            'official@date.in'
-          ];
-          
-          if (superAdminUsernames.includes(lowerUserName)) {
-            role = 'SUPER_ADMIN';
-            console.log('Login - Username matched super admin list');
-          } else if (adminUsernames.includes(lowerUserName)) {
-            role = 'ADMIN';
-            console.log('Login - Username matched admin list');
-          } else if (lowerUserName.includes('employee') || lowerUserName.includes('staff')) {
-            role = 'EMPLOYEE';
-            console.log('Login - Username contains employee/staff indicators');
-          } else if (lowerUserName.includes('farmer') || lowerUserName.includes('kisan')) {
-            role = 'FARMER';
-            console.log('Login - Username contains farmer/kisan indicators');
-          } else {
-            // Default role based on login type
-            role = roleFromLoginType();
-            console.log('Login - Using default role from login type:', role);
-          }
-        }
-        
-        const user = {
-          userName: userName,
-          name: response.data?.name || userName,
-          email: response.data?.email || '',
-          role: role || 'FARMER',
-          forcePasswordChange: forcePasswordChange,
-          status: response.data?.status || 'ACTIVE'
-        };
-        
-        console.log('Login - Fallback: User data from login response:', user);
-        console.log('Login - Fallback: User role from login response:', user.role);
-        login(user, token);
-        
-        // Check if user needs to change password (first time login with temp password)
-        if (user.forcePasswordChange) {
-          console.log('Login - Fallback: Redirecting to change password page');
-          navigate('/change-password');
-          return;
-        }
-        
-        const normalizedRole = toKnownRole(role) || roleFromLoginType() || '';
-        console.log('Login - Fallback: Known role:', normalizedRole);
-        
-        if (normalizedRole === 'SUPER_ADMIN') {
-          console.log('Login - Fallback: Redirecting SUPER_ADMIN to /super-admin/dashboard');
-          navigate('/super-admin/dashboard');
-        } else if (normalizedRole === 'ADMIN') {
-          console.log('Login - Fallback: Redirecting ADMIN to /admin/dashboard');
-          navigate('/admin/dashboard');
-        } else if (normalizedRole === 'EMPLOYEE') {
-          console.log('Login - Fallback: Redirecting EMPLOYEE to /employee/dashboard');
-          navigate('/employee/dashboard');
-        } else {
-          console.log('Login - Fallback: Redirecting FARMER to /dashboard');
-          navigate('/dashboard');
-        }
-      }
-    } catch (err) {
-      console.error('Login error:', err);
-      console.error('Login error response:', err.response);
-      console.error('Login error message:', err.message);
-      setError(`Login failed: ${err.response?.data?.message || err.message || 'Invalid credentials or server error.'}`);
+    } catch (error) {
+      console.error('❌ Login failed:', error);
+      setError(error.response?.data?.message || 'Login failed');
+      setLoading(false);
+      setCaptchaValue(generateCaptcha());
+      setCaptcha('');
     } finally {
       setLoading(false);
     }
@@ -505,6 +381,12 @@ const Login = () => {
                   </button>
                 )}
               </div>
+              
+
+              
+
+              
+
             </form>
           </div>
         </div>

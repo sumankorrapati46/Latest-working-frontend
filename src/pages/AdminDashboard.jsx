@@ -18,6 +18,7 @@ import RegistrationApprovalModal from '../components/RegistrationApprovalModal';
 import RegistrationDetailModal from '../components/RegistrationDetailModal';
 import ChangePasswordModal from '../components/ChangePasswordModal';
 import ChangeUserIdModal from '../components/ChangeUserIdModal';
+import DataFetchTest from '../components/DataFetchTest';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -398,14 +399,16 @@ const AdminDashboard = () => {
   };
 
   const getFilteredRegistrations = () => {
-    console.log('All registrations:', registrations);
+    console.log('🔍 All registrations:', registrations);
+    console.log('🔍 Sample registration structure:', registrations[0]);
+    
     // Apply filters
     const filtered = (registrations || []).filter(registration => {
       const roleMatch = !registrationFilters.role || registration.role === registrationFilters.role;
       const statusMatch = !registrationFilters.status || registration.status === registrationFilters.status;
       return roleMatch && statusMatch;
     });
-    console.log('Filtered registrations:', filtered);
+    console.log('✅ Filtered registrations:', filtered);
     return filtered;
   };
 
@@ -543,8 +546,8 @@ const AdminDashboard = () => {
   };
 
   const handleViewEmployee = (employee) => {
-    setSelectedEmployeeData(employee);
-    setShowEmployeeDetails(true);
+    setSelectedEmployeeForView(employee);
+    setShowViewEmployee(true);
   };
 
   const handleCloseEmployeeDetails = () => {
@@ -826,12 +829,12 @@ const AdminDashboard = () => {
     );
   };
 
-    const renderFarmers = () => {
+  const renderFarmers = () => {
     const filteredFarmers = getFilteredFarmers();
 
     return (
       <div className="overview-section">
-        {!showFarmerRegistration ? (
+        {!showFarmerRegistration && !showFarmerDetails ? (
           <>
             <div className="overview-header">
               <h2 className="overview-title">Farmer Management</h2>
@@ -849,146 +852,149 @@ const AdminDashboard = () => {
                   className="action-btn secondary"
                   onClick={() => setShowAssignmentModal(true)}
                 >
-                    Assign Farmers
+                  Assign Farmers
                 </button>
+              </div>
             </div>
-        </div>
 
-            {/* Enhanced Filters */}
+            {/* Filters */}
             <div className="filters-section">
               <div className="filter-group">
-                <label className="filter-label">State</label>
                 <select 
-                  value={filters.state} 
-                  onChange={(e) => setFilters(prev => ({ ...prev, state: e.target.value }))}
                   className="filter-select"
+                  value={filters.state}
+                  onChange={(e) => setFilters(prev => ({ ...prev, state: e.target.value }))}
                 >
                   <option value="">All States</option>
                   <option value="Telangana">Telangana</option>
-                  <option value="Andhrapradesh">Andhrapradesh</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Gujarat">Gujarat</option>
-                  <option value="Punjab">Punjab</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Karnataka">Karnataka</option>
                   <option value="Tamil Nadu">Tamil Nadu</option>
                 </select>
               </div>
-              
               <div className="filter-group">
-                <label className="filter-label">District</label>
                 <select 
-                  value={filters.district} 
-                  onChange={(e) => setFilters(prev => ({ ...prev, district: e.target.value }))}
                   className="filter-select"
+                  value={filters.district}
+                  onChange={(e) => setFilters(prev => ({ ...prev, district: e.target.value }))}
                 >
                   <option value="">All Districts</option>
+                  <option value="Hanumakonda">Hanumakonda</option>
+                  <option value="Warangal">Warangal</option>
                   <option value="Karimnagar">Karimnagar</option>
-                  <option value="rangareddy">Rangareddy</option>
-                  <option value="kadapa">Kadapa</option>
-                  <option value="Kadapa">Kadapa</option>
-                  <option value="kadpaa">Kadpaa</option>
-                  <option value="Kuppam">Kuppam</option>
-                  <option value="Pune">Pune</option>
-                  <option value="Ahmedabad">Ahmedabad</option>
-                  <option value="Amritsar">Amritsar</option>
-                  <option value="Lucknow">Lucknow</option>
-                  <option value="Chennai">Chennai</option>
+                  <option value="Nizamabad">Nizamabad</option>
                 </select>
               </div>
-              
               <div className="filter-group">
-                <label className="filter-label">KYC Status</label>
                 <select 
-                  value={filters.kycStatus} 
-                  onChange={(e) => setFilters(prev => ({ ...prev, kycStatus: e.target.value }))}
                   className="filter-select"
+                  value={filters.kycStatus}
+                  onChange={(e) => setFilters(prev => ({ ...prev, kycStatus: e.target.value }))}
                 >
                   <option value="">All KYC Status</option>
                   <option value="APPROVED">Approved</option>
                   <option value="PENDING">Pending</option>
-                  <option value="NOT_STARTED">Not Started</option>
                   <option value="REFER_BACK">Refer Back</option>
                   <option value="REJECTED">Rejected</option>
+                  <option value="NOT_STARTED">Not Started</option>
                 </select>
               </div>
-              
               <div className="filter-group">
-                <label className="filter-label">Assignment Status</label>
                 <select 
-                  value={filters.assignmentStatus} 
-                  onChange={(e) => setFilters(prev => ({ ...prev, assignmentStatus: e.target.value }))}
                   className="filter-select"
+                  value={filters.assignmentStatus}
+                  onChange={(e) => setFilters(prev => ({ ...prev, assignmentStatus: e.target.value }))}
                 >
                   <option value="">All Assignment Status</option>
                   <option value="ASSIGNED">Assigned</option>
                   <option value="UNASSIGNED">Unassigned</option>
                 </select>
               </div>
-              
               <div className="filter-group">
-                <label className="filter-label">Assigned Employee</label>
                 <select 
-                  value={filters.employeeFilter} 
-                  onChange={(e) => setFilters(prev => ({ ...prev, employeeFilter: e.target.value }))}
                   className="filter-select"
+                  value={filters.assignedEmployee}
+                  onChange={(e) => setFilters(prev => ({ ...prev, assignedEmployee: e.target.value }))}
                 >
                   <option value="">All Employees</option>
-                  {employees.map(emp => (
-                    <option key={emp.id} value={emp.name}>{emp.name}</option>
+                  {employees.map(employee => (
+                    <option key={employee.id} value={employee.id}>
+                      {employee.name}
+                    </option>
                   ))}
                 </select>
               </div>
-              
-              <div className="filter-actions">
-                <button 
-                  className="filter-btn-clear"
-                  onClick={() => setFilters({
-                    state: '',
-                    district: '',
-                    region: '',
-                    kycStatus: '',
-                    assignmentStatus: '',
-                    employeeFilter: ''
-                  })}
-                >
-                  <i className="fas fa-times"></i>
-                  Clear Filters
-                </button>
-              </div>
+              <button 
+                className="clear-filters-btn"
+                onClick={() => setFilters({
+                  state: '',
+                  district: '',
+                  region: '',
+                  kycStatus: '',
+                  assignmentStatus: '',
+                  assignedEmployee: ''
+                })}
+              >
+                Clear Filters
+              </button>
             </div>
 
             {/* Farmers Table */}
-      <DataTable
+            <DataTable
               data={filteredFarmers}
-        columns={[
-          { key: 'name', label: 'Name' },
-                { key: 'contactNumber', label: 'Phone' },
-          { key: 'state', label: 'State' },
-          { key: 'district', label: 'District' },
-          { 
-            key: 'kycStatus', 
-            label: 'KYC Status',
-            render: (value) => {
-              if (!value) return 'NOT_STARTED';
-              if (value === 'PENDING' || value === 'pending') return 'PENDING';
-              if (value === 'APPROVED' || value === 'approved') return 'APPROVED';
-              if (value === 'REFER_BACK' || value === 'refer_back') return 'REFER_BACK';
-              if (value === 'REJECTED' || value === 'rejected') return 'REJECTED';
-              if (value === 'NOT_STARTED' || value === 'not_started') return 'NOT_STARTED';
-              return value.toUpperCase();
-            }
-          },
-          { key: 'assignedEmployee', label: 'Assigned Employee' }
-        ]}
-        customActions={[
-          {
+              columns={[
+                { 
+                  key: 'name', 
+                  label: 'NAME',
+                  className: 'col-name',
+                  render: (value, row) => value || row.fullName || row.userName || row.firstName || 'N/A'
+                },
+                { 
+                  key: 'phoneNumber', 
+                  label: 'PHONE',
+                  className: 'col-phone',
+                  render: (value, row) => value || row.phone || row.contactNumber || row.mobileNumber || 'N/A'
+                },
+                { 
+                  key: 'state', 
+                  label: 'STATE',
+                  className: 'col-state',
+                  render: (value, row) => value || row.state || 'N/A'
+                },
+                { 
+                  key: 'district', 
+                  label: 'DISTRICT',
+                  className: 'col-district',
+                  render: (value, row) => value || row.district || 'N/A'
+                },
+                { 
+                  key: 'kycStatus', 
+                  label: 'KYC STATUS',
+                  className: 'col-kyc',
+                  type: 'status',
+                  render: (value, row) => value || row.kycStatus || 'NOT_STARTED'
+                },
+                { 
+                  key: 'assignedEmployee', 
+                  label: 'ASSIGNED EMPLOYEE',
+                  className: 'col-employee',
+                  render: (value, row) => {
+                    if (typeof value === 'object' && value) {
+                      return value.name || value.firstName + ' ' + value.lastName || 'N/A';
+                    }
+                    return value || row.assignedEmployeeName || 'Not Assigned';
+                  }
+                }
+              ]}
+              actions={[
+                {
                   label: 'View',
-                  className: 'action-btn-small info',
+                  className: 'action-btn-small primary',
                   onClick: handleViewFarmer
                 },
                 {
                   label: 'Edit',
-                  className: 'action-btn-small primary',
+                  className: 'action-btn-small secondary',
                   onClick: handleEditFarmer
                 },
                 {
@@ -999,7 +1005,7 @@ const AdminDashboard = () => {
         ]}
       />
           </>
-        ) : (
+        ) : showFarmerRegistration ? (
           <div className="farmer-registration-section">
             <div className="section-header">
               <div>
@@ -1035,9 +1041,35 @@ const AdminDashboard = () => {
               }}
             />
           </div>
-        )}
-    </div>
-  );
+        ) : showFarmerDetails ? (
+          <div className="farmer-details-section">
+            <div className="section-header">
+              <div>
+                <h2 className="section-title">Farmer Details</h2>
+                <p className="section-description">
+                  View detailed information for {selectedFarmerData?.name || 'selected farmer'}.
+                </p>
+              </div>
+              <div className="section-actions">
+                <button 
+                  className="action-btn-small secondary"
+                  onClick={() => setShowFarmerDetails(false)}
+                >
+                  <i className="fas fa-arrow-left"></i>
+                  Back to Farmers
+                </button>
+              </div>
+            </div>
+
+            <ViewFarmerRegistrationDetails 
+              isInDashboard={true}
+              farmerData={selectedFarmerData}
+              onClose={() => setShowFarmerDetails(false)}
+            />
+          </div>
+        ) : null}
+      </div>
+    );
   };
 
   const renderRegistration = () => {
@@ -1098,12 +1130,38 @@ const AdminDashboard = () => {
       <DataTable
           data={filteredRegistrations}
         columns={[
-          { key: 'name', label: 'Name' },
-          { key: 'email', label: 'Email' },
-            { key: 'phoneNumber', label: 'Phone' },
-            { key: 'role', label: 'Role' },
-            { key: 'status', label: 'Status' }
-          ]}
+          { 
+            key: 'name', 
+            label: 'Name',
+            className: 'col-name',
+            render: (value, row) => value || row.fullName || row.userName || row.firstName || 'N/A'
+          },
+          { 
+            key: 'email', 
+            label: 'Email',
+            className: 'col-email',
+            render: (value, row) => value || row.emailAddress || row.userEmail || 'N/A'
+          },
+          { 
+            key: 'phoneNumber', 
+            label: 'Phone',
+            className: 'col-phone',
+            render: (value, row) => value || row.phone || row.mobile || row.contactNumber || row.mobileNumber || 'N/A'
+          },
+          { 
+            key: 'role', 
+            label: 'Role',
+            className: 'col-role',
+            render: (value, row) => value || row.userRole || row.type || row.userType || 'N/A'
+          },
+          { 
+            key: 'status', 
+            label: 'Status', 
+            className: 'col-status',
+            type: 'status',
+            render: (value, row) => value || row.registrationStatus || row.approvalStatus || row.kycStatus || 'N/A'
+          }
+        ]}
           customActions={[
             {
               label: 'View',
@@ -1481,7 +1539,18 @@ const AdminDashboard = () => {
       {/* Main */}
       <main className="dashboard-main">
         <div className="dashboard-content">
-          {activeTab === 'overview' && (
+          {activeTab === 'overview' && !(
+            showFarmerForm ||
+            showEmployeeForm ||
+            showViewFarmer ||
+            showViewEmployee ||
+            showChangePassword ||
+            showChangeUserId ||
+            showPendingKYC ||
+            showAssignmentModal ||
+            showKYCDocumentUpload ||
+            showRegistrationDetailModal
+          ) && (
           <header className="dashboard-header">
             <div className="header-center">
               <div className="welcome-message">
@@ -1666,6 +1735,9 @@ const AdminDashboard = () => {
               {activeTab === 'registration' && renderRegistration()}
             </>
           )}
+          
+          {/* Data Fetch Test Component - Remove this after testing */}
+          <DataFetchTest />
         </div>
       </main>
 
@@ -1687,12 +1759,7 @@ const AdminDashboard = () => {
         />
       )}
 
-      {showFarmerDetails && selectedFarmerData && (
-                   <ViewFarmerRegistrationDetails
-                     farmerData={selectedFarmerData}
-                     onClose={handleCloseFarmerDetails}
-                   />
-                 )}
+
 
       {showEmployeeDetails && selectedEmployeeData && (
                    <ViewEditEmployeeDetails

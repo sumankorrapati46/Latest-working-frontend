@@ -27,6 +27,7 @@
 .assignment-modal-content.large {
   width: 800px;
   max-width: 90vw;
+  margin-top: 200px;
 }
 
 .assignment-modal-header {
@@ -35,7 +36,7 @@
   align-items: center;
   padding: 24px 32px;
   border-bottom: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #037a3d 0%, #65f086 100%);
   color: white;
   border-radius: 12px 12px 0 0;
 }
@@ -252,8 +253,8 @@
 .assignment-modal-btn-secondary {
   padding: 12px 24px;
   border: 2px solid #d1d5db;
-  background-color: white;
-  color: #374151;
+  background-color: #a5b0c7;
+  color: #f2f3f4;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
@@ -269,7 +270,7 @@
 .assignment-modal-btn-primary {
   padding: 12px 24px;
   border: none;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #59f363 0%, #0b8a0f 100%);
   color: white;
   border-radius: 8px;
   font-size: 1rem;

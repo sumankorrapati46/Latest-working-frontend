@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background: url('../assets/green.png') center/cover no-repeat;
+  background: url('../assets/green.jpg') center/cover no-repeat;
   z-index: 2000;
   overflow-y: auto;
   opacity: 0;

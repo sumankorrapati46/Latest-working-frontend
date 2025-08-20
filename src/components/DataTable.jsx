@@ -7,6 +7,7 @@ const DataTable = React.memo(({
   onEdit, 
   onDelete, 
   onView, 
+  onKycUpdate,
   showDelete = false, 
   customActions = [],
   loading = false,
@@ -35,8 +36,8 @@ const DataTable = React.memo(({
     }
   }, []);
 
-  // Memoized safe render function
-  const safeRender = useCallback((value, columnKey) => {
+  // Memoized safe render function with enhanced field mapping
+  const safeRender = useCallback((value, columnKey, row) => {
     try {
       // If value is an object, try to extract meaningful data
       if (value && typeof value === 'object') {
@@ -60,8 +61,25 @@ const DataTable = React.memo(({
         return 'Object';
       }
       
-      // If value is null or undefined, return 'N/A'
+      // If value is null or undefined, try alternative field names
       if (value === null || value === undefined) {
+        // Try common alternative field names for the same data
+        const alternativeFields = {
+          'name': ['fullName', 'userName', 'firstName', 'lastName'],
+          'email': ['emailAddress', 'userEmail'],
+          'phoneNumber': ['phone', 'mobile', 'contactNumber', 'mobileNumber'],
+          'role': ['userRole', 'type', 'userType'],
+          'status': ['registrationStatus', 'approvalStatus', 'kycStatus']
+        };
+        
+        if (alternativeFields[columnKey] && row) {
+          for (const altField of alternativeFields[columnKey]) {
+            if (row[altField] !== undefined && row[altField] !== null) {
+              return String(row[altField]);
+            }
+          }
+        }
+        
         return 'N/A';
       }
       
@@ -73,9 +91,19 @@ const DataTable = React.memo(({
     }
   }, []);
 
-  // Memoized table data
+  // Memoized table data with debugging
   const tableData = useMemo(() => {
     if (!data || !Array.isArray(data)) return [];
+    
+    // Debug: Log the first few records to understand the data structure
+    if (data.length > 0) {
+      console.log('🔍 DataTable: Sample data structure:', {
+        firstRecord: data[0],
+        totalRecords: data.length,
+        availableFields: Object.keys(data[0] || {})
+      });
+    }
+    
     return data;
   }, [data]);
 
@@ -105,31 +133,40 @@ const DataTable = React.memo(({
   return (
     <div className="data-table-container">
       <table className="data-table">
+        <colgroup>
+          {tableColumns.map((column) => (
+            <col key={column.key} className={column.className || ''} />
+          ))}
+          {(onEdit || onDelete || onView || customActions.length > 0) && (
+            <col className="col-actions" />
+          )}
+        </colgroup>
         <thead>
           <tr>
             {tableColumns.map((column) => (
-              <th key={column.key} className={`table-header ${column.className || ''}`}>
+              <th key={column.key} className={`data-table-header ${column.className || ''}`}>
                 {column.label}
               </th>
             ))}
             {(onEdit || onDelete || onView || customActions.length > 0) && (
-              <th className="table-header actions-header">Actions</th>
+              <th className="data-table-header actions-header col-actions">Actions</th>
             )}
           </tr>
         </thead>
         <tbody>
           {tableData.map((row, index) => (
-            <tr key={row.id || index} className="table-row">
+            <tr key={row.id || index} className="data-table-row">
               {tableColumns.map((column) => {
                 const value = row[column.key];
                 const cellContent = column.render 
                   ? column.render(value, row) 
-                  : safeRender(value, column.key);
+                  : safeRender(value, column.key, row);
                 
+                const normalizedStatus = typeof value === 'string' ? value.toLowerCase() : '';
                 return (
-                  <td key={column.key} className={`table-cell ${column.className || ''}`}>
+                  <td key={column.key} className={`data-table-cell ${column.className || ''}`}>
                     {column.type === 'status' ? (
-                      <span className={`status-badge ${getStatusClass(value)}`}>
+                      <span className={`status-badge ${getStatusClass(value)} ${normalizedStatus}`}>
                         {cellContent}
                       </span>
                     ) : (
@@ -139,14 +176,15 @@ const DataTable = React.memo(({
                 );
               })}
               {(onEdit || onDelete || onView || customActions.length > 0) && (
-                <td className="table-cell actions-cell">
+                <td className="data-table-cell actions-cell col-actions">
                   <ActionDropdown
                     item={row}
                     onEdit={onEdit}
                     onDelete={onDelete}
                     onView={onView}
+                    onKycUpdate={onKycUpdate}
                     showDelete={showDelete}
-                    customActions={customActions}
+                    customActions={customActions || []}
                   />
                 </td>
               )}

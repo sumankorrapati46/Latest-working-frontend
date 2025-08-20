@@ -201,7 +201,7 @@ const AboutScreen = () => {
 
       {/* Hero Section */}
       <section className="hero-section animate-on-scroll">
-        <div className="hero-content">
+        <div className="about-hero-content">
           <div className="hero-badge">
             <span className="badge-icon">🌾</span>
             <span className="badge-text">Empowering Agriculture</span>

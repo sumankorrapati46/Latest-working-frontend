@@ -462,7 +462,7 @@
   overflow-y: auto;
 }
 
-.modal-header {
+.dashboard .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -470,7 +470,7 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-.modal-header h3 {
+.dashboard .modal-header h3 {
   font-size: 18px;
   font-weight: 600;
   color: #111827;
@@ -1128,8 +1128,8 @@
 }
 
 .activity-status.completed {
-  background: #dcfce7;
-  color: #166534;
+  background: #f59e0b;
+  color: #012710;
 }
 
 .activity-status.pending {
@@ -1618,8 +1618,8 @@
   margin-top: 30px;
   position: relative;
   overflow: visible;
-  max-width: 1200px;
   width: 100%;
+  max-width: 100%;
 }
 
 .data-table {
@@ -1964,7 +1964,7 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
   margin-bottom: 30px;
   border: 1px solid #f0ede6;
-  max-width: 1400px;
+  max-width: 100%;
   width: 100%;
 }
 
@@ -3754,6 +3754,10 @@
   flex-direction: column;
 }
 
+.dashboard-form-container > * {
+  width: 100%;
+}
+
 .dashboard-form-container .farmer-registration-container,
 .dashboard-form-container .employee-registration-container {
   width: 100%;
@@ -4868,8 +4872,8 @@
 }
 
 .activity-status.pending {
-  background: rgba(245, 158, 11, 0.1);
-  color: var(--accent-color, #f59e0b);
+  background:  #ec7070;
+  color: #022e05;
 }
 
 /* Responsive Design for Modern Dashboard */
@@ -6331,3 +6335,1131 @@
 }
 
 /* Analytics Dashboard Styles */
+
+/* ActionDropdown Component Styles */
+.action-dropdown-component {
+  position: relative;
+  display: inline-block;
+}
+
+.action-dropdown-toggle {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #64748b;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.action-dropdown-toggle:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.action-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -6px;
+  min-width: 200px;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e5e7eb;
+  z-index: 99999;
+  margin-top: 0;
+  overflow: visible;
+  max-height: none;
+  padding: 16px 12px;
+  backdrop-filter: blur(15px);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+.action-dropdown-menu.hidden { display: none; }
+.action-dropdown-menu.open { display: block; }
+
+/* Portal menu styling (fixed/absolute outside table) */
+.action-dropdown-portal-menu {
+  min-width: 220px;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1);
+  border: 2px solid #e5e7eb;
+  z-index: 100000;
+  padding: 16px 12px;
+}
+
+.action-dropdown-portal-menu.open::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-top: 2px solid #e5e7eb;
+  border-left: 2px solid #e5e7eb;
+  transform: rotate(45deg);
+}
+
+/* Small arrow caret */
+.action-dropdown-menu.open::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-top: 2px solid #e5e7eb;
+  border-left: 2px solid #e5e7eb;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 6px rgba(0,0,0,0.03);
+}
+
+.action-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  text-align: left;
+  border-radius: 10px;
+  margin: 3px 6px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.action-dropdown-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  opacity: 0;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
+
+.action-dropdown-item:hover {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  color: #1f2937;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #d1d5db;
+}
+
+.action-dropdown-item:hover::before {
+  opacity: 0.05;
+}
+
+.action-dropdown-item.info {
+  color: #1e40af;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  border-color: #93c5fd;
+}
+
+.action-dropdown-item.info:hover {
+  background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+  color: #1e3a8a;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+  border-color: #60a5fa;
+}
+
+.action-dropdown-item.primary {
+  color: white;
+  background: #15803d;
+  border-color: #15803d;
+}
+
+.action-dropdown-item.primary:hover {
+  background: #22c55e;
+  color: white;
+  box-shadow: 0 8px 25px rgba(21, 128, 61, 0.3);
+  border-color: #22c55e;
+}
+
+.action-dropdown-item.success {
+  color: #166534;
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  border-color: #86efac;
+}
+
+.action-dropdown-item.success:hover {
+  background: linear-gradient(135deg, #bbf7d0, #86efac);
+  color: #14532d;
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+  border-color: #4ade80;
+}
+
+.action-dropdown-item.warning {
+  color: #92400e;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-color: #fbbf24;
+}
+
+.action-dropdown-item.warning:hover {
+  background: linear-gradient(135deg, #fde68a, #fbbf24);
+  color: #78350f;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+  border-color: #f59e0b;
+}
+
+.action-dropdown-item.danger {
+  color: white;
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.action-dropdown-item.danger:hover {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+  border-color: #ef4444;
+}
+
+.action-dropdown-icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+}
+
+/* Registration Section Styles */
+.registration-section {
+  background: #fefefe;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0ede6;
+  margin-top: 30px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.registration-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.registration-section .section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.registration-section .section-description {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.registration-section .section-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Enhanced Filters Section for Registration */
+.registration-section .filters-section {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-section .filters-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #22c55e, #16a34a, #059669);
+}
+
+.registration-section .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 220px;
+  position: relative;
+}
+
+.registration-section .filter-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.registration-section .filter-select {
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: white;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.registration-section .filter-select:hover {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  transform: translateY(-1px);
+}
+
+.registration-section .filter-select:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+  transform: translateY(-1px);
+}
+
+.registration-section .filter-select option {
+  padding: 12px;
+  font-size: 0.9rem;
+  background: white;
+  color: #374151;
+}
+
+/* Section header improvements */
+.registration-section .section-header {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 16px;
+  padding: 25px 30px;
+  margin-bottom: 30px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-section .section-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #22c55e, #16a34a, #059669, #047857);
+}
+
+.registration-section .section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.registration-section .section-description {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.registration-section .section-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Refresh button improvements */
+.registration-section .action-btn-small.primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.registration-section .action-btn-small.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+.registration-section .action-btn-small.primary i {
+  font-size: 1rem;
+}
+
+/* Responsive improvements for filters */
+@media (max-width: 1200px) {
+  .registration-section .filters-section {
+    gap: 25px;
+    padding: 25px;
+  }
+  
+  .registration-section .filter-group {
+    min-width: 200px;
+  }
+  
+  .registration-section .filter-select {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration-section .filters-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .registration-section .filter-group {
+    min-width: 100%;
+  }
+  
+  .registration-section .filter-select {
+    min-width: 100%;
+  }
+  
+  .registration-section .section-header {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .registration-section .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .registration-section .section-actions {
+    justify-content: center;
+  }
+}
+
+/* Enhanced Data Table for Registration */
+.registration-section .data-table-container {
+  background: white;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.registration-section .data-table {
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  width: 100%;
+  min-width: 900px;
+}
+
+.registration-section .data-table th {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 18px 15px;
+  border-bottom: 2px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.registration-section .data-table td {
+  padding: 16px 15px;
+  font-size: 0.9rem;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.registration-section .data-table tr:hover {
+  background: rgba(34, 197, 94, 0.03);
+}
+
+/* Scoped widths and truncation for registration table columns */
+.registration-section .data-table .col-name { width: 22%; max-width: 22%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.registration-section .data-table .col-email { width: 28%; max-width: 28%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.registration-section .data-table .col-role { width: 12%; max-width: 12%; white-space: nowrap; }
+.registration-section .data-table .col-status { width: 14%; max-width: 14%; }
+.registration-section .data-table .col-date { width: 18%; max-width: 18%; white-space: nowrap; }
+
+.registration-section .data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Badges for Registration Table */
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 25px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  text-align: center;
+  min-width: 90px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge.pending {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+}
+
+.status-badge.approved {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #2E7D32;
+}
+
+.status-badge.rejected {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #991b1b;
+}
+
+/* Action Buttons for Registration Table */
+.action-btn-small {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.action-btn-small.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.action-btn-small.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.action-btn-small.info {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.action-btn-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design for Registration Section */
+@media (max-width: 1024px) {
+  .registration-section {
+    padding: 25px;
+    margin-top: 20px;
+  }
+  
+  .registration-section .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .registration-section .filters-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+  
+  .registration-section .filter-group {
+    min-width: 100%;
+  }
+  
+  .registration-section .filter-select {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration-section {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .registration-section .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .registration-section .data-table-container {
+    overflow-x: auto;
+  }
+  
+  .registration-section .data-table {
+    min-width: 600px;
+  }
+  
+  .registration-section .data-table th,
+  .registration-section .data-table td {
+    padding: 12px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .action-btn-small {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    min-width: 70px;
+  }
+}
+
+/* Additional Table Improvements */
+.data-table-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 60vh;
+  border-radius: 16px;
+}
+
+.data-table {
+  min-width: 800px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th:first-child {
+  border-top-left-radius: 12px;
+}
+
+.data-table th:last-child {
+  border-top-right-radius: 12px;
+}
+
+.data-table tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+.data-table tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Better cell alignment and spacing */
+.data-table td {
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+/* Improved hover effects */
+.data-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(34, 197, 94, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Better action button spacing */
+.actions-cell {
+  padding: 8px !important;
+}
+
+.actions-cell .action-dropdown-component {
+  display: flex;
+  justify-content: center;
+}
+
+/* Status badge improvements */
+.status-badge {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Filter improvements */
+.filter-select option {
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+/* Table header improvements */
+.data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Empty state improvements */
+.data-table-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.data-table-empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.data-table-empty p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Loading state improvements */
+.data-table-loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.loading-spinner {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Responsive table improvements */
+@media (max-width: 1200px) {
+  .data-table-container {
+    margin: 0 -20px;
+    border-radius: 0;
+  }
+  
+  .data-table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .data-table-container {
+    margin: 0 -15px;
+  }
+  
+  .data-table {
+    min-width: 600px;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Enhanced Registration Table Specific Styles */
+.registration-section .data-table {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.registration-section .data-table th {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 20px 15px;
+  border-bottom: 2px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.registration-section .data-table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.registration-section .data-table td {
+  padding: 18px 15px;
+  font-size: 0.9rem;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+  border-right: 1px solid #f1f5f9;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+.registration-section .data-table tbody tr {
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.registration-section .data-table tbody tr:hover {
+  background: rgba(34, 197, 94, 0.04);
+  border-left-color: #22c55e;
+  transform: translateX(2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Better status badge styling for registration table */
+.registration-section .status-badge {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 18px;
+  border-radius: 25px;
+  font-size: 0.75rem;
+  display: inline-block;
+  text-align: center;
+  min-width: 100px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-section .status-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.registration-section .status-badge:hover::before {
+  transform: translateX(100%);
+}
+
+.registration-section .status-badge.pending {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  border: 1px solid #fbbf24;
+}
+
+.registration-section .status-badge.approved {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #2E7D32;
+  border: 1px solid #22c55e;
+}
+
+.registration-section .status-badge.rejected {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+/* Enhanced action buttons for registration table */
+.registration-section .action-btn-small {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 90px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-section .action-btn-small::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.registration-section .action-btn-small:hover::before {
+  transform: translateX(100%);
+}
+
+.registration-section .action-btn-small.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.registration-section .action-btn-small.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.registration-section .action-btn-small.info {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.registration-section .action-btn-small:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Table row alternating colors for better readability */
+.registration-section .data-table tbody tr:nth-child(even) {
+  background: rgba(248, 250, 252, 0.5);
+}
+
+.registration-section .data-table tbody tr:nth-child(even):hover {
+  background: rgba(34, 197, 94, 0.06);
+}
+
+/* Better cell content alignment */
+.registration-section .data-table td:first-child {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.registration-section .data-table td:nth-child(2) {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.registration-section .data-table td:nth-child(3) {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #475569;
+}
+
+.registration-section .data-table td:nth-child(4) {
+  font-weight: 600;
+  color: #059669;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Farmer Details Full Section - Separate form without background content */
+.farmer-details-full-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--background-color, #f0f9f4);
+  padding: 30px;
+  box-sizing: border-box;
+  z-index: 1000;
+  overflow-y: auto;
+  border: 3px solid red; /* TEST BORDER TO VERIFY CSS IS LOADED */
+}
+
+.farmer-details-full-section .section-header {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 30px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-light, 0 14px 30px rgba(0,0,0,0.08));
+  border: 1px solid var(--border-color, #e2e8f0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.farmer-details-full-section .section-title {
+  color: var(--text-primary, #1e293b);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.farmer-details-full-section .section-description {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.farmer-details-full-section .section-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Enhanced tab header styles for farmer management */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.tab-header .header-info {
+  flex: 1;
+}
+
+.tab-header .section-title {
+  color: var(--text-primary, #1e293b);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.tab-header .section-description {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.tab-header .header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Action button styles */
+.action-btn.secondary {
+  background: white;
+  color: var(--text-primary, #1e293b);
+  border: 1px solid var(--border-color, #e2e8f0);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn.secondary:hover {
+  background: var(--background-hover, #f8fafc);
+  border-color: var(--border-hover, #cbd5e1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab content styles for full width display */
+.tab-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.tab-content .data-table-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.tab-content .data-table {
+  width: 100%;
+  min-width: 1100px; /* keep columns readable on wide screens */
+  table-layout: auto;
+}
+
+.tab-content .data-table th,
+.tab-content .data-table td {
+  padding: 16px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab-content .data-table th:first-child,
+.tab-content .data-table td:first-child {
+  padding-left: 20px;
+}
+
+.tab-content .data-table th:last-child,
+.tab-content .data-table td:last-child {
+  padding-right: 20px;
+}
+
+/* Enhanced table row styling for better visual appeal */
+.tab-content .data-table tbody tr {
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tab-content .data-table tbody tr:hover {
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left-color: #667eea;
+}
+
+.tab-content .data-table tbody tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+.tab-content .data-table tbody tr:nth-child(even):hover {
+  background-color: #f1f5f9;
+}

@@ -13,12 +13,20 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
+    console.log('🔐 API Request - Token from localStorage:', token ? 'Present' : 'Missing');
+    console.log('🔐 API Request - URL:', config.url);
+    console.log('🔐 API Request - Method:', config.method);
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('🔐 API Request - Authorization header added');
+    } else {
+      console.log('⚠️ API Request - No token found in localStorage');
     }
     return config;
   },
   (error) => {
+    console.error('❌ API Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -27,10 +35,41 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+    console.error('❌ API Response Error:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      url: error.config?.url,
+      method: error.config?.method,
+      message: error.message
+    });
+    
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      console.error('🔐 Authentication failed - clearing tokens and redirecting to login');
+      
+      // Comprehensive token clearing
+      const keysToRemove = [
+        'token', 'user', 'authToken', 'jwtToken', 'accessToken', 
+        'refreshToken', 'auth', 'session', 'login'
+      ];
+      
+      keysToRemove.forEach(key => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+      });
+      
+      // Clear all storage
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Clear all cookies
+      document.cookie.split(";").forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+      });
+      
+      // Only redirect if not already on login page
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -98,6 +137,12 @@ export const authAPI = {
   // Change password
   changePassword: async (passwordData) => {
     const response = await api.post('/auth/change-password', passwordData);
+    return response.data;
+  },
+
+  // Reset password (for first-time password change)
+  resetPasswordConfirm: async (resetData) => {
+    const response = await api.post('/auth/reset-password/confirm', resetData);
     return response.data;
   },
 
@@ -381,7 +426,7 @@ export const adminAPI = {
   }
 };
 
-// Employees API calls (for Super Admin and Admin)
+// Employees API calls
 export const employeesAPI = {
   // Get all employees
   getAllEmployees: async (filters = {}) => {
@@ -413,12 +458,6 @@ export const employeesAPI = {
     return response.data;
   },
 
-  // Get assigned farmers for employee
-  getAssignedFarmers: async (employeeId) => {
-    const response = await api.get(`/super-admin/employees/${employeeId}/assigned-farmers`);
-    return response.data;
-  },
-
   // Get employee statistics
   getEmployeeStats: async () => {
     const response = await api.get('/super-admin/employees/stats');
@@ -426,85 +465,101 @@ export const employeesAPI = {
   }
 };
 
-// Employee-specific API calls (for Employee role)
+// Employee-specific API calls (for employee dashboard)
 export const employeeAPI = {
-  // Get assigned farmers for current employee
-  getAssignedFarmers: async (employeeId) => {
-    try {
-      console.log('🔄 Fetching assigned farmers from dashboard endpoint');
-      const response = await api.get('/employees/dashboard/assigned-farmers');
-      console.log('✅ Success with dashboard endpoint');
-      return response.data;
-    } catch (error) {
-      console.error('❌ Failed to fetch assigned farmers:', error);
-      throw error;
-    }
+  // Get assigned farmers for employee
+  getAssignedFarmers: async () => {
+    const response = await api.get('/employee/assigned-farmers');
+    return response.data;
+  },
+
+  // Get farmer details by ID
+  getFarmerById: async (farmerId) => {
+    const response = await api.get(`/employee/farmers/${farmerId}`);
+    return response.data;
+  },
+
+  // Update farmer information
+  updateFarmer: async (farmerId, farmerData) => {
+    const response = await api.put(`/employee/farmers/${farmerId}`, farmerData);
+    return response.data;
   },
 
   // Get employee profile
   getProfile: async () => {
-    const response = await api.get('/employees/profile');
+    const response = await api.get('/employee/profile');
     return response.data;
   },
 
   // Update employee profile
   updateProfile: async (profileData) => {
-    const response = await api.put('/employees/profile', profileData);
-    return response.data;
-  },
-
-  // Get employee statistics
-  getStats: async () => {
-    const response = await api.get('/employees/stats');
-    return response.data;
-  }
-};
-
-// Registrations API calls
-export const registrationsAPI = {
-  // Get all registrations
-  getAllRegistrations: async (filters = {}) => {
-    const response = await api.get('/registrations', { params: filters });
-    return response.data;
-  },
-
-  // Get registration by ID
-  getRegistrationById: async (id) => {
-    const response = await api.get(`/registrations/${id}`);
-    return response.data;
-  },
-
-  // Approve registration
-  approveRegistration: async (id, approvalData) => {
-    const response = await api.post(`/registrations/${id}/approve`, approvalData);
-    return response.data;
-  },
-
-  // Reject registration
-  rejectRegistration: async (id, rejectionData) => {
-    const response = await api.post(`/registrations/${id}/reject`, rejectionData);
-    return response.data;
-  },
-
-  // Get registration statistics
-  getRegistrationStats: async () => {
-    const response = await api.get('/registrations/stats');
+    const response = await api.put('/employee/profile', profileData);
     return response.data;
   }
 };
 
 // KYC API calls
 export const kycAPI = {
+  // Approve KYC
+  approveKYC: async (farmerId, approvalData) => {
+    const response = await api.post(`/kyc/${farmerId}/approve`, approvalData);
+    return response.data;
+  },
+
+  // Reject KYC
+  rejectKYC: async (farmerId, rejectionData) => {
+    const response = await api.post(`/kyc/${farmerId}/reject`, rejectionData);
+    return response.data;
+  },
+
+  // Refer back KYC
+  referBackKYC: async (farmerId, referralData) => {
+    const response = await api.post(`/kyc/${farmerId}/refer-back`, referralData);
+    return response.data;
+  },
+
+  // Get KYC status
+  getKYCStatus: async (farmerId) => {
+    const response = await api.get(`/kyc/${farmerId}/status`);
+    return response.data;
+  },
+
   // Upload KYC documents
-  uploadDocuments: async (farmerId, documents) => {
+  uploadKYCDocuments: async (farmerId, documents) => {
+    // Create FormData for file upload
     const formData = new FormData();
+    
+    // Add files to FormData
     Object.keys(documents).forEach(key => {
       if (documents[key]) {
-        formData.append(key, documents[key]);
+        if (Array.isArray(documents[key])) {
+          // Handle multiple files
+          documents[key].forEach((file, index) => {
+            formData.append(`${key}[${index}]`, file);
+          });
+        } else {
+          // Handle single file
+          formData.append(key, documents[key]);
+        }
       }
     });
-    
-    const response = await api.post(`/employees/kyc/${farmerId}/upload`, formData, {
+
+    // Use separate axios instance for file uploads (no Content-Type header)
+    const uploadApi = axios.create({
+      baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
+      timeout: 30000, // Longer timeout for file uploads
+    });
+
+    // Add auth token to upload requests
+    uploadApi.interceptors.request.use((config) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+
+    const response = await uploadApi.post(`/kyc/${farmerId}/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -512,66 +567,23 @@ export const kycAPI = {
     return response.data;
   },
 
-  // Approve KYC
-  approveKYC: async (farmerId, approvalData) => {
-    const response = await api.put(`/employees/kyc/approve/${farmerId}`);
+  // Get KYC history
+  getKYCHistory: async (farmerId) => {
+    const response = await api.get(`/kyc/${farmerId}/history`);
     return response.data;
   },
 
-  // Reject KYC
-  rejectKYC: async (farmerId, rejectionData) => {
-    const response = await api.put(`/employees/kyc/reject/${farmerId}`, {
-      reason: rejectionData.reason || 'KYC rejected'
-    });
+  // Get KYC document download URL
+  getKYCDocumentUrl: async (farmerId, documentType) => {
+    const response = await api.get(`/kyc/${farmerId}/documents/${documentType}/download`);
     return response.data;
   },
 
-  // Refer back KYC
-  referBackKYC: async (farmerId, referBackData) => {
-    const response = await api.put(`/employees/kyc/refer-back/${farmerId}`, {
-      reason: referBackData.reason || 'KYC referred back'
-    });
-    return response.data;
-  },
-
-  // Get KYC status
-  getKYCStatus: async (farmerId) => {
-    const response = await api.get(`/employees/kyc/${farmerId}/status`);
-    return response.data;
-  },
-
-  // Get KYC documents
-  getKYCDocuments: async (farmerId) => {
-    const response = await api.get(`/employees/kyc/${farmerId}/documents`);
+  // Delete KYC document
+  deleteKYCDocument: async (farmerId, documentType) => {
+    const response = await api.delete(`/kyc/${farmerId}/documents/${documentType}`);
     return response.data;
   }
 };
 
-// Dashboard API calls
-export const dashboardAPI = {
-  // Get dashboard statistics
-  getDashboardStats: async () => {
-    const response = await api.get('/dashboard/stats');
-    return response.data;
-  },
-
-  // Get admin dashboard data
-  getAdminDashboardData: async () => {
-    const response = await api.get('/dashboard/admin');
-    return response.data;
-  },
-
-  // Get super admin dashboard data
-  getSuperAdminDashboardData: async () => {
-    const response = await api.get('/dashboard/super-admin');
-    return response.data;
-  },
-
-  // Get employee dashboard data
-  getEmployeeDashboardData: async (employeeId) => {
-    const response = await api.get(`/dashboard/employee/${employeeId}`);
-    return response.data;
-  }
-};
-
-export default api; 
+export default api;

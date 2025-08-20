@@ -5,6 +5,17 @@ import '../styles/ViewEditEmployeeDetails.css';
 const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboard = false, onEmployeeSelect }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const totalSteps = 8;
+  const stepTitles = [
+    'Personal Details',
+    'Contact Information',
+    'Relation Details',
+    'Address Information',
+    'Professional Details',
+    'Bank Details',
+    'Documents',
+    'Review & Submit'
+  ];
 
   // Helper function to safely render values
   const safeRender = (value) => {
@@ -74,30 +85,14 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
   const { register, handleSubmit, watch, setValue, trigger, clearErrors, formState: { errors } } = methods;
 
   const steps = [
-    {
-      title: 'Personal Information',
-      fields: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth', 'gender', 'address', 'city', 'state', 'pincode']
-    },
-    {
-      title: 'Employment Information',
-      fields: ['employeeId', 'department', 'designation', 'joiningDate', 'salary', 'supervisor']
-    },
-    {
-      title: 'Educational Information',
-      fields: ['highestQualification', 'institution', 'graduationYear', 'specialization']
-    },
-    {
-      title: 'Emergency Contact',
-      fields: ['emergencyName', 'emergencyPhone', 'emergencyRelation']
-    },
-    {
-      title: 'Documents',
-      fields: ['photo', 'idProof', 'addressProof', 'educationalCertificates']
-    },
-    {
-      title: 'Additional Information',
-      fields: ['skills', 'languages', 'certifications', 'workExperience', 'references']
-    }
+    { title: stepTitles[0], fields: ['firstName', 'lastName', 'dateOfBirth', 'gender'] },
+    { title: stepTitles[1], fields: ['email', 'phone'] },
+    { title: stepTitles[2], fields: ['relationType', 'relationName', 'altNumber', 'altNumberType'] },
+    { title: stepTitles[3], fields: ['address', 'city', 'state', 'pincode'] },
+    { title: stepTitles[4], fields: ['employeeId', 'department', 'designation', 'joiningDate', 'salary', 'supervisor'] },
+    { title: stepTitles[5], fields: ['bankName', 'accountNumber', 'branchName', 'ifscCode', 'passbookFile'] },
+    { title: stepTitles[6], fields: ['photo', 'idProof', 'addressProof', 'educationalCertificates'] },
+    { title: stepTitles[7], fields: [] }
   ];
 
   const handleNext = async () => {
@@ -130,7 +125,7 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
 
   const renderPersonalInfo = () => (
     <div className="form-section">
-      <h3>Personal Information</h3>
+      <h3>Personal Details</h3>
       <div className="form-row">
         <div className="form-group">
           <label>First Name *</label>
@@ -254,9 +249,45 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
     </div>
   );
 
+  const renderContactInfo = () => (
+    <div className="form-section">
+      <h3>Contact Information</h3>
+      <div className="form-row">
+        <div className="form-group"><label>Email</label><span>{safeRender(employeeData.email)}</span></div>
+        <div className="form-group"><label>Phone</label><span>{safeRender(employeeData.phone)}</span></div>
+      </div>
+    </div>
+  );
+
+  const renderRelationDetails = () => (
+    <div className="form-section">
+      <h3>Relation Details</h3>
+      <div className="form-row">
+        <div className="form-group"><label>Relation Type</label><span>{safeRender(employeeData.relationType)}</span></div>
+        <div className="form-group"><label>Relation Name</label><span>{safeRender(employeeData.relationName)}</span></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group"><label>Alternative Number</label><span>{safeRender(employeeData.altNumber)}</span></div>
+        <div className="form-group"><label>Alternative Number Type</label><span>{safeRender(employeeData.altNumberType)}</span></div>
+      </div>
+    </div>
+  );
+
+  const renderAddressInfo = () => (
+    <div className="form-section">
+      <h3>Address Information</h3>
+      <div className="form-row"><div className="form-group"><label>Address</label><span>{safeRender(employeeData.address)}</span></div></div>
+      <div className="form-row">
+        <div className="form-group"><label>City</label><span>{safeRender(employeeData.city)}</span></div>
+        <div className="form-group"><label>State</label><span>{safeRender(employeeData.state)}</span></div>
+        <div className="form-group"><label>Pincode</label><span>{safeRender(employeeData.pincode)}</span></div>
+      </div>
+    </div>
+  );
+
   const renderEmploymentInfo = () => (
     <div className="form-section">
-      <h3>Employment Information</h3>
+      <h3>Professional Details</h3>
       <div className="form-row">
         <div className="form-group">
           <label>Employee ID *</label>
@@ -320,6 +351,20 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
             disabled={!isEditing}
           />
         </div>
+      </div>
+    </div>
+  );
+
+  const renderBankDetails = () => (
+    <div className="form-section">
+      <h3>Bank Details</h3>
+      <div className="form-row">
+        <div className="form-group"><label>Bank Name</label><span>{safeRender(employeeData.bankName)}</span></div>
+        <div className="form-group"><label>Account Number</label><span>{safeRender(employeeData.accountNumber)}</span></div>
+      </div>
+      <div className="form-row">
+        <div className="form-group"><label>Branch Name</label><span>{safeRender(employeeData.branchName)}</span></div>
+        <div className="form-group"><label>IFSC Code</label><span>{safeRender(employeeData.ifscCode)}</span></div>
       </div>
     </div>
   );
@@ -551,15 +596,19 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
       case 0:
         return renderPersonalInfo();
       case 1:
-        return renderEmploymentInfo();
+        return renderContactInfo();
       case 2:
-        return renderEducationalInfo();
+        return renderRelationDetails();
       case 3:
-        return renderEmergencyContact();
+        return renderAddressInfo();
       case 4:
-        return renderDocuments();
+        return renderEmploymentInfo();
       case 5:
-        return renderAdditionalInfo();
+        return renderBankDetails();
+      case 6:
+        return renderDocuments();
+      case 7:
+        return (<div className="form-section"><h3>Review & Submit</h3><p>Review details across all steps.</p></div>);
       default:
         return null;
     }
@@ -571,14 +620,15 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
     const isShowingSingleEmployee = !Array.isArray(employeeData);
     
     if (isShowingSingleEmployee) {
-      // Show detailed view of a single employee
+      // Multi-step view (8 steps)
+
       return (
         <div className="view-edit-employee-dashboard">
           <div className="dashboard-header">
             <div className="header-content">
               <div className="header-left">
                 <h2 className="dashboard-title">Employee Details</h2>
-                <p className="dashboard-subtitle">Detailed information for {safeRender(employeeData.firstName)} {safeRender(employeeData.lastName)}</p>
+                <p className="dashboard-subtitle">Step {currentStep + 1} of {stepTitles.length}: {stepTitles[currentStep]} - {safeRender(employeeData.firstName)} {safeRender(employeeData.lastName)}</p>
               </div>
               <button
                 className="back-button"
@@ -589,155 +639,194 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
               </button>
             </div>
           </div>
-          
+
           <div className="dashboard-content">
             <div className="employee-details-container">
-              
-              {/* Personal Information */}
-              <div className="detail-section">
-                <h3>Personal Information</h3>
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <label>First Name:</label>
-                    <span>{safeRender(employeeData.firstName)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Last Name:</label>
-                    <span>{safeRender(employeeData.lastName)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Email:</label>
-                    <span>{safeRender(employeeData.email)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Phone:</label>
-                    <span>{safeRender(employeeData.phone)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Date of Birth:</label>
-                    <span>{formatDate(employeeData.dateOfBirth)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Gender:</label>
-                    <span>{safeRender(employeeData.gender)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Address:</label>
-                    <span>{safeRender(employeeData.address)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>City:</label>
-                    <span>{safeRender(employeeData.city)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>State:</label>
-                    <span>{safeRender(employeeData.state)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Pincode:</label>
-                    <span>{safeRender(employeeData.pincode)}</span>
-                  </div>
-                </div>
+              {/* Step Navigation */}
+              <div className="step-navigation">
+                {stepTitles.map((title, index) => (
+                  <button
+                    key={index}
+                    className={`step-nav-btn ${currentStep === index ? 'active' : ''}`}
+                    onClick={() => setCurrentStep(index)}
+                  >
+                    <span className="step-number">{index + 1}</span>
+                    <span className="step-title">{title}</span>
+                  </button>
+                ))}
               </div>
 
-              {/* Employment Information */}
-              <div className="detail-section">
-                <h3>Employment Information</h3>
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <label>Employee ID:</label>
-                    <span>{safeRender(employeeData.employeeId)}</span>
+              {/* Step Content */}
+              <div className="step-content">
+                {currentStep === 0 && (
+                  <div className="detail-section">
+                    <h3>Personal Information</h3>
+                    <div className="detail-grid">
+                      <div className="detail-item">
+                        <label>First Name:</label>
+                        <span>{safeRender(employeeData.firstName)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Last Name:</label>
+                        <span>{safeRender(employeeData.lastName)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Email:</label>
+                        <span>{safeRender(employeeData.email)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Phone:</label>
+                        <span>{safeRender(employeeData.phone)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Date of Birth:</label>
+                        <span>{formatDate(employeeData.dateOfBirth)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Gender:</label>
+                        <span>{safeRender(employeeData.gender)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Address:</label>
+                        <span>{safeRender(employeeData.address)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>City:</label>
+                        <span>{safeRender(employeeData.city)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>State:</label>
+                        <span>{safeRender(employeeData.state)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Pincode:</label>
+                        <span>{safeRender(employeeData.pincode)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="detail-item">
-                    <label>Department:</label>
-                    <span>{safeRender(employeeData.department)}</span>
+                )}
+
+                {currentStep === 1 && (
+                  <div className="detail-section">
+                    <h3>Employment Information</h3>
+                    <div className="detail-grid">
+                      <div className="detail-item">
+                        <label>Employee ID:</label>
+                        <span>{safeRender(employeeData.employeeId)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Department:</label>
+                        <span>{safeRender(employeeData.department)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Designation:</label>
+                        <span>{safeRender(employeeData.designation)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Joining Date:</label>
+                        <span>{formatDate(employeeData.joiningDate)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Salary:</label>
+                        <span>{safeRender(employeeData.salary)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Supervisor:</label>
+                        <span>{safeRender(employeeData.supervisor)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="detail-item">
-                    <label>Designation:</label>
-                    <span>{safeRender(employeeData.designation)}</span>
+                )}
+
+                {currentStep === 2 && (
+                  <div className="detail-section">
+                    <h3>Educational Information</h3>
+                    <div className="detail-grid">
+                      <div className="detail-item">
+                        <label>Highest Qualification:</label>
+                        <span>{safeRender(employeeData.highestQualification)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Institution:</label>
+                        <span>{safeRender(employeeData.institution)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Graduation Year:</label>
+                        <span>{safeRender(employeeData.graduationYear)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Specialization:</label>
+                        <span>{safeRender(employeeData.specialization)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="detail-item">
-                    <label>Joining Date:</label>
-                    <span>{formatDate(employeeData.joiningDate)}</span>
+                )}
+
+                {currentStep === 3 && (
+                  <div className="detail-section">
+                    <h3>Emergency Contact</h3>
+                    <div className="detail-grid">
+                      <div className="detail-item">
+                        <label>Emergency Contact Name:</label>
+                        <span>{safeRender(employeeData.emergencyName)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Emergency Phone:</label>
+                        <span>{safeRender(employeeData.emergencyPhone)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Emergency Relation:</label>
+                        <span>{safeRender(employeeData.emergencyRelation)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="detail-item">
-                    <label>Salary:</label>
-                    <span>{safeRender(employeeData.salary)}</span>
+                )}
+
+                {currentStep === 4 && (
+                  <div className="detail-section">
+                    <h3>Additional Information</h3>
+                    <div className="detail-grid">
+                      <div className="detail-item">
+                        <label>Skills:</label>
+                        <span>{safeRender(employeeData.skills)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Languages:</label>
+                        <span>{safeRender(employeeData.languages)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Certifications:</label>
+                        <span>{safeRender(employeeData.certifications)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>Work Experience:</label>
+                        <span>{safeRender(employeeData.workExperience)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <label>References:</label>
+                        <span>{safeRender(employeeData.references)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="detail-item">
-                    <label>Supervisor:</label>
-                    <span>{safeRender(employeeData.supervisor)}</span>
-                  </div>
-                </div>
+                )}
               </div>
 
-              {/* Educational Information */}
-              <div className="detail-section">
-                <h3>Educational Information</h3>
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <label>Highest Qualification:</label>
-                    <span>{safeRender(employeeData.highestQualification)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Institution:</label>
-                    <span>{safeRender(employeeData.institution)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Graduation Year:</label>
-                    <span>{safeRender(employeeData.graduationYear)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Specialization:</label>
-                    <span>{safeRender(employeeData.specialization)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Emergency Contact */}
-              <div className="detail-section">
-                <h3>Emergency Contact</h3>
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <label>Emergency Contact Name:</label>
-                    <span>{safeRender(employeeData.emergencyName)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Emergency Phone:</label>
-                    <span>{safeRender(employeeData.emergencyPhone)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Emergency Relation:</label>
-                    <span>{safeRender(employeeData.emergencyRelation)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Additional Information */}
-              <div className="detail-section">
-                <h3>Additional Information</h3>
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <label>Skills:</label>
-                    <span>{safeRender(employeeData.skills)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Languages:</label>
-                    <span>{safeRender(employeeData.languages)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Certifications:</label>
-                    <span>{safeRender(employeeData.certifications)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>Work Experience:</label>
-                    <span>{safeRender(employeeData.workExperience)}</span>
-                  </div>
-                  <div className="detail-item">
-                    <label>References:</label>
-                    <span>{safeRender(employeeData.references)}</span>
-                  </div>
-                </div>
+              {/* Step Navigation Buttons */}
+              <div className="step-navigation-buttons">
+                <button
+                  className="step-nav-btn prev"
+                  onClick={handlePrevious}
+                  disabled={currentStep === 0}
+                >
+                  ← Previous
+                </button>
+                <button
+                  className="step-nav-btn next"
+                  onClick={handleNext}
+                  disabled={currentStep === stepTitles.length - 1}
+                >
+                  Next →
+                </button>
               </div>
             </div>
           </div>
@@ -783,7 +872,7 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
                 <div className="employees-table-container">
                   {Array.isArray(employeeData) && employeeData.length > 0 ? (
                     <div className="employees-table">
-                      <div className="table-header">
+                      <div className="employee-details-table-header">
                         {employeeColumns.map(column => (
                           <div key={column.key} className="table-cell header">
                             {column.label}
@@ -794,7 +883,7 @@ const ViewEditEmployeeDetails = ({ employeeData, onClose, onUpdate, isInDashboar
                         {employeeData.map((employee, index) => (
                           <div 
                             key={index} 
-                            className="table-row clickable"
+                            className="employee-details-table-row clickable"
                             onClick={() => onEmployeeSelect && onEmployeeSelect(employee)}
                           >
                             <div className="table-cell">{safeRender(employee.firstName)}</div>

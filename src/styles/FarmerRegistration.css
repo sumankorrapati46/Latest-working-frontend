@@ -160,12 +160,20 @@
 
 .step-content {
   max-width: 100%;
+  width: 100%;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
+}
+
+/* Wider desktop: use 3 columns inside dashboard to utilize full width */
+@media (min-width: 1280px) {
+  .farmer-registration-container.dashboard-mode .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .form-column {

@@ -10,7 +10,7 @@ import ViewEditEmployeeDetails from '../components/ViewEditEmployeeDetails';
 import StatsCard from '../components/StatsCard';
 import DataTable from '../components/DataTable';
 import UserProfileDropdown from '../components/UserProfileDropdown';
-import { kycAPI, employeeAPI } from '../api/apiService';
+import { kycAPI, employeeAPI, adminAPI, farmersAPI } from '../api/apiService';
 import ChangePasswordModal from '../components/ChangePasswordModal';
 import ChangeUserIdModal from '../components/ChangeUserIdModal';
 
@@ -57,42 +57,121 @@ const EmployeeDashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-    const fetchAssignedFarmers = async () => {
+  const fetchAssignedFarmers = async () => {
     try {
       console.log('🔄 Fetching assigned farmers for employee...');
       console.log('👤 Current user:', user);
-      
+
       if (!user) {
         console.error('❌ No user available');
         setAssignedFarmers([]);
         return;
       }
-      
-      // Fetch from API using the correct endpoint
-      const response = await employeeAPI.getAssignedFarmers();
-      console.log('✅ API Response:', response);
-      
-      if (response && Array.isArray(response)) {
-        // Transform the API response to match our frontend format
-        const transformedData = response.map(farmer => ({
-          id: farmer.id,
-          name: farmer.name,
-          phone: farmer.contactNumber,
-          state: farmer.state,
-          district: farmer.district,
-          location: `${farmer.district}, ${farmer.state}`,
-          kycStatus: farmer.kycStatus || 'PENDING',
-          lastAction: farmer.kycReviewedDate || farmer.kycSubmittedDate || new Date().toISOString().split('T')[0],
-          notes: `KYC Status: ${farmer.kycStatus || 'PENDING'}`,
-          assignedEmployee: user.name || 'Employee'
-        }));
-        
-        setAssignedFarmers(transformedData);
-        console.log('✅ Assigned farmers loaded from API:', transformedData.length);
-      } else {
-        console.log('⚠️ No API data available');
-        setAssignedFarmers([]);
+
+      const employeeId = user?.id || user?.userId || user?.employeeId || user?.contactNumber;
+      const employeeName = (user?.name || user?.fullName || '').toLowerCase().trim();
+      const employeePhone = (user?.contactNumber || user?.phone || '').toString();
+
+      // Primary call
+      let response = await employeeAPI.getAssignedFarmers();
+      console.log('✅ Employee API response (raw):', response);
+
+      const pickArray = (data) => {
+        if (Array.isArray(data)) return data;
+        if (!data || typeof data !== 'object') return [];
+        return (
+          data.assignedFarmers ||
+          data.farmers ||
+          data.items ||
+          data.records ||
+          data.content ||
+          data.data ||
+          []
+        );
+      };
+
+      let list = pickArray(response);
+
+      // Fallback #1: /admin/employees/{id}/assigned-farmers
+      if (!list || list.length === 0) {
+        console.log('ℹ️ Fallback #1 adminAPI.getFarmersByEmployee with id:', employeeId);
+        if (employeeId) {
+          try {
+            const adminResp = await adminAPI.getFarmersByEmployee(employeeId);
+            console.log('✅ Admin fallback #1 response:', adminResp);
+            list = pickArray(adminResp);
+          } catch (e1) {
+            console.error('❌ Fallback #1 failed:', e1);
+          }
+        }
       }
+
+      // Fallback #2: /admin/farmers then filter by assignment
+      if (!list || list.length === 0) {
+        try {
+          console.log('ℹ️ Fallback #2 adminAPI.getAllFarmers');
+          const allAdminFarmers = await adminAPI.getAllFarmers();
+          const arr = pickArray(allAdminFarmers);
+          list = arr.filter(f => {
+            const assigned = (f.assignedEmployee || f.assignedEmployeeName || '').toString().toLowerCase();
+            const assignedId = f.assignedEmployeeId || f.employeeId || f.assignedTo;
+            return (
+              (employeeName && assigned.includes(employeeName)) ||
+              (employeeId && (assignedId == employeeId)) ||
+              (employeePhone && assigned.includes(employeePhone))
+            );
+          });
+          console.log('✅ Admin fallback #2 filtered count:', list.length);
+        } catch (e2) {
+          console.error('❌ Fallback #2 failed:', e2);
+        }
+      }
+
+      // Fallback #3: super-admin farmers then filter by assignment
+      if (!list || list.length === 0) {
+        try {
+          console.log('ℹ️ Fallback #3 farmersAPI.getAllFarmers');
+          const allSuperFarmers = await farmersAPI.getAllFarmers();
+          const arr = pickArray(allSuperFarmers);
+          list = arr.filter(f => {
+            const assigned = (f.assignedEmployee || f.assignedEmployeeName || '').toString().toLowerCase();
+            const assignedId = f.assignedEmployeeId || f.employeeId || f.assignedTo;
+            return (
+              (employeeName && assigned.includes(employeeName)) ||
+              (employeeId && (assignedId == employeeId)) ||
+              (employeePhone && assigned.includes(employeePhone))
+            );
+          });
+          console.log('✅ Super-admin fallback filtered count:', list.length);
+        } catch (e3) {
+          console.error('❌ Fallback #3 failed:', e3);
+        }
+      }
+
+      const toStr = (v) => (v === null || v === undefined ? '' : String(v));
+      const transformedData = (list || []).map((farmer) => {
+        const name = farmer.name || farmer.fullName || [farmer.firstName, farmer.lastName].filter(Boolean).join(' ');
+        const phone = farmer.contactNumber || farmer.phone || farmer.mobile || farmer.mobileNumber;
+        const state = farmer.state || farmer.addressState || farmer.stateName;
+        const district = farmer.district || farmer.addressDistrict || farmer.districtName;
+        const kycStatus = farmer.kycStatus || farmer.status || 'PENDING';
+        const lastAction = farmer.kycReviewedDate || farmer.kycSubmittedDate || farmer.updatedAt || farmer.createdAt;
+        return {
+          id: farmer.id || farmer.farmerId || farmer.uuid || toStr(name) + toStr(phone),
+          name: name || 'N/A',
+          phone: phone || 'N/A',
+          state: state || 'N/A',
+          district: district || 'N/A',
+          location: `${district || 'N/A'}, ${state || 'N/A'}`,
+          kycStatus,
+          lastAction: lastAction ? toStr(lastAction).substring(0, 10) : new Date().toISOString().split('T')[0],
+          notes: `KYC Status: ${kycStatus}`,
+          assignedEmployee: farmer.assignedEmployee || farmer.assignedEmployeeName || (user.name || 'Employee')
+        };
+      });
+
+      setAssignedFarmers(transformedData);
+      console.log('✅ Assigned farmers loaded:', transformedData.length);
     } catch (error) {
       console.error('❌ Error fetching assigned farmers:', error);
       setAssignedFarmers([]);
@@ -105,7 +184,7 @@ const EmployeeDashboard = () => {
     return assignedFarmers.filter(farmer => {
       const matchesKycStatus = !filters.kycStatus || farmer.kycStatus === filters.kycStatus;
       const matchesAssignedDate = !filters.assignedDate || farmer.assignedDate === filters.assignedDate;
-      
+
       return matchesKycStatus && matchesAssignedDate;
     });
   };
@@ -148,7 +227,7 @@ const EmployeeDashboard = () => {
   const handleKYCUpdate = async (farmerId, newStatus, reason = '', documents = null) => {
     try {
       console.log(`🔄 Updating KYC status for farmer ${farmerId} to ${newStatus}`);
-      
+
       // Prepare approval data
       const approvalData = {
         reason: reason,
@@ -174,13 +253,13 @@ const EmployeeDashboard = () => {
         default:
           response = await kycAPI.approveKYC(farmerId, approvalData);
       }
-      
+
       console.log('✅ KYC API response:', response);
-      
+
       // Update local state after successful API call
-      setAssignedFarmers(prev => prev.map(farmer => 
-        farmer.id === farmerId 
-          ? { 
+      setAssignedFarmers(prev => prev.map(farmer =>
+        farmer.id === farmerId
+          ? {
           ...farmer,
           kycStatus: newStatus,
           lastAction: new Date().toISOString().split('T')[0],
@@ -189,15 +268,15 @@ const EmployeeDashboard = () => {
             }
           : farmer
       ));
-      
+
       // Show success message
       alert(`KYC status updated to ${newStatus} successfully!`);
-      
+
       // Trigger a global event to notify other dashboards
       window.dispatchEvent(new CustomEvent('kycStatusUpdated', {
         detail: { farmerId, newStatus, reason, documents }
       }));
-      
+
     } catch (error) {
       console.error('❌ Error updating KYC status:', error);
       alert(`Failed to update KYC status: ${error.response?.data || error.message}`);
@@ -314,7 +393,7 @@ const EmployeeDashboard = () => {
             <div className="todo-card high-priority">
               <h4>New Assignments</h4>
               <p>{todoList.newAssignments.length} new farmers assigned</p>
-              <button 
+              <button
                 className="action-btn-small primary"
                 onClick={() => setActiveTab('farmers')}
               >
@@ -324,7 +403,7 @@ const EmployeeDashboard = () => {
             <div className="todo-card medium-priority">
               <h4>Pending Reviews</h4>
               <p>{todoList.pendingReviews.length} cases pending</p>
-              <button 
+              <button
                 className="action-btn-small warning"
                 onClick={() => setActiveTab('farmers')}
               >
@@ -334,7 +413,7 @@ const EmployeeDashboard = () => {
             <div className="todo-card urgent-priority">
               <h4>Refer Back Cases</h4>
               <p>{todoList.referBackCases.length} need attention</p>
-              <button 
+              <button
                 className="action-btn-small info"
                 onClick={() => setActiveTab('farmers')}
               >
@@ -352,151 +431,181 @@ const EmployeeDashboard = () => {
 
     return (
       <div className="overview-section">
-        <div className="overview-header">
-          <h2 className="overview-title">Assigned Farmers</h2>
-          <p className="overview-description">
-            View and manage your assigned farmers with KYC verification tasks.
-          </p>
-          <div className="overview-actions">
-            <button 
-              className="action-btn primary"
-              onClick={() => setShowFarmerForm(true)}
-            >
-              Add Farmer
-            </button>
-      </div>
-    </div>
-
-        {/* Filters */}
-      <div className="filters-section">
-          <select 
-            value={filters.kycStatus} 
-            onChange={(e) => setFilters(prev => ({ ...prev, kycStatus: e.target.value }))}
-            className="filter-select"
-          >
-            <option value="">All KYC Status</option>
-            <option value="APPROVED">Approved</option>
-            <option value="PENDING">Pending</option>
-            <option value="REFER_BACK">Refer Back</option>
-            <option value="REJECTED">Rejected</option>
-          </select>
-          <select 
-            value={filters.assignedDate} 
-            onChange={(e) => setFilters(prev => ({ ...prev, assignedDate: e.target.value }))}
-            className="filter-select"
-          >
-            <option value="">All Assignment Dates</option>
-            <option value="2024-01-15">Jan 15, 2024</option>
-            <option value="2024-01-18">Jan 18, 2024</option>
-            <option value="2024-01-20">Jan 20, 2024</option>
-            <option value="2024-01-25">Jan 25, 2024</option>
-          </select>
-      </div>
-
-        {/* KYC Status Tabs */}
-        <div className="kyc-tabs-section">
-          <div className="kyc-tabs">
-            <button 
-              className={`kyc-tab ${filters.kycStatus === '' ? 'active' : ''}`}
-              onClick={() => setFilters(prev => ({ ...prev, kycStatus: '' }))}
-            >
-              <span className="tab-icon">📊</span>
-              <span className="tab-label">All</span>
-              <span className="tab-count">{filteredFarmers.length}</span>
-            </button>
-            <button 
-              className={`kyc-tab approved ${filters.kycStatus === 'APPROVED' ? 'active' : ''}`}
-              onClick={() => setFilters(prev => ({ ...prev, kycStatus: 'APPROVED' }))}
-            >
-              <span className="tab-icon">✅</span>
-              <span className="tab-label">Approved</span>
-              <span className="tab-count">{filteredFarmers.filter(f => f.kycStatus === 'APPROVED').length}</span>
-            </button>
-              <button 
-              className={`kyc-tab pending ${filters.kycStatus === 'PENDING' ? 'active' : ''}`}
-              onClick={() => setFilters(prev => ({ ...prev, kycStatus: 'PENDING' }))}
-            >
-              <span className="tab-icon">⏳</span>
-              <span className="tab-label">Pending</span>
-              <span className="tab-count">{filteredFarmers.filter(f => f.kycStatus === 'PENDING').length}</span>
-              </button>
-              <button 
-              className={`kyc-tab rejected ${filters.kycStatus === 'REJECTED' ? 'active' : ''}`}
-              onClick={() => setFilters(prev => ({ ...prev, kycStatus: 'REJECTED' }))}
-              >
-              <span className="tab-icon">❌</span>
-              <span className="tab-label">Rejected</span>
-              <span className="tab-count">{filteredFarmers.filter(f => f.kycStatus === 'REJECTED').length}</span>
-              </button>
+        {!showFarmerDetails ? (
+          <>
+            <div className="overview-header">
+              <h2 className="overview-title">Assigned Farmers</h2>
+              <p className="overview-description">
+                View and manage your assigned farmers with KYC verification tasks.
+              </p>
+              <div className="overview-actions">
+                <button
+                  className="action-btn primary"
+                  onClick={() => setShowFarmerForm(true)}
+                >
+                  Add Farmer
+                </button>
+              </div>
             </div>
-          </div>
 
-        {/* Farmers Table */}
-        <DataTable
-          data={filteredFarmers}
-          columns={[
-            { key: 'name', label: 'Name' },
-            { key: 'phone', label: 'Phone' },
-            { key: 'location', label: 'Location' },
-            { key: 'assignedDate', label: 'Assigned Date' },
-            { key: 'kycStatus', label: 'KYC Status' },
-            { key: 'lastAction', label: 'Last Action' }
-          ]}
-          customActions={[
-            {
-              label: 'View',
-              icon: '👁️',
-              className: 'info',
-              onClick: handleViewFarmer
-            },
-            {
-              label: 'Edit',
-              icon: '✏️',
-              className: 'primary',
-              onClick: handleEditFarmer
-            },
-            {
-              label: 'KYC',
-              icon: '📋',
-              className: 'warning',
-              onClick: (farmer) => {
-                setSelectedFarmer(farmer);
-                setShowKYCModal(true);
-              }
-            },
-            {
-              label: 'Approve',
-              icon: '✅',
-              className: 'success',
-              onClick: (farmer) => handleKYCUpdate(farmer.id, 'APPROVED'),
-              showCondition: (farmer) => farmer.kycStatus === 'PENDING' || farmer.kycStatus === 'REFER_BACK'
-            },
-            {
-              label: 'Refer Back',
-              icon: '🔄',
-              className: 'warning',
-              onClick: (farmer) => {
-                const reason = prompt('Enter reason for refer back:');
-                if (reason) {
-                  handleKYCUpdate(farmer.id, 'REFER_BACK', reason);
+            {/* Filters */}
+            <div className="filters-section">
+              <select
+                value={filters.kycStatus}
+                onChange={(e) => setFilters(prev => ({ ...prev, kycStatus: e.target.value }))}
+                className="filter-select"
+              >
+                <option value="">All KYC Status</option>
+                <option value="APPROVED">Approved</option>
+                <option value="PENDING">Pending</option>
+                <option value="REFER_BACK">Refer Back</option>
+                <option value="REJECTED">Rejected</option>
+              </select>
+              <select
+                value={filters.assignedDate}
+                onChange={(e) => setFilters(prev => ({ ...prev, assignedDate: e.target.value }))}
+                className="filter-select"
+              >
+                <option value="">All Assignment Dates</option>
+                <option value="2024-01-15">Jan 15, 2024</option>
+                <option value="2024-01-18">Jan 18, 2024</option>
+                <option value="2024-01-20">Jan 20, 2024</option>
+                <option value="2024-01-25">Jan 25, 2024</option>
+              </select>
+            </div>
+
+            {/* KYC Status Tabs */}
+            <div className="kyc-tabs-section">
+              <div className="kyc-tabs">
+                <button
+                  className={`kyc-tab ${filters.kycStatus === '' ? 'active' : ''}`}
+                  onClick={() => setFilters(prev => ({ ...prev, kycStatus: '' }))}
+                >
+                  <span className="tab-icon">📊</span>
+                  <span className="tab-label">All</span>
+                  <span className="tab-count">{filteredFarmers.length}</span>
+                </button>
+                <button
+                  className={`kyc-tab approved ${filters.kycStatus === 'APPROVED' ? 'active' : ''}`}
+                  onClick={() => setFilters(prev => ({ ...prev, kycStatus: 'APPROVED' }))}
+                >
+                  <span className="tab-icon">✅</span>
+                  <span className="tab-label">Approved</span>
+                  <span className="tab-count">{filteredFarmers.filter(f => f.kycStatus === 'APPROVED').length}</span>
+                </button>
+                <button
+                  className={`kyc-tab pending ${filters.kycStatus === 'PENDING' ? 'active' : ''}`}
+                  onClick={() => setFilters(prev => ({ ...prev, kycStatus: 'PENDING' }))}
+                >
+                  <span className="tab-icon">⏳</span>
+                  <span className="tab-label">Pending</span>
+                  <span className="tab-count">{filteredFarmers.filter(f => f.kycStatus === 'PENDING').length}</span>
+                </button>
+                <button
+                  className={`kyc-tab rejected ${filters.kycStatus === 'REJECTED' ? 'active' : ''}`}
+                  onClick={() => setFilters(prev => ({ ...prev, kycStatus: 'REJECTED' }))}
+                >
+                  <span className="tab-icon">❌</span>
+                  <span className="tab-label">Rejected</span>
+                  <span className="tab-count">{filteredFarmers.filter(f => f.kycStatus === 'REJECTED').length}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Farmers Table */}
+            <DataTable
+              data={filteredFarmers}
+              columns={[
+                { key: 'name', label: 'Name' },
+                { key: 'phone', label: 'Phone' },
+                { key: 'location', label: 'Location' },
+                { key: 'assignedDate', label: 'Assigned Date' },
+                { key: 'kycStatus', label: 'KYC Status' },
+                { key: 'lastAction', label: 'Last Action' }
+              ]}
+              customActions={[
+                {
+                  label: 'View',
+                  icon: '👁️',
+                  className: 'info',
+                  onClick: handleViewFarmer
+                },
+                {
+                  label: 'Edit',
+                  icon: '✏️',
+                  className: 'primary',
+                  onClick: handleEditFarmer
+                },
+                {
+                  label: 'KYC',
+                  icon: '📋',
+                  className: 'warning',
+                  onClick: (farmer) => {
+                    setSelectedFarmer(farmer);
+                    setShowKYCModal(true);
+                  }
+                },
+                {
+                  label: 'Approve',
+                  icon: '✅',
+                  className: 'success',
+                  onClick: (farmer) => handleKYCUpdate(farmer.id, 'APPROVED'),
+                  showCondition: (farmer) => farmer.kycStatus === 'PENDING' || farmer.kycStatus === 'REFER_BACK'
+                },
+                {
+                  label: 'Refer Back',
+                  icon: '🔄',
+                  className: 'warning',
+                  onClick: (farmer) => {
+                    const reason = prompt('Enter reason for refer back:');
+                    if (reason) {
+                      handleKYCUpdate(farmer.id, 'REFER_BACK', reason);
+                    }
+                  },
+                  showCondition: (farmer) => farmer.kycStatus === 'PENDING'
+                },
+                {
+                  label: 'Reject',
+                  icon: '❌',
+                  className: 'danger',
+                  onClick: (farmer) => {
+                    const reason = prompt('Enter reason for rejection:');
+                    if (reason) {
+                      handleKYCUpdate(farmer.id, 'REJECTED', reason);
+                    }
+                  },
+                  showCondition: (farmer) => farmer.kycStatus === 'PENDING' || farmer.kycStatus === 'REFER_BACK'
                 }
-              },
-              showCondition: (farmer) => farmer.kycStatus === 'PENDING'
-            },
-            {
-              label: 'Reject',
-              icon: '❌',
-              className: 'danger',
-              onClick: (farmer) => {
-                const reason = prompt('Enter reason for rejection:');
-                if (reason) {
-                  handleKYCUpdate(farmer.id, 'REJECTED', reason);
-                }
-              },
-              showCondition: (farmer) => farmer.kycStatus === 'PENDING' || farmer.kycStatus === 'REFER_BACK'
-            }
-          ]}
-        />
+              ]}
+            />
+          </>
+        ) : (
+          <div className="farmer-details-section">
+            <div className="section-header">
+              <div>
+                <h2 className="section-title">Farmer Details</h2>
+                <p className="section-description">
+                  View detailed information for {selectedFarmerData?.name || 'selected farmer'}.
+                </p>
+              </div>
+              <div className="section-actions">
+                <button
+                  className="action-btn-small secondary"
+                  onClick={() => setShowFarmerDetails(false)}
+                >
+                  <i className="fas fa-arrow-left"></i>
+                  Back to Farmers
+                </button>
+              </div>
+            </div>
+
+            <ViewFarmerRegistrationDetails
+              isInDashboard={true}
+              farmerData={selectedFarmerData}
+              onClose={() => setShowFarmerDetails(false)}
+            />
+          </div>
+        )}
       </div>
     );
   };
@@ -524,20 +633,20 @@ const EmployeeDashboard = () => {
             <div className="progress-stat">
               <h3>Overall Progress</h3>
           <div className="progress-bar">
-            <div 
-              className="progress-fill approved" 
+            <div
+              className="progress-fill approved"
                   style={{ width: `${approvedPercentage}%` }}
                 ></div>
-                <div 
-                  className="progress-fill pending" 
+                <div
+                  className="progress-fill pending"
                   style={{ width: `${pendingPercentage}%` }}
                 ></div>
-                <div 
-                  className="progress-fill refer-back" 
+                <div
+                  className="progress-fill refer-back"
                   style={{ width: `${referBackPercentage}%` }}
                 ></div>
-                <div 
-                  className="progress-fill rejected" 
+                <div
+                  className="progress-fill rejected"
                   style={{ width: `${rejectedPercentage}%` }}
             ></div>
               </div>
@@ -588,7 +697,7 @@ const EmployeeDashboard = () => {
 
   const renderTodoList = () => {
     const todoList = getTodoList();
-    
+
     return (
       <div className="overview-section">
         <div className="overview-header">
@@ -604,31 +713,31 @@ const EmployeeDashboard = () => {
             <div className="priority-badge high">High Priority</div>
             <h4>New KYC Reviews</h4>
             <p>{todoList.newAssignments.length} new farmers need KYC verification</p>
-            <button 
+            <button
               className="action-btn-small primary"
               onClick={() => setActiveTab('farmers')}
             >
               Review Now
             </button>
           </div>
-          
+
           <div className="todo-card medium-priority">
             <div className="priority-badge medium">Medium Priority</div>
             <h4>Pending Reviews</h4>
             <p>{todoList.pendingReviews.length} cases awaiting your review</p>
-            <button 
+            <button
               className="action-btn-small warning"
               onClick={() => setActiveTab('farmers')}
             >
               Process Pending
             </button>
           </div>
-          
+
           <div className="todo-card urgent-priority">
             <div className="priority-badge urgent">Urgent</div>
             <h4>Refer Back Cases</h4>
             <p>{todoList.referBackCases.length} cases need immediate attention</p>
-            <button 
+            <button
               className="action-btn-small danger"
               onClick={() => setActiveTab('farmers')}
             >
@@ -661,7 +770,7 @@ const EmployeeDashboard = () => {
 
   const renderKYCSummary = () => {
     const stats = getStats();
-    
+
     return (
       <div className="overview-section">
         <div className="overview-header">
@@ -680,7 +789,7 @@ const EmployeeDashboard = () => {
               <span className="kyc-stat-label">Approved</span>
             </div>
           </div>
-          
+
           <div className="kyc-stat-card pending">
             <div className="kyc-stat-icon">⏳</div>
             <div className="kyc-stat-content">
@@ -688,7 +797,7 @@ const EmployeeDashboard = () => {
               <span className="kyc-stat-label">Pending</span>
             </div>
           </div>
-          
+
           <div className="kyc-stat-card refer-back">
             <div className="kyc-stat-icon">📝</div>
             <div className="kyc-stat-content">
@@ -696,7 +805,7 @@ const EmployeeDashboard = () => {
               <span className="kyc-stat-label">Refer Back</span>
             </div>
           </div>
-          
+
           <div className="kyc-stat-card rejected">
             <div className="kyc-stat-icon">❌</div>
             <div className="kyc-stat-content">
@@ -747,7 +856,7 @@ const EmployeeDashboard = () => {
         </div>
         <div className="top-bar-right">
           <ThemeDropdown />
-          <UserProfileDropdown 
+          <UserProfileDropdown
             onLogout={handleLogout}
             onShowChangePassword={() => setShowChangePassword(true)}
             onShowChangeUserId={() => setShowChangeUserId(true)}
@@ -777,7 +886,14 @@ const EmployeeDashboard = () => {
       {/* Main Content using shared frame */}
       <div className="dashboard-main">
         <div className="dashboard-content">
-          {activeTab === 'overview' && (
+          {activeTab === 'overview' && !(
+            showFarmerForm ||
+            showKYCModal ||
+            showFarmerDetails ||
+            showEmployeeDetails ||
+            showChangePassword ||
+            showChangeUserId
+          ) && (
           <header className="dashboard-header">
             <div className="header-center">
               <div className="welcome-message">
@@ -825,7 +941,7 @@ const EmployeeDashboard = () => {
           {/* Render forms with priority over tab content */}
           {showFarmerForm ? (
             <div className="dashboard-form-container">
-              <FarmerForm 
+              <FarmerForm
                 isInDashboard={true}
                 editData={editingFarmer}
                 onClose={() => {
@@ -880,12 +996,7 @@ const EmployeeDashboard = () => {
         />
       )}
 
-      {showFarmerDetails && selectedFarmerData && (
-        <ViewFarmerRegistrationDetails
-          farmerData={selectedFarmerData}
-          onClose={handleCloseFarmerDetails}
-        />
-      )}
+
 
       {showEmployeeDetails && selectedEmployeeData && (
         <ViewEditEmployeeDetails

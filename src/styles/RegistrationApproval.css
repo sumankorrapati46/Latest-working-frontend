@@ -20,7 +20,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: #006838;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   max-width: 800px;
@@ -28,20 +28,25 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  margin-top: 200px;
 }
 
-.modal-header {
+.registration-approval-modal .modal-header,
+.registration-approval-modal-header,
+.registration-approval-modal .registration-approval-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 24px 30px;
   border-bottom: 1px solid #e5e7eb;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: rgb(6, 79, 4);
   border-radius: 12px 12px 0 0;
 }
 
-.modal-header h2 {
+.registration-approval-modal .modal-header h2,
+.registration-approval-modal-header h2,
+.registration-approval-modal .registration-approval-modal-header h2 {
   margin: 0;
   font-size: 24px;
   font-weight: 600;

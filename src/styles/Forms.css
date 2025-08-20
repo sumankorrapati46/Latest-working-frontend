@@ -28,6 +28,7 @@
   max-width: 800px;
 }
 
+.forms-generic .modal-header,
 .modal-header {
   display: flex;
   justify-content: space-between;

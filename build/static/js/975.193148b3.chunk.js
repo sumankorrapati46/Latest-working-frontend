@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkagristack_farmer_management=self.webpackChunkagristack_farmer_management||[]).push([[975],{4999:(r,a,e)=>{e.r(a),e.d(a,{default:()=>n});e(5043);var t=e(980),s=e(579);const n=()=>(0,s.jsx)(t.A,{isInDashboard:!1,onSubmit:async r=>{try{console.log("Farmer registration submitted:",r),alert("Farmer registration completed successfully!")}catch(a){console.error("Error submitting farmer registration:",a),alert("Error submitting form. Please try again.")}}})}}]);
-//# sourceMappingURL=975.193148b3.chunk.js.map

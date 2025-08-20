@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
-import api from '../api/apiService';
+import { authAPI } from '../api/apiService';
 import logo from '../assets/rightlogo.png';
 
 import '../styles/Login.css';
@@ -49,7 +49,7 @@ const ChangePassword = () => {
       
       // Use reset-password/confirm endpoint for first-time password change
       // This endpoint doesn't require current password
-      const response = await api.post('/auth/reset-password/confirm', {
+      const response = await authAPI.resetPasswordConfirm({
         emailOrPhone: user?.email || user?.userName,
         newPassword: form.newPassword,
         confirmPassword: form.confirmPassword

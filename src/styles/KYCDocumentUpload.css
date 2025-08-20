@@ -32,7 +32,9 @@
   flex-direction: column;
 }
 
-.modal-header {
+.kyc-modal .modal-header,
+.kyc-document-upload-header,
+.kyc-document-upload-content .kyc-document-upload-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 20px 30px;
@@ -41,7 +43,8 @@
   align-items: center;
 }
 
-.modal-header h2 {
+.kyc-modal .modal-header h2,
+.kyc-document-upload-header h2 {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
